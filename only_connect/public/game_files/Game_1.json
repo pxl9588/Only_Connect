@@ -1,0 +1,166 @@
+{
+  "patterns": {
+    "NBA Players with 5+ Championships": [
+        "Michael Jordan",
+        "Magic Johnson",
+        "Derek Fisher",
+        "Scottie Pippen"
+      ],
+      "Kardashian Brands": [
+        "Dash",
+        "Good American",
+        "POOSH",
+        "SKIMS"
+      ],
+      "Palindromes": [
+        "Eva, Can I Stab Bats In A Cave",
+        "Dammit, I'm Mad",
+        "Do Geese See God",
+        "Racecar"
+      ],
+      "______pie": [
+        "Mag",
+        "Hip",
+        "Yup",
+        "Pot"
+      ],
+      "Symbolic Rosh Hashanah Foods": [
+        "Apples",
+        "Dates",
+        "Pomegranate",
+        "Challah"
+      ],
+      "Marsupials": [
+        "Wombat",
+        "Opoosum",
+        "Koala",
+        "Kangaroo"
+      ]
+  },
+  "sequences": {
+    "Celebrity Babies in order of birth": [
+      "Blue",
+      "North",
+      "Luna",
+      "X Æ A-Xii"
+      ],
+      "Order of sharks in Baby Shark": [
+      "Baby",
+      "Mommy",
+      "Daddy",
+      "Grandma"
+      ],
+      "The Bachelorettes from ‘17-’20": [
+      "Rachel",
+      "Becca",
+      "Hannah",
+      "Clare"
+      ],
+      "Planets": [
+      "M = 1",
+      "V = 2",
+      "E = 3",
+      "M = 4"
+      ],
+      "Big Rascals Birthday’s": [
+      "Zach",
+      "Alex",
+      "PJ",
+      "Ang"
+      ],
+      "Size of Countries (Increasing)": [
+      "United States",
+      "China",
+      "Canada",
+      "Russia"
+      ]
+  },
+  "wall": {
+    "1":{
+      "A":
+      [
+        "Fiji",
+        "Mocha",
+        "San Pellegrino",
+        "Champagne"
+      ],
+      "B":
+      [
+        "T",
+        "Cube",
+        "Vanilla",
+        "Prince"
+      ],
+      "C":
+      [
+        "Hazelnut",
+        "Coconut",
+        "Butter Pecan",
+        "Caramel"
+      ],
+      "D":
+      [
+        "Papua New Guinea",
+        "Guam",
+        "Australia",
+        "Cook Islands"
+      ]
+    },
+    "2":{
+      "A":
+      [
+        "Eagles",
+        "Beatles",
+        "Monkees",
+        "Gorillaz"
+      ],
+      "B":
+      [
+        "Pelicans",
+        "Seahawks",
+        "Flacons",
+        "Cardinals"
+      ],
+      "C":
+      [
+        "Sapphire",
+        "Ruby",
+        "Emerald",
+        "Amethyst"
+      ],
+      "D":
+      [
+        "Crystal",
+        "Gold",
+        "Silver",
+        "Diamond"
+      ]
+    }
+  },
+  "missing vowels": {
+    "Chores": [
+      "W SH NTH GD HS",
+      "F LD NGL ND RY",
+      "WPN GT HW NDW s",
+      "HDNG STFF NTH CL ST"
+      ],
+      "Clothing Brands": [
+      "CL VNKL N",
+      "ZR",
+      "N DRRM R",
+      "K NNT HC L"
+      ],
+      "Mixed Drinks": [
+      "W H TRS SN",
+      "MSC WML",
+      "D RKN DSTR M",
+      "MRT TSR"
+      ],
+      "Cities in Israel": [
+      "JR S LM",
+      "T LV V",
+      "HF",
+      "JF F"
+      ]
+  }
+}
