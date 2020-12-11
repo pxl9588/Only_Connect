@@ -9,36 +9,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #505869;
-}
-
-.rectangle
-{
-  display: flex;
-  height: 256px;
-  width: 341px;
-  background-color: #3ca9db;
-  justify-content: center;
-  align-items: center;
-}
-
-.rectangleAnswer
-{
-  display: flex;
-  height: 100px;
-  width: 1000px;
-  background-color: #3ca9db;
-  justify-content: center;
-  align-items: center;
-}
-
-.rectangleWord
-{
-  display: flex;
-  height: 150px;
-  width: 200px;
-  background-color: #3ca9db;
-  justify-content: center;
-  align-items: center;
+  overflow: hidden;
 }
 
 code {

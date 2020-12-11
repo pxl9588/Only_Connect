@@ -10,8 +10,8 @@ import sloth from './../images/sloth.png'
 function PSWall()
 {
     return (
-        <div className="flex justify-center items-center h-screen">
-            <div className="grid grid-flow-col grid-rows-2">
+        <div className="flex justify-center items-center h-screen -my-12 sm:-my-0">
+            <div className="grid grid-flow-col grid-rows-3 sm:grid-rows-2 lg:grid-rows-2">
                 <WallIcon icon={frog}></WallIcon>
                 <WallIcon icon={kangaroo}></WallIcon>
                 <WallIcon icon={elephant}></WallIcon>

@@ -3,11 +3,12 @@ import './Components/PSWall';
 import PSWall from './Components/PSWall';
 import WordWall from './Components/WordWall';
 import PSRow from './Components/PSRow';
+import MissingVowels from './Components/MissingVowels';
 import {useEffect,useState} from 'react';
 
 function App() {
-  const [data,setData]=useState([]);
-  const getData=()=>{
+  //const [data,setData]=useState([]);
+  /* const getData=()=>{
     fetch('/game_files/Game_1.json'
     ,{
       headers : { 
@@ -27,11 +28,11 @@ function App() {
   }
   useEffect(()=>{
     getData()
-  },[])
+  },[]) */
 
   return (
-    <div className="App h-screen">
-      <WordWall></WordWall>
+    <div className="App h-screen overflow-hidden">
+      <MissingVowels></MissingVowels>
     </div>
   );
 }
