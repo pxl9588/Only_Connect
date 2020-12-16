@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div className="App h-screen overflow-hidden">
-      <MissingVowels></MissingVowels>
+      <WordWall></WordWall>
     </div>
   );
 }
