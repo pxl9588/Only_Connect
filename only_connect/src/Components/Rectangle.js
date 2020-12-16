@@ -1,11 +1,24 @@
 import React from 'react'
 
-function Rectangle(props)
-{
+
+
+function Rectangle({...props}){
+
+    function handleClick(){
+        let obj ={
+            word: props.word,
+            id: props.id,
+            index: props.index,
+            group: props.group
+
+        }
+        props.clickBlock(obj)
+    }
     var text_size = "";
     var width = "";
     var height = "";
     var color = "";
+
 
     //ANSWER
     if(props.type === "answer") {
@@ -40,7 +53,7 @@ function Rectangle(props)
     }
 
     return (
-      <div onClick={props.customClickEvent} className={width + " " + height + " " + color + " " + " shadow-2xl rounded-md " + props.hidden}>
+      <div onClick={!props.clicked && handleClick} className={width + " " + height + " " + color + " " + " shadow-2xl rounded-md " + props.hidden}>
           <h1 className={text_size + " w-full h-full flex justify-center items-center text-center"}>{props.children}</h1>
         </div>)
 }

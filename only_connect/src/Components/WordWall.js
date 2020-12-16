@@ -1,117 +1,68 @@
 import React, { Component } from "react";
 import Rectangle from './Rectangle'
+import { v4 as uuidv4 } from 'uuid';
+
+const colorDictionary = {0: "bg-red-500", 1: "bg-blue-500", 2:"bg-green-500", 3:"bg-yellow-500"};
+const wordDictionary = ["Hazelnut","Cube","Coconut", "Guam",
+                        "Mocha","Vanilla","Papua New Guinea","Champagne",
+                        "Australia","Butter Pecan","Caramel","T",
+                        "Cook Islands","San Pellegrino","Prince","Fiji"];
+
+let blocks = wordDictionary.map((el,index) => {
+    return{
+        word: el,
+        color: 'bg-oc-blue',
+        id: uuidv4(),
+        group: index % 4,
+        index: index,
+        clicked: false
+    }
+})
 
 class WordWall extends Component {
     constructor() {
         super();
-        this.color_dictionary = {0: "bg-red-500", 1: "bg-blue-500", 2:"bg-green-500", 3:"bg-yellow-500"};
         this.state = {
             clicked: [],
             color_count: 0,
-            color: "",
-            rect_dictionary: {},
-            groups: [[0,1,2,3], [4,5,6,7], [8,9,10,11], [12,13,14,15]]
-            
+            solved: blocks
         };
-
-        this.state.color = this.color_dictionary[this.state.color_count]
-        this.words = ["Hazelnut", "Mocha", "Australia", "Cook Islands", "Cube", "Vanilla",
-        "Butter Pecan", "San Pellegrino", "Coconut", "Papua New Guinea", "Caramel",
-        "Prince", "Guam", "Champagne", "T", "Fiji"];
-
-        for (var i = 0; i < 16; i++) {
-            this.state.rect_dictionary[i] = "bg-oc-blue";
-        }
+        this.clickBlock = this.clickBlock.bind(this)
     }
-
-    clearGroup(recolor)
-    {
-        var temp_rects = {...this.state.rect_dictionary};
-        if(recolor)
-        {
-            for(var j = 0; j < 4; j++)
-            {
-                temp_rects[this.state.clicked[j]] = "bg-oc-blue";
+    clickBlock(obj){
+        console.log(obj)
+        let clickedList = this.state.clicked, solvedList = this.state.solved, count = this.state.color_count
+        let lastElement = clickedList[clickedList.length - 1]
+        console.log(solvedList)
+        if ( !clickedList.length || obj.group == lastElement.group){
+            clickedList.push(obj)
+            solvedList[obj.index].clicked = true
+            solvedList[obj.index].color = colorDictionary[count]
+            if( clickedList.length == 4){
+                count++;
+                clickedList = [];   
             }
         }
-
-        //Check if the four are in a group
-        this.setState({clicked: [], rect_dictionary: temp_rects});
-    }
-    checkGroup()
-    {
-        console.log(this.state.clicked);
-        if(this.state.clicked.length == 4)
-        {
-            var found_match = false;
-            var remove_index = -1;
-            //Check if the indices of the group are valid
-            console.log(this.state.groups);
-            for(var group_counter = 0; group_counter < this.state.groups.length; group_counter++)
-            {
-                for(var index = 0; index < 4; index++)
-                {
-                    var group_val = this.state.groups[group_counter][index];
-                    var click_val = this.state.clicked[index];
-                    console.log(`group[${group_counter}][${index}] = ${group_val}, clicked[${index}] = ${click_val}`);
-                    if(group_val !== click_val)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        // We got to end and they are same, we got a match
-                        if(index === 3)
-                        {
-                            found_match = true;
-                            remove_index = group_counter;
-                            break;
-                        }
-                    }
-                }
-
-                if(found_match)
-                {
-                    var new_group_array = [...this.state.groups]
-                    new_group_array.splice(remove_index, 1);
-
-                    //Check if the four are in a group
-                    var new_color_count = this.state.color_count + 1;
-                    var new_color = this.color_dictionary[new_color_count];
-                    this.setState({color_count: new_color_count, color: new_color, groups: new_group_array }, this.clearGroup(false));
-                    break;
-                }
-                else
-                {
-                    setTimeout(() => {this.clearGroup(true)}, 250);
-                }
-            }            
+        else{
+            for(let block of clickedList){
+                //console.log(block)
+                solvedList[block.index].clicked = false
+                solvedList[block.index].color = 'bg-oc-blue'
+            }
+            clickedList = []
         }
+        this.setState({solved:solvedList,clicked:clickedList,color_count:count})
     }
-    handleClick(i){
-        var temp_rects = {...this.state.rect_dictionary};
-        temp_rects[i] = this.state.color;
-
-        this.setState((state) => {
-            return {clicked: [...state.clicked, i].sort(function(a, b) {
-                return a - b;}), rect_dictionary: temp_rects};
-            }, this.checkGroup);
+    buildBoard(){
+        return this.state.solved.map((block) => (
+            <Rectangle type="wall" {...block} clickBlock={this.clickBlock}>{block.word}</Rectangle>
+        )) 
     }
 
-    render()
-    {
-        console.log("Render called");
-        this.wall = [];
-        
-        for(var i = 0; i < 16; i++)
-        {
-            this.wall.push(
-            <Rectangle type="wall" key={i} color={this.state.rect_dictionary[i]} customClickEvent={this.handleClick.bind(this, i)}>{this.words[i]}</Rectangle>);
-        }
-
+    render(){
        return (
             <div className="grid grid-flow-col grid-rows-4 lg:py-20 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
-                {this.wall}
+                {this.buildBoard()}
             </div>  
         );
     }
