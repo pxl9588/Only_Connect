@@ -1,7 +1,5 @@
 import React from 'react'
 
-
-
 function Rectangle({...props}){
 
     function handleClick(){
@@ -53,8 +51,8 @@ function Rectangle({...props}){
     }
 
     return (
-      <div onClick={!props.clicked && handleClick} className={width + " " + height + " " + color + " " + " shadow-2xl rounded-md " + props.hidden}>
-          <h1 className={text_size + " w-full h-full flex justify-center items-center text-center"}>{props.children}</h1>
+      <div onClick={!props.clicked && handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}>
+          <h1 className={`${text_size} w-full h-full flex justify-center items-center text-center`}>{props.children}</h1>
         </div>)
 }
 

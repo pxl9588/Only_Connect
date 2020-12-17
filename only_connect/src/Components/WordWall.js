@@ -35,11 +35,11 @@ class WordWall extends Component {
         let clickedList = this.state.clicked, solvedList = this.state.solved, count = this.state.color_count
         let lastElement = clickedList[clickedList.length - 1]
         console.log(solvedList)
-        if ( !clickedList.length || obj.group == lastElement.group){
+        if ( !clickedList.length || obj.group === lastElement.group){
             clickedList.push(obj)
             solvedList[obj.index].clicked = true
             solvedList[obj.index].color = colorDictionary[count]
-            if( clickedList.length == 4){
+            if( clickedList.length === 4){
                 count++;
                 clickedList = [];   
             }
