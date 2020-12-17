@@ -29,19 +29,22 @@ class WordWall extends Component {
         };
         this.clickBlock = this.clickBlock.bind(this)
     }
+
     clickBlock(obj){
         console.log(obj)
         let clickedList = this.state.clicked, solvedList = this.state.solved, count = this.state.color_count
         let lastElement = clickedList[clickedList.length - 1]
         console.log(solvedList)
-        if ( !clickedList.length || obj.group == lastElement.group){
+        if ( !clickedList.length || obj.group === lastElement.group){
             clickedList.push(obj)
             solvedList[obj.index].clicked = true
             solvedList[obj.index].color = colorDictionary[count]
-            if( clickedList.length == 4){
+            if( clickedList.length === 4){
                 count++;
                 clickedList = [];   
             }
+
+            this.setState({solved:solvedList,clicked:clickedList,color_count:count})
         }
         else{
             for(let block of clickedList){
@@ -50,8 +53,9 @@ class WordWall extends Component {
                 solvedList[block.index].color = 'bg-oc-blue'
             }
             clickedList = []
+            setTimeout(() => {this.setState({solved:solvedList,clicked:clickedList,color_count:count})}, 250);
         }
-        this.setState({solved:solvedList,clicked:clickedList,color_count:count})
+        
     }
     
     buildBoard(){
