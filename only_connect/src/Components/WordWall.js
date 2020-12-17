@@ -33,29 +33,28 @@ class WordWall extends Component {
     clickBlock(obj){
         console.log(obj)
         let clickedList = this.state.clicked, solvedList = this.state.solved, count = this.state.color_count
-        let lastElement = clickedList[clickedList.length - 1]
+        let delay = 0
         console.log(solvedList)
-        if ( !clickedList.length || obj.group === lastElement.group){
+        if ( clickedList.length < 4){
             clickedList.push(obj)
             solvedList[obj.index].clicked = true
             solvedList[obj.index].color = colorDictionary[count]
-            if( clickedList.length === 4){
-                count++;
-                clickedList = [];   
-            }
-
-            this.setState({solved:solvedList,clicked:clickedList,color_count:count})
+            this.setState({solved:solvedList,clicked:clickedList,color_count:count}, () => {
+                if( clickedList.length === 4){
+                    if(clickedList[0].group == clickedList[1].group == clickedList[2].group == clickedList[3].group) {   
+                        count++;
+                    }
+                    else{
+                        for(let block of clickedList){
+                            solvedList[block.index].clicked = false
+                            solvedList[block.index].color = 'bg-oc-blue'
+                    }
+                }       clickedList = []
+                        delay = 1000
+                }
+                setTimeout(() => {this.setState({solved:solvedList,clicked:clickedList,color_count:count})}, delay);
+        });
         }
-        else{
-            for(let block of clickedList){
-                //console.log(block)
-                solvedList[block.index].clicked = false
-                solvedList[block.index].color = 'bg-oc-blue'
-            }
-            clickedList = []
-            setTimeout(() => {this.setState({solved:solvedList,clicked:clickedList,color_count:count})}, 250);
-        }
-        
     }
     
     buildBoard(){
@@ -72,5 +71,4 @@ class WordWall extends Component {
         );
     }
 }
-
 export default WordWall;
