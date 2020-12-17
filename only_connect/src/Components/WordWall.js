@@ -53,6 +53,7 @@ class WordWall extends Component {
         }
         this.setState({solved:solvedList,clicked:clickedList,color_count:count})
     }
+    
     buildBoard(){
         return this.state.solved.map((block) => (
             <Rectangle type="wall" {...block} clickBlock={this.clickBlock}>{block.word}</Rectangle>
