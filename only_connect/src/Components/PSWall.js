@@ -9,39 +9,22 @@ import sloth from './../images/sloth.png'
 import {useState} from 'react';
 
 function PSWall(props)
-{
-    const [hidden, setHidden] = useState(
-        {
-            1:"",
-            2:"",
-            3:"",
-            4:"",
-            5:"",
-            6:""
-        }
-    );
-  
+{ 
     const handleClick = (i) =>
     {
-        var temp_hidden = {...hidden};
-        temp_hidden[i] = "invisible";
-        setHidden(temp_hidden);
-        props.onClick();
+        console.log(`PSWall handleClick ${i}`);
+        props.onClick(i);
     };
 
-    const shouldComponentUpdate = (nextProps, nextState) =>
-    {
-        return false;
-    }
     return (
         <div className="flex justify-center items-center h-screen -my-12 sm:-my-0">
             <div className="grid grid-flow-col grid-rows-3 sm:grid-rows-2 lg:grid-rows-2">
-                <WallIcon icon={frog} hidden={hidden[1]} id="1" onClick={handleClick}></WallIcon>
-                <WallIcon icon={kangaroo} hidden={hidden[2]} id="2" onClick={handleClick}></WallIcon>
-                <WallIcon icon={elephant} hidden={hidden[3]} id="3" onClick={handleClick}></WallIcon>
-                <WallIcon icon={bird} hidden={hidden[4]} id="4" onClick={handleClick}></WallIcon>
-                <WallIcon icon={koala} hidden={hidden[5]} id="5" onClick={handleClick}></WallIcon>
-                <WallIcon icon={sloth} hidden={hidden[6]} id="6" onClick={handleClick}></WallIcon>
+                <WallIcon icon={frog} hidden={props.hidden[1] ? "invisible" : ""} id="1" onClick={props.hidden[1]  ? null : handleClick}></WallIcon>
+                <WallIcon icon={kangaroo} hidden={props.hidden[2]  ? "invisible" : ""} id="2" onClick={props.hidden[2]  ? null : handleClick}></WallIcon>
+                <WallIcon icon={elephant} hidden={props.hidden[3]  ? "invisible" : ""} id="3" onClick={props.hidden[3]  ? null : handleClick}></WallIcon>
+                <WallIcon icon={bird} hidden={props.hidden[4]  ? "invisible" : ""} id="4" onClick={props.hidden[4]  ? null : handleClick}></WallIcon>
+                <WallIcon icon={koala} hidden={props.hidden[5]  ? "invisible" : ""} id="5" onClick={props.hidden[5]  ? null : handleClick}></WallIcon>
+                <WallIcon icon={sloth} hidden={props.hidden[6]  ? "invisible" : ""} id="6" onClick={props.hidden[6]  ? null : handleClick}></WallIcon>
             </div>
         </div>
     )
