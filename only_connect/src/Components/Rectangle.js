@@ -3,19 +3,17 @@ import React from 'react'
 function Rectangle({...props}){
 
     function handleClick(){
-        let obj ={
-            word: props.word,
-            id: props.id,
-            index: props.index,
-            group: props.group
-
+        let obj = {
+                    word: props.word,
+                    id: props.id,
+                    group: props.group
         }
-        props.clickBlock(obj)
+            props.clickBlock(obj);
     }
     var text_size = "";
     var width = "";
     var height = "";
-    var color = "";
+    var color = "bg-oc-blue";
 
 
     //ANSWER
@@ -28,7 +26,7 @@ function Rectangle({...props}){
     //WALL
     else if (props.type === "wall")
     {
-        width = "w-20 sm:w-24 lg:w-52  cursor-pointer";
+        width = "w-20 sm:w-24 lg:w-52 cursor-pointer";
         height = "h-16 sm:h-20 lg:h-40";
         text_size = "text-1xl lg:text-4xl";
         color = props.color;

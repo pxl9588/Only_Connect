@@ -1,26 +1,22 @@
-import { PreviousMap } from "postcss";
 import React, { useState, useEffect } from "react";
-import socketIOClient from "socket.io-client";
+//import socketIOClient from "socket.io-client";
 import Rectangle from './Rectangle'
 
 function PSRow(props)
 {
-    const ENDPOINT = "http://localhost:4001";
     const [count, setCount] = useState(0);
     const hidden_dictionary = {};
-    var final_number = 0;
 
-    for (var i = 1; i < 5; i++) {
-        hidden_dictionary[i] = "hidden";
+    const handleClick = () =>
+    {
+        setCount(count + 1);
+        if(count == final_number + 1)
+        {
+            props.exitClick();
+        }
     }
 
-    useEffect(() => {
-        const socket = socketIOClient(ENDPOINT);
-        socket.on("FromAPI", data => {
-            setCount(data);
-            });
-    }, []);
-
+    var final_number = 0;
     if(props.type === "sequence")
     {
         final_number = 2;
@@ -35,12 +31,12 @@ function PSRow(props)
                 <Rectangle type="rectangle">A</Rectangle>
                 <Rectangle type="rectangle" hidden={count >= 1 ? "" : "hidden"}>B</Rectangle>
                 <Rectangle type="rectangle" hidden={count >= 2 ? "" : "hidden"}>C</Rectangle>
-                <Rectangle type="rectangle" hidden={count >= final_number ? "" : "hidden"}>?</Rectangle>
+                <Rectangle type="rectangle" hidden={count >= final_number ? "" : "hidden"}>{props.type === "sequence" ? "?" : "D"}</Rectangle>
             <div className="col-span-full w-full justify-items-center px-4 lg:px-20">
-                <Rectangle type="answer" hidden={count >= (final_number + 1) ? "" : "hidden"}>Alphabet</Rectangle>
+                <Rectangle type="answer" hidden={count >= (final_number + 1) ? "" : "hidden"}>Hello</Rectangle>
             </div>
             <div className="col-span-4 justify-items-center px-4 lg:px-20 cursor-pointer">
-                <Rectangle customClickEvent={() =>{setCount(count + 1); hidden_dictionary[count] = "";}} type="answer">Next</Rectangle>
+                <Rectangle clickBlock={handleClick} type="answer">Next</Rectangle>
             </div>
         </div>
     )
