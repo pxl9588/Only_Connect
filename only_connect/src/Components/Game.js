@@ -20,12 +20,6 @@ function Game({...props})
     const connectionWall = [["A", "B", "C", "D","Letter"], ["E", "F", "G", "H","Letter"], ["I", "J", "K", "L","Letter"], ["M", "N", "O", "P","Letter"], ["Q", "R", "S", "T","Letter"], ["U", "V", "W", "X","Letter"]];
     const sequenceWall = [["1", "2", "3", "4","Numbers"], ["5", "6", "7", "8","Numbers"], ["9", "10", "11", "12","Numbers"], ["13", "14", "15", "16","Numbers"], ["17", "18", "19", "20","Numbers"], ["21", "22", "23", "24","Numbers"]];
 
-    const incrementRound = () =>
-    {
-        setGameState({...gameState, round: gameState.round + 1});
-        console.log(gameState.round);
-    }
-
     const psWallHandle = (i) =>
     {
         console.log(`Coming back from ${i}`);
@@ -37,7 +31,7 @@ function Game({...props})
 
     const psRowExit = () =>
     {
-        if(gameState.wallIndex == 5)
+        if(gameState.wallIndex === 5)
         {
             setGameState({...gameState, wallIndex: 0, clickedRow: false, round: gameState.round + 1, hidden:{1: false, 2:false, 3:false, 4:false, 5:false, 6:false}});
             console.log("End of Round 1, going to Round 2");
@@ -60,7 +54,7 @@ function Game({...props})
     else
     {
         return(
-            <div>{gameState.clickedRow === false ? <WordWallIcons></WordWallIcons> : <WordWall> </WordWall>}</div>
+            <div>{gameState.clickedRow === false ? <WordWallIcons onClick={psWallHandle} hidden={gameState.hidden}></WordWallIcons> : <WordWall> </WordWall>}</div>
         )
     }
 }

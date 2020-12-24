@@ -6,13 +6,11 @@ import elephant from './../images/elephant.png'
 import bird from './../images/bird.png'
 import koala from './../images/koala.png'
 import sloth from './../images/sloth.png'
-import {useState} from 'react';
 
 function PSWall(props)
 { 
     const handleClick = (i) =>
     {
-        console.log(`PSWall handleClick ${i}`);
         props.onClick(i);
     };
 
