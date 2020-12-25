@@ -3,17 +3,12 @@ import React from 'react'
 function Rectangle({...props}){
 
     function handleClick(){
-        let obj ={
-            word: props.word,
-            id: props.id,
-            index: props.index,
-            group: props.group
-
+        let obj = {
+                    word: props.word,
+                    id: props.id,
+                    group: props.group
         }
-        if(props.clickBlock)
-        {
             props.clickBlock(obj);
-        }
     }
     var text_size = "";
     var width = "";
@@ -54,8 +49,8 @@ function Rectangle({...props}){
     }
 
     return (
-      <div onClick={!props.clicked && handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}>
-          <h1 className={`${text_size} w-full h-full flex justify-center items-center text-center`}>{props.children}</h1>
+      <div onClick={handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}>
+          <h1 className={`${text_size} w-full h-full flex justify-center items-center text-center select-none`}>{props.children}</h1>
         </div>)
 }
 
