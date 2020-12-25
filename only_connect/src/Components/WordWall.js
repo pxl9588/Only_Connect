@@ -4,45 +4,28 @@ import { v4 as uuidv4 } from 'uuid';
 import randomize from '../randomize'
 
 const colorDictionary = {0: "bg-red-500", 1: "bg-blue-500", 2:"bg-green-500", 3:"bg-yellow-500"};
-const wordDictionary = [['Hazelnut','Butter Pecan','Coconut', 'Caramel'],['Cube','Vanilla','T','Prince'],['Australia','Guam', 'Papua New Guinea','Cook Islands'],['Champagne','San Pellegrino','Fiji', 'Mocha']]
+const wordDictionary = [['Hazelnut','Mocha','Australia','Cook Islands'],['Cube','Vanilla','Butter Pecan','San Pellegrino'],['Coconut','Papua New Guinea','Caramel','Prince'],['Guam','Champagne','T','Fiji']]
 let idToIndex = new Map()
 
 let blocks = []
-wordDictionary.map((group, group_index) =>
-{
-    let words = group.map((word, i) =>
-    {
-        return {
-            word: word,
-            color: 'bg-oc-blue',
-            id: uuidv4(),
-            group: group_index,
-            clicked: false
-        } 
-    });
-
-    blocks.push(...words);
-})
-
-    /*for(let group of wordDictionary){
+    for(let group of wordDictionary){
         let words = group.map((word,index) => {
                     return{
                     word: word,
                     color: 'bg-oc-blue',
                     id: uuidv4(),
-                    group: index,
+                    group: group,
                     clicked: false
                 }
             })
         blocks.push(...words)
-        }*/
-
-    // Commenting just for debugging, tired of having to find the answers
-    //blocks = randomize(blocks)
-
+        }
+    blocks = randomize(blocks)
     for(let [index,block] of blocks.entries()){
        idToIndex.set(block.id, index) 
-    }    
+    }
+    console.log(idToIndex)
+    
 
 class WordWall extends Component {
     constructor() {
@@ -59,6 +42,7 @@ class WordWall extends Component {
         console.log(obj)
         let clickedList = this.state.clicked, solvedList = this.state.solved, count = this.state.color_count
         let delay = 0
+        console.log(solvedList)
         if ( clickedList.length < 4){
             clickedList.push(obj)
             let foundIndex = idToIndex.get(obj.id)
@@ -66,8 +50,6 @@ class WordWall extends Component {
             solvedList[foundIndex].color = colorDictionary[count]
             this.setState({solved:solvedList,clicked:clickedList,color_count:count}, () => {
                 if( clickedList.length === 4){
-                    console.log(clickedList);
-                    // === does not work here
                     if(clickedList[0].group == clickedList[1].group == clickedList[2].group == clickedList[3].group) {   
                         count++;
                     }
@@ -77,8 +59,8 @@ class WordWall extends Component {
                             solvedList[foundIndex].clicked = false
                             solvedList[foundIndex].color = 'bg-oc-blue'
                     }
-                }clickedList = []
-                        delay = 500
+                }       clickedList = []
+                        delay = 1000
                 }
                 setTimeout(() => {this.setState({solved:solvedList,clicked:clickedList,color_count:count})}, delay);
         });
@@ -86,14 +68,15 @@ class WordWall extends Component {
     }
     
     buildBoard(){
-        return this.state.solved.map((block, i) => (
-            <Rectangle key={i} type="wall" {...block} clickBlock={this.clickBlock}>{block.word}</Rectangle>
+        return this.state.solved.map((block) => (
+            <Rectangle type="wall" {...block} clickBlock={this.clickBlock}>{block.word}</Rectangle>
         )) 
     }
 
     render(){
        return (
            <div>
+                <h1 style={{textAlign: 'center'}}>Memory Game</h1>
                 <div className="grid grid-flow-col grid-rows-4 lg:py-20 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
                     {this.buildBoard()}
             </div>  
