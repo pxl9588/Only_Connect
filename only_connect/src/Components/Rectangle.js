@@ -21,7 +21,7 @@ function Rectangle({...props}){
 
     //ANSWER
     if(props.type === "answer") {
-        width = "p-2";
+        width = "w-full p-2";
         height = "h-12 lg:h-20";
         text_size = "text-2xl sm:text-4xl lg:text-5xl";
     }
@@ -43,6 +43,12 @@ function Rectangle({...props}){
         text_size = "text-3xl sm:text-4xl lg:text-5xl";
         color = "bg-blue-800 text-white";
     }
+    else if (props.type === "timer")
+    {
+        width = "p-2";
+        height = "h-12 lg:h-20";
+        text_size = "text-2xl sm:text-4xl lg:text-5xl";
+    }
 
     else
     {
@@ -52,7 +58,7 @@ function Rectangle({...props}){
     }
 
     return (
-      <div onClick={handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}>
+      <div onClick={handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden ? "invisible" : "" }`}>
           <h1 className={`${text_size} w-full h-full flex justify-center items-center text-center select-none`}>{props.children}</h1>
         </div>)
 }
