@@ -3,12 +3,15 @@ import React from 'react'
 function Rectangle({...props}){
 
     function handleClick(){
-        let obj = {
-                    word: props.word,
-                    id: props.id,
-                    group: props.group
-        }
+        if(props.clickBlock)
+        {
+            let obj = {
+                        word: props.word,
+                        id: props.id,
+                        group: props.group
+            }
             props.clickBlock(obj);
+        }
     }
     var text_size = "";
     var width = "";
