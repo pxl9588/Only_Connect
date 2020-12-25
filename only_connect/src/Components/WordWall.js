@@ -8,14 +8,16 @@ const wordDictionary = [['Hazelnut','Mocha','Australia','Cook Islands'],['Cube',
 let idToIndex = new Map()
 
 let blocks = []
-    for(let group of wordDictionary){
-        let words = group.map((word,index) => {
+    for(let [index, group] of wordDictionary.entries()){
+        let words = group.map((word) => {
                     return{
                     word: word,
                     color: 'bg-oc-blue',
                     id: uuidv4(),
-                    group: group,
-                    clicked: false
+                    group: index,
+                    clicked: false,
+                    matched: false
+
                 }
             })
         blocks.push(...words)
@@ -39,31 +41,49 @@ class WordWall extends Component {
     }
 
     clickBlock(obj){
-        console.log(obj)
         let clickedList = this.state.clicked, solvedList = this.state.solved, count = this.state.color_count
         let delay = 0
-        console.log(solvedList)
-        if ( clickedList.length < 4){
-            clickedList.push(obj)
+        if (clickedList.length < 4){
+            if (obj.clicked){
+                clickedList = clickedList.filter((word) => { 
+                    console.log(word)
+                    return word.id !== obj.id
+                    
+                });
+                let unclickIndex = idToIndex.get(obj.id)
+                solvedList[unclickIndex].color = 'bg-oc-blue';
+                solvedList[unclickIndex].clicked = false;
+                setTimeout(() => {this.setState({solved:solvedList,clicked:clickedList,color_count:count})}, delay);
+            }
+            else{
+                clickedList.push(obj)
             let foundIndex = idToIndex.get(obj.id)
             solvedList[foundIndex].clicked = true
             solvedList[foundIndex].color = colorDictionary[count]
             this.setState({solved:solvedList,clicked:clickedList,color_count:count}, () => {
                 if( clickedList.length === 4){
-                    if(clickedList[0].group == clickedList[1].group == clickedList[2].group == clickedList[3].group) {   
-                        count++;
-                    }
-                    else{
-                        for(let block of clickedList){
-                            foundIndex = idToIndex.get(block.id)
+                    let areOfSameGroup = clickedList[0].group == clickedList[1].group && clickedList[0].group == clickedList[2].group && clickedList[0].group == clickedList[3].group 
+                        if (areOfSameGroup){
+                          count++;  
+                        }
+                    for(let block of clickedList){
+                        foundIndex = idToIndex.get(block.id)
+                        if(areOfSameGroup){
+                            solvedList[foundIndex].matched = true
+                        }
+                        else{
                             solvedList[foundIndex].clicked = false
                             solvedList[foundIndex].color = 'bg-oc-blue'
+                        }
+                        
                     }
-                }       clickedList = []
+                      clickedList = []
                         delay = 1000
                 }
                 setTimeout(() => {this.setState({solved:solvedList,clicked:clickedList,color_count:count})}, delay);
         });
+            }
+            
         }
     }
     

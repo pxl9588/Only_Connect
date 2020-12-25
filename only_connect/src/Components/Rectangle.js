@@ -6,7 +6,8 @@ function Rectangle({...props}){
         let obj = {
                     word: props.word,
                     id: props.id,
-                    group: props.group
+                    group: props.group,
+                    clicked: props.clicked
         }
             props.clickBlock(obj);
     }
@@ -49,7 +50,7 @@ function Rectangle({...props}){
     }
 
     return (
-      <div onClick={!props.clicked && handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}>
+      <div onClick={!props.matched && handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}>
           <h1 className={`${text_size} w-full h-full flex justify-center items-center text-center`}>{props.children}</h1>
         </div>)
 }
