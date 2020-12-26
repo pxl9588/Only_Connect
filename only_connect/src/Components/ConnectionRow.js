@@ -5,6 +5,7 @@ import Timer from './Timer';
 
 function ConnectionRow(props)
 {
+    const points = [5,3,2,1]
     const [count, setCount] = useState(1);
     const [timerIndex, setTimerIndex] = useState(1);
     const [hidden, setHidden] = useState(
@@ -22,7 +23,6 @@ function ConnectionRow(props)
     const handleClick = (i) =>
     {
         setCount(count + 1);
-        console.log(count, final_number);
         
         if(count < final_number)
         {
@@ -50,7 +50,7 @@ function ConnectionRow(props)
         <div className="grid justify-items-center items-center py-2 sm:py-6 lg:py-24 gap-y-10 lg:gap-y-12">
 
             <div className={`justify-items-center items-center row-start-1 col-start-${timerIndex} px-36`}>
-                <Timer completed={0} hidden={hidden[5]}></Timer>
+                <Timer completed={0} hidden={hidden[5]} points={points[count-1]}></Timer>
             </div>
 
             <div className="row-start-2 grid-cols-4 col-span-4">
@@ -67,7 +67,7 @@ function ConnectionRow(props)
             </div>
 
             <div className="row-start-4 col-span-4 justify-items-center px-4 lg:px-20 cursor-pointer">
-                <Rectangle clickBlock={handleClick} type="answer">Next</Rectangle>
+                <Rectangle clickBlock={handleClick} type="next">Next</Rectangle>
             </div>
 
         </div>

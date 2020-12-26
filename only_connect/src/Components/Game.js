@@ -53,6 +53,8 @@ function Game({...props})
                 return <div>{gameState.clickedRow === false ? <PSWall onClick={psWallHandle} hidden={gameState.hidden}></PSWall> : <SequenceRow exitClick={psRowExit} row={sequenceWall[gameState.wallIndex]}></SequenceRow>}</div>
             case 2:
                 return <div>{gameState.clickedRow === false ? <WordWallIcons onClick={psWallHandle} hidden={gameState.hidden}></WordWallIcons> : <WordWall> </WordWall>}</div>
+            case 3:
+                return <div></div>
             default:
                 return <div>round {round} not implemented</div>;
         }

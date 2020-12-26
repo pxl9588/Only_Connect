@@ -16,7 +16,8 @@ function Rectangle({...props}){
     var text_size = "";
     var width = "";
     var height = "";
-    var color = "bg-oc-blue";
+    var color = "bg-gradient-to-r from-oc-blue via-blue-300 to-oc-blue"//"bg-oc-blue";
+    var font_color = "text-black";
 
 
     //ANSWER
@@ -24,6 +25,16 @@ function Rectangle({...props}){
         width = "w-full p-2";
         height = "h-12 lg:h-20";
         text_size = "text-2xl sm:text-4xl lg:text-5xl";
+        color = "bg-blue-700";
+        font_color = "text-white";
+    }
+
+    else if(props.type === "next")
+    {
+        width = "w-full p-2";
+        height = "h-12 lg:h-20";
+        text_size = "text-2xl sm:text-4xl lg:text-5xl";
+        color = "bg-blue-500"
     }
 
     //WALL
@@ -32,7 +43,7 @@ function Rectangle({...props}){
         width = "w-20 sm:w-24 lg:w-52 cursor-pointer";
         height = "h-16 sm:h-20 lg:h-40";
         text_size = "text-1xl lg:text-4xl";
-        color = props.color;
+        color = `${props.color} hover:${props.color}`;
     }
 
     //VOWELS
@@ -58,8 +69,8 @@ function Rectangle({...props}){
     }
 
     return (
-      <div onClick={handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden ? "invisible" : "" }`}>
-          <h1 className={`${text_size} w-full h-full flex justify-center items-center text-center select-none`}>{props.children}</h1>
+      <div onClick={handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-xl ${props.hidden ? "invisible" : "" }`}>
+          <h1 className={`${text_size} ${font_color} w-full h-full flex justify-center items-center text-center select-none`}>{props.children}</h1>
         </div>)
 }
 
