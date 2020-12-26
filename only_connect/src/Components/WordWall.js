@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { createRef, Component } from "react";
 import Rectangle from './Rectangle'
 import { v4 as uuidv4 } from 'uuid';
 import randomize from '../randomize'
+import './WordWall.css'
 
 const colorDictionary = {0: "bg-red-500", 1: "bg-blue-500", 2:"bg-green-500", 3:"bg-yellow-500"};
 const wordDictionary = [['Hazelnut','Mocha','Australia','Cook Islands'],['Cube','Vanilla','Butter Pecan','San Pellegrino'],['Coconut','Papua New Guinea','Caramel','Prince'],['Guam','Champagne','T','Fiji']]
@@ -32,6 +33,7 @@ let blocks = []
 class WordWall extends Component {
     constructor() {
         super();
+        this.ref = createRef()
         this.state = {
             clicked: [],
             color_count: 0,
@@ -70,6 +72,8 @@ class WordWall extends Component {
                         foundIndex = idToIndex.get(block.id)
                         if(areOfSameGroup){
                             solvedList[foundIndex].matched = true
+                            // let removed = solvedList.pop()
+                            // solvedList.unshift(removed)
                         }
                         else{
                             solvedList[foundIndex].clicked = false
@@ -77,6 +81,9 @@ class WordWall extends Component {
                         }
                         
                     }
+                    // for(let block of solvedList){
+                        
+                    // }
                       clickedList = []
                         delay = 1000
                 }
@@ -97,7 +104,7 @@ class WordWall extends Component {
        return (
            <div>
                 <h1 style={{textAlign: 'center'}}>Memory Game</h1>
-                <div className="grid grid-flow-col grid-rows-4 lg:py-20 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
+                <div className="grid justify-center items-center">
                     {this.buildBoard()}
             </div>  
            </div>

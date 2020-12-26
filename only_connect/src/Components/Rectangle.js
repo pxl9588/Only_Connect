@@ -1,7 +1,13 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 
 function Rectangle({...props}){
-
+    let first = {}
+    const myRef = useCallback(node => {
+        if(node){
+            first = node.getBoundingClientRect()
+        }
+        console.log(first)
+    },[])
     function handleClick(){
         let obj = {
                     word: props.word,
@@ -50,7 +56,7 @@ function Rectangle({...props}){
     }
 
     return (
-      <div onClick={!props.matched && handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}>
+      <div ref={myRef} onClick={!props.matched && handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}>
           <h1 className={`${text_size} w-full h-full flex justify-center items-center text-center`}>{props.children}</h1>
         </div>)
 }
