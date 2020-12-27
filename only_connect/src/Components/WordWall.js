@@ -90,7 +90,7 @@ class WordWall extends Component {
                             });
                             
                             for(let [index,item] of refsArr.entries()){
-                                const deltaX = eltBoundsBefore[index].left + eltBoundsAfter[index].left;
+                                const deltaX = eltBoundsBefore[index].left - eltBoundsAfter[index].left;
                                 const deltaY = eltBoundsBefore[index].top - eltBoundsAfter[index].top;
                                 const deltaW = eltBoundsBefore[index].width / eltBoundsAfter[index].width;
                                 const deltaH = eltBoundsBefore[index].height / eltBoundsAfter[index].height;
