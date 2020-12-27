@@ -1,13 +1,16 @@
-import React, {useCallback} from 'react'
+import React, {useCallback,useRef, useEffect, forwardRef} from 'react'
 
-function Rectangle({...props}){
+const Rectangle = forwardRef(({...props},ref) => {
     let first = {}
-    const myRef = useCallback(node => {
-        if(node){
-            first = node.getBoundingClientRect()
-        }
-        console.log(first)
-    },[])
+    // const myRef = useCallback(node => {
+    //     if(node){
+    //         first = node.getBoundingClientRect()
+    //     }
+    //     console.log(first)
+    // },[props.matched])
+
+    // let myRef = useRef();
+    //console.log(myRef.current)
     function handleClick(){
         let obj = {
                     word: props.word,
@@ -22,6 +25,9 @@ function Rectangle({...props}){
     var height = "";
     var color = "bg-oc-blue";
 
+    // useEffect(() => {
+    //     console.log(myRef.current.getBoundingClientRect());
+    // },[myRef.current.getBoundingClientRect()])
 
     //ANSWER
     if(props.type === "answer") {
@@ -56,9 +62,9 @@ function Rectangle({...props}){
     }
 
     return (
-      <div ref={myRef} onClick={!props.matched && handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}>
+      <div ref={ref} onClick={!props.matched && handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}>
           <h1 className={`${text_size} w-full h-full flex justify-center items-center text-center`}>{props.children}</h1>
         </div>)
-}
+})
 
 export default Rectangle

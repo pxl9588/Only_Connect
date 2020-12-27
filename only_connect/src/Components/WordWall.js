@@ -5,20 +5,21 @@ import randomize from '../randomize'
 import './WordWall.css'
 
 const colorDictionary = {0: "bg-red-500", 1: "bg-blue-500", 2:"bg-green-500", 3:"bg-yellow-500"};
-const wordDictionary = [['Hazelnut','Mocha','Australia','Cook Islands'],['Cube','Vanilla','Butter Pecan','San Pellegrino'],['Coconut','Papua New Guinea','Caramel','Prince'],['Guam','Champagne','T','Fiji']]
+const wordDictionary = [['Hazelnut','Butter Pecan','Coconut', 'Caramel'],['Cube','Vanilla','T','Prince'],['Australia','Guam', 'Papua New Guinea','Cook Islands'],['Champagne','San Pellegrino','Fiji', 'Mocha']]
 let idToIndex = new Map()
-
+let refsArr = []
 let blocks = []
-    for(let [index, group] of wordDictionary.entries()){
-        let words = group.map((word) => {
-                    return{
-                    word: word,
-                    color: 'bg-oc-blue',
-                    id: uuidv4(),
-                    group: index,
-                    clicked: false,
-                    matched: false
 
+    for(let [index, group] of wordDictionary.entries()){
+           let words = group.map((word) => {
+                    refsArr.push(createRef())
+                    return{
+                        word: word,
+                        color: 'bg-oc-blue',
+                        id: uuidv4(),
+                        group: index,
+                        clicked: false,
+                        matched: false
                 }
             })
         blocks.push(...words)
@@ -28,7 +29,6 @@ let blocks = []
        idToIndex.set(block.id, index) 
     }
     console.log(idToIndex)
-    
 
 class WordWall extends Component {
     constructor() {
@@ -43,6 +43,8 @@ class WordWall extends Component {
     }
 
     clickBlock(obj){
+        let blah = idToIndex.get(obj.id)
+        console.log(refsArr[blah].current.getBoundingClientRect())
         let clickedList = this.state.clicked, solvedList = this.state.solved, count = this.state.color_count
         let delay = 0
         if (clickedList.length < 4){
@@ -66,24 +68,64 @@ class WordWall extends Component {
                 if( clickedList.length === 4){
                     let areOfSameGroup = clickedList[0].group == clickedList[1].group && clickedList[0].group == clickedList[2].group && clickedList[0].group == clickedList[3].group 
                         if (areOfSameGroup){
-                          count++;  
-                        }
-                    for(let block of clickedList){
-                        foundIndex = idToIndex.get(block.id)
-                        if(areOfSameGroup){
-                            solvedList[foundIndex].matched = true
-                            // let removed = solvedList.pop()
-                            // solvedList.unshift(removed)
+                            console.log('first')
+                            const eltBoundsBefore = refsArr.map((el) => {
+                                return el.current.getBoundingClientRect();
+                                //console.log(el.current.getBoundingClientRect())
+                            })
+                            console.log(eltBoundsBefore)
+                            for(let block of clickedList){
+                                foundIndex = solvedList.findIndex(word => word.id == block.id)
+                                solvedList[foundIndex].matched = true
+                                let removedVal = solvedList.splice(foundIndex,1)
+                                let removedRef = refsArr.splice(foundIndex,1)
+                                solvedList.unshift(...removedVal)
+                                refsArr.unshift(...removedRef)
+                            }
+                            console.log('last')
+                            console.log(refsArr)
+                            const eltBoundsAfter = refsArr.map((el) => {
+                                return el.current.getBoundingClientRect()
+                                
+                            });
+                            
+                            for(let [index,item] of refsArr.entries()){
+                                const deltaX = eltBoundsBefore[index].left - eltBoundsAfter[index].left;
+                                const deltaY = eltBoundsBefore[index].top - eltBoundsAfter[index].top;
+                                const deltaW = eltBoundsBefore[index].width / eltBoundsAfter[index].width;
+                                const deltaH = eltBoundsBefore[index].height / eltBoundsAfter[index].height;
+                
+
+                                item.current.animate(
+                                    [
+                                        {
+                                            transformOrigin: 'top left',
+                                            transform: `
+                                              translate(${deltaX}px, ${deltaY}px)
+                                              scale(${deltaW}, ${deltaH})
+                                            `
+                                          }, {
+                                            transformOrigin: 'top left',
+                                            transform: 'none'
+                                          }], {
+                                            duration: 1000,
+                                            easing: 'ease-in-out',
+                                            fill: 'both'
+                                       }
+                                  );
+                            }
+                            count++;  
                         }
                         else{
+                            for(let block of clickedList){
+                            foundIndex = idToIndex.get(block.id)
                             solvedList[foundIndex].clicked = false
                             solvedList[foundIndex].color = 'bg-oc-blue'
+                            }
                         }
-                        
+                    for(let [index,block] of solvedList.entries()){
+                        idToIndex.set(block.id,index)
                     }
-                    // for(let block of solvedList){
-                        
-                    // }
                       clickedList = []
                         delay = 1000
                 }
@@ -95,15 +137,20 @@ class WordWall extends Component {
     }
     
     buildBoard(){
-        return this.state.solved.map((block) => (
-            <Rectangle type="wall" {...block} clickBlock={this.clickBlock}>{block.word}</Rectangle>
-        )) 
+        return this.state.solved.map((block,index) => {
+            // let parentRef = createRef();
+            // refsArr.push(parentRef)
+            // console.log('Hello')
+            return (
+                <Rectangle ref={refsArr[index]} type="wall" {...block} clickBlock={this.clickBlock}>{block.word}</Rectangle>
+            )
+   })        
     }
 
     render(){
        return (
            <div>
-                <h1 style={{textAlign: 'center'}}>Memory Game</h1>
+                <h1 style={{textAlign: 'center'}}>Word Wall</h1>
                 <div className="grid justify-center items-center">
                     {this.buildBoard()}
             </div>  
