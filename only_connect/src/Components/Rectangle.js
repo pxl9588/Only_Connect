@@ -71,7 +71,7 @@ function Rectangle({...props}){
     }
 
     return (
-      <div onClick={handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-xl ${props.hidden ? "invisible" : "" }`}>
+      <div onClick={props.matched ? undefined: handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-xl ${props.hidden ? "invisible" : "" }`}>
           <h1 className={`${text_size} ${font_color} w-full h-full flex justify-center items-center text-center select-none`}>{props.children}</h1>
         </div>)
 }
