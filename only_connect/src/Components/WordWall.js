@@ -182,7 +182,7 @@ class WordWall extends Component {
     buildBoard() {
         return this.state.solved.map((block, index) => {
             return (
-                <Rectangle ref={refsArr[index]} type="wall" {...block} clickBlock={this.clickBlock}>
+                <Rectangle ref={refsArr[index]} key={index} type="wall" {...block} clickBlock={this.clickBlock}>
                     {block.word}
                 </Rectangle>
             );
