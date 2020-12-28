@@ -8,7 +8,9 @@ function Rectangle({...props}){
             let obj = {
                         word: props.word,
                         id: props.id,
-                        group: props.group
+                        group: props.group,
+                        clicked: props.clicked,
+                        matched: props.matched
             }
             props.clickBlock(obj);
         }
@@ -43,7 +45,7 @@ function Rectangle({...props}){
         width = "w-20 sm:w-24 lg:w-52 cursor-pointer";
         height = "h-16 sm:h-20 lg:h-40";
         text_size = "text-1xl lg:text-4xl";
-        color = `${props.color} hover:`;
+        color = `${props.color} ${!props.matched ? `hover:${props.hover}` : ""}`;
     }
 
     //VOWELS
