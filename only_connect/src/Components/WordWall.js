@@ -3,34 +3,32 @@ import Rectangle from './Rectangle'
 import { v4 as uuidv4 } from 'uuid';
 import randomize from '../randomize'
 
-const colorDictionary = {0: "bg-red-500", 1: "bg-blue-500", 2:"bg-green-500", 3:"bg-yellow-500"};
-const wordDictionary = [['Hazelnut','Butter Pecan','Coconut', 'Caramel'],['Cube','Vanilla','T','Prince'],['Australia','Guam', 'Papua New Guinea','Cook Islands'],['Champagne','San Pellegrino','Fiji', 'Mocha']]
+const colorArray = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500"];
+const hoverArray = ["bg-red-300", "bg-blue-300", "bg-green-300", "bg-yellow-300"];
+const wordArray = [['Hazelnut','Butter Pecan','Coconut', 'Caramel'],['Cube','Vanilla','T','Prince'],['Australia','Guam', 'Papua New Guinea','Cook Islands'],['Champagne','San Pellegrino','Fiji', 'Mocha']]
 let idToIndex = new Map()
 
 let blocks = []
-wordDictionary.map((group, group_index) =>
-{
-    let words = group.map((word, i) =>
-    {
-        return {
-            word: word,
-            color: 'bg-oc-blue',
-            id: uuidv4(),
-            group: group_index,
-            clicked: false,
-            solved: false
-        } 
-    });
+    for(let [index, group] of wordArray.entries()){
+        let words = group.map((word) => {
+                    return{
+                    word: word,
+                    color: 'bg-oc-blue',
+                    id: uuidv4(),
+                    group: index,
+                    clicked: false,
+                    matched: false
 
-    blocks.push(...words);
-    return null;
-});
-
-//blocks = randomize(blocks)
-
-for(let [index,block] of blocks.entries()){
-    idToIndex.set(block.id, index) 
-}    
+                }
+            })
+        blocks.push(...words)
+        }
+    blocks = randomize(blocks)
+    for(let [index,block] of blocks.entries()){
+       idToIndex.set(block.id, index) 
+    }
+    console.log(idToIndex)
+    
 
 class WordWall extends Component {
     constructor() {
@@ -46,63 +44,46 @@ class WordWall extends Component {
     clickBlock(obj){
         let clickedList = this.state.clicked, solvedList = this.state.solved, count = this.state.color_count
         let delay = 0
-        let foundIndex = idToIndex.get(obj.id);
-        // If a block has been clicked, deselect it and remove it from the clickedList
-        if(solvedList[foundIndex].solved)
+        if (clickedList.length < 4)
         {
-            console.log("I've already been solved");
-            return;
-        }
-        else if(solvedList[foundIndex].clicked)
-        {
-            let remove_index = -1;
-            solvedList[foundIndex].clicked = false;
-            solvedList[foundIndex].color = 'bg-oc-blue';
-            clickedList.forEach((block, index) =>
+            if (obj.clicked)
             {
-                // Find the block in the clickedList
-                if(block.id === obj.id)
-                {
-                    remove_index = index;
-                    return;
-                }
-            });
-
-            clickedList.splice(remove_index);
-            this.setState({solved:solvedList,clicked:clickedList});
-        }
-        else
-        {
-            if ( clickedList.length < 4)
+                clickedList = clickedList.filter((word) => { 
+                    console.log(word)
+                    return word.id !== obj.id
+                });
+                let unclickIndex = idToIndex.get(obj.id)
+                solvedList[unclickIndex].color = 'bg-oc-blue';
+                solvedList[unclickIndex].clicked = false;
+                setTimeout(() => {this.setState({solved:solvedList,clicked:clickedList,color_count:count})}, delay);
+            }
+            else
             {
-                clickedList.push(obj);
-                let foundIndex = idToIndex.get(obj.id);
-                solvedList[foundIndex].clicked = true;
-                solvedList[foundIndex].color = colorDictionary[count];
-                this.setState({solved:solvedList,clicked:clickedList,color_count:count}, () =>
-                {
+                clickedList.push(obj)
+                let foundIndex = idToIndex.get(obj.id)
+                solvedList[foundIndex].clicked = true
+                solvedList[foundIndex].color = colorArray[count]
+                this.setState({solved:solvedList,clicked:clickedList,color_count:count}, () => {
                     if( clickedList.length === 4)
                     {
-                        if(clickedList[0].group === clickedList[1].group && clickedList[1].group === clickedList[2].group && clickedList[2].group === clickedList[3].group)
-                        {   
-                            for(let block of clickedList)
-                            {
-                                solvedList[idToIndex.get(block.id)].solved = true;
+                        let areOfSameGroup = clickedList[0].group == clickedList[1].group && clickedList[0].group == clickedList[2].group && clickedList[0].group == clickedList[3].group 
+                            if (areOfSameGroup){
+                                console.log("hello");
+                            count++;  
                             }
-                            count++;
-                            console.log("Group found!");
-                        }
-                        else
-                        {
-                            for(let block of clickedList)
-                            {
-                                foundIndex = idToIndex.get(block.id)
-                                solvedList[foundIndex].clicked = false
-                                solvedList[foundIndex].color = 'bg-oc-blue'
+                        for(let block of clickedList){
+                            foundIndex = idToIndex.get(block.id)
+                            if(areOfSameGroup){
+                                solvedList[foundIndex].matched = true;
                             }
+                            else{
+                                solvedList[foundIndex].clicked = false;
+                                solvedList[foundIndex].color = 'bg-oc-blue';
+                            }
+                            
                         }
-                        clickedList = []
-                        delay = 500
+                        clickedList = [];
+                        delay = 250;
                     }
                     setTimeout(() => {this.setState({solved:solvedList,clicked:clickedList,color_count:count})}, delay);
                 });
@@ -111,8 +92,8 @@ class WordWall extends Component {
     }
     
     buildBoard(){
-        return this.state.solved.map((block, i) => (
-            <Rectangle key={i} type="wall" {...block} clickBlock={this.clickBlock}>{block.word}</Rectangle>
+        return this.state.solved.map((block, index) => (
+            <Rectangle type="wall" hover={hoverArray[this.state.color_count]} key={index} {...block} clickBlock={this.clickBlock}>{block.word}</Rectangle>
         )) 
     }
 
