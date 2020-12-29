@@ -1,5 +1,10 @@
-.grid{
+.grid {
+    width: 75%;
     display: grid;
-    grid-template-columns: 5% 5% 5% 5%;
-    grid-gap: 10%
+    grid-template-columns: repeat(4, 1fr);
+    /* gap: 10%; */
+}
+
+.grid > * {
+    margin: 10px 0 0 10px;
 }
