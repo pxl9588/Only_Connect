@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Rectangle from './Rectangle'
 import { v4 as uuidv4 } from 'uuid';
 import randomize from '../randomize'
+import Timer from "./Timer";
 
 const colorArray = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500"];
 const hoverArray = ["bg-red-300", "bg-blue-300", "bg-green-300", "bg-yellow-300"];
@@ -100,7 +101,10 @@ class WordWall extends Component {
     render(){
        return (
            <div>
-                <div className="grid grid-flow-col grid-rows-4 lg:py-20 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
+                <div className="grid grid-flow-col grid-rows-5 lg:py-0 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
+                    <div className="row-start-1 col-span-4">
+                        <Timer completed={0} max={150} type="wall"/>
+                    </div>
                     {this.buildBoard()}
             </div>  
            </div>
