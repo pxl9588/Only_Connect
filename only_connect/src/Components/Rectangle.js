@@ -58,7 +58,7 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
     return (
         <div
             ref={ref}
-            onClick={!props.matched && handleClick}
+            onClick={props.matched ? undefined : handleClick}
             className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}
         >
             <h1
