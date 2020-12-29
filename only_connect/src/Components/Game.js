@@ -10,7 +10,7 @@ function Game({...props})
 {
     const[gameState, setGameState] = useState(
         {
-            round: 2,
+            round: 3,
             wallIndex: 0,
             scores:0,
             clickedRow: false,
@@ -54,7 +54,7 @@ function Game({...props})
             case 2:
                 return <div>{gameState.clickedRow === false ? <WordWallIcons onClick={psWallHandle} hidden={gameState.hidden}></WordWallIcons> : <WordWall> </WordWall>}</div>
             case 3:
-                return <div></div>
+                return <div><MissingVowels/></div>
             default:
                 return <div>round {round} not implemented</div>;
         }

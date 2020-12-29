@@ -102,7 +102,7 @@ class WordWall extends Component {
        return (
            <div>
                 <div className="grid grid-flow-col grid-rows-5 lg:py-0 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
-                    <div className="row-start-1 col-span-4 w-full">
+                    <div className="row-start-1 col-span-4">
                         <Timer completed={0} max={150} type="wall"/>
                     </div>
                     {this.buildBoard()}

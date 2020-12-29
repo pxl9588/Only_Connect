@@ -23,7 +23,8 @@ function Rectangle({...props}){
 
 
     //ANSWER
-    if(props.type === "answer") {
+    if(props.type === "answer")
+    {
         width = "w-full";
         height = "h-8 lg:h-20";
         text_size = "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl";
@@ -45,16 +46,17 @@ function Rectangle({...props}){
         width = "w-20 sm:w-24 lg:w-52 cursor-pointer";
         height = "h-16 sm:h-20 lg:h-40";
         text_size = "text-1xl lg:text-4xl";
-        color = `${props.color} ${!props.matched ? `hover:${props.hover}` : ""}`;
+        color = `${props.color} ${!props.matched ? `md:hover:${props.hover}` : ""}`;
     }
 
     //VOWELS
     else if (props.type === "vowels")
     {
-        width = "p-4";
-        height = "";
-        text_size = "text-3xl sm:text-4xl lg:text-5xl";
-        color = "bg-blue-800 text-white";
+        width = "w-full";
+        height = "h-8 lg:h-20";
+        text_size = "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl";
+        color = "bg-blue-700";
+        font_color = "text-white";
     }
     else if (props.type === "timer")
     {
