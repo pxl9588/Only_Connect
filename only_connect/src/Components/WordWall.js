@@ -1,7 +1,7 @@
 import React, { createRef, Component } from "react";
 import Rectangle from "./Rectangle";
 import { v4 as uuidv4 } from "uuid";
-import randomize from "../randomize";
+import { animate, randomize } from "../helpers";
 import "./WordWall.css";
 
 const colorDictionary = {
@@ -16,178 +16,189 @@ const wordDictionary = [
     ["Australia", "Guam", "Papua New Guinea", "Cook Islands"],
     ["Champagne", "San Pellegrino", "Fiji", "Mocha"],
 ];
-let idToIndex = new Map();
-let refsArr = [];
-let blocks = [];
-
-for (let [index, group] of wordDictionary.entries()) {
-    let words = group.map((word) => {
-        refsArr.push(createRef());
-        return {
-            word: word,
-            color: "bg-oc-blue",
-            id: uuidv4(),
-            group: index,
-            clicked: false,
-            matched: false,
-        };
-    });
-    blocks.push(...words);
-}
-blocks = randomize(blocks);
-for (let [index, block] of blocks.entries()) {
-    idToIndex.set(block.id, index);
-}
-console.log(idToIndex);
 
 class WordWall extends Component {
     constructor() {
         super();
-        this.ref = createRef();
+
+        this.idToIndex = new Map();
+        this.refsArr = [];
         this.state = {
             clicked: [],
             color_count: 0,
-            solved: blocks,
+            solved: [],
+            solved_group: [false, false, false, false],
         };
-        this.clickBlock = this.clickBlock.bind(this);
+        this.handleClickBlock = this.handleClickBlock.bind(this);
+        this.solveBoard = this.solveBoard.bind(this);
+    }
+
+    componentDidMount() {
+        let blocks = [];
+        for (let [index, group] of wordDictionary.entries()) {
+            let words = group.map((word) => {
+                this.refsArr.push(createRef());
+                return {
+                    word: word,
+                    color: "bg-oc-blue",
+                    id: uuidv4(),
+                    group: index,
+                    clicked: false,
+                    matched: false,
+                };
+            });
+            blocks.push(...words);
+        }
+        blocks = randomize(blocks);
+        for (let [index, block] of blocks.entries()) {
+            this.idToIndex.set(block.id, index);
+        }
+        this.setState({ solved: blocks });
+    }
+
+    handleClickBlock(obj) {
+        if (this.state.clicked.length < 4) {
+            if (obj.clicked) {
+                this.unClickBlock(obj);
+            } else {
+                this.clickBlock(obj);
+            }
+        }
+        //
     }
 
     clickBlock(obj) {
-        let clickedList = this.state.clicked,
-            solvedList = this.state.solved,
+        const clickedList = [...this.state.clicked],
+            solvedList = [...this.state.solved];
+        let delay = 0,
             count = this.state.color_count;
-        let delay = 0;
-        if (clickedList.length < 4) {
-            if (obj.clicked) {
-                clickedList = clickedList.filter((word) => {
-                    console.log(word);
-                    return word.id !== obj.id;
-                });
-                let unclickIndex = idToIndex.get(obj.id);
-                solvedList[unclickIndex].color = "bg-oc-blue";
-                solvedList[unclickIndex].clicked = false;
-                setTimeout(() => {
-                    this.setState({ solved: solvedList, clicked: clickedList, color_count: count });
-                }, delay);
-            } else {
-                clickedList.push(obj);
-                let foundIndex = idToIndex.get(obj.id);
-                solvedList[foundIndex].clicked = true;
-                solvedList[foundIndex].color = colorDictionary[count];
-                this.setState(
-                    { solved: solvedList, clicked: clickedList, color_count: count },
-                    () => {
-                        if (clickedList.length === 4) {
-                            if (count == 3) {
-                                clickedList.map(
-                                    (item) => (solvedList[idToIndex.get(item.id)].matched = true),
-                                );
-                                this.setState({ solved: solvedList });
-                            } else {
-                                let areOfSameGroup =
-                                    clickedList[0].group == clickedList[1].group &&
-                                    clickedList[0].group == clickedList[2].group &&
-                                    clickedList[0].group == clickedList[3].group;
-                                if (areOfSameGroup) {
-                                    const eltBoundsBefore = refsArr.map((el) => {
-                                        return el.current.getBoundingClientRect();
-                                    });
-                                    const arr = [...refsArr];
-                                    console.log(arr);
-                                    for (let block of clickedList) {
-                                        foundIndex = solvedList.findIndex(
-                                            (word) => word.id == block.id,
-                                        );
-                                        solvedList[foundIndex].matched = true;
-                                        let removedVal = solvedList.splice(foundIndex, 1);
-                                        let removedRef = refsArr.splice(foundIndex, 1);
-                                        solvedList.splice(count * 4, 0, ...removedVal);
-                                        refsArr.splice(count * 4, 0, ...removedRef);
-                                    }
-
-                                    this.setState({ solved: solvedList }, () => {
-                                        const eltBoundsAfter = arr.map((el) => {
-                                            return el.current.getBoundingClientRect();
-                                        });
-
-                                        arr.forEach((item, index) => {
-                                            const deltaX =
-                                                eltBoundsBefore[index].left -
-                                                eltBoundsAfter[index].left;
-                                            const deltaY =
-                                                eltBoundsBefore[index].top -
-                                                eltBoundsAfter[index].top;
-                                            const deltaW =
-                                                eltBoundsBefore[index].width /
-                                                eltBoundsAfter[index].width;
-                                            const deltaH =
-                                                eltBoundsBefore[index].height /
-                                                eltBoundsAfter[index].height;
-
-                                            item.current.animate(
-                                                [
-                                                    {
-                                                        transformOrigin: "top left",
-                                                        transform: `
-                                                  translate(${deltaX}px, ${deltaY}px)
-                                                  scale(${deltaW}, ${deltaH})
-                                                `,
-                                                    },
-                                                    {
-                                                        transformOrigin: "top left",
-                                                        transform: `
-                                                translate(${0}px, ${0}px)
-                                                scale(${deltaW}, ${deltaH})
-                                              `,
-                                                    },
-                                                ],
-                                                {
-                                                    duration: 1000,
-                                                    easing: "ease-in-out",
-                                                    fill: "both",
-                                                },
-                                            );
-                                        });
-                                    });
-
-                                    count++;
-                                } else {
-                                    for (let block of clickedList) {
-                                        foundIndex = idToIndex.get(block.id);
-                                        solvedList[foundIndex].clicked = false;
-                                        solvedList[foundIndex].color = " bg-oc-blue";
-                                    }
-                                }
-
-                                for (let [index, block] of solvedList.entries()) {
-                                    idToIndex.set(block.id, index);
-                                }
-                                clickedList = [];
-                                delay = 1000;
-                            }
-                        }
-                        setTimeout(() => {
-                            this.setState({
-                                solved: solvedList,
-                                clicked: clickedList,
-                                color_count: count,
-                            });
-                        }, delay);
-                    },
-                );
+        clickedList.push(obj);
+        const foundIndex = this.idToIndex.get(obj.id);
+        solvedList[foundIndex].clicked = true;
+        solvedList[foundIndex].color = colorDictionary[count];
+        this.setState({ solved: solvedList, clicked: clickedList }, () => {
+            if (clickedList.length === 4) {
+                [delay, count] = this.checkForMatch(obj, clickedList, solvedList, count, delay);
+                console.log(delay);
+                console.log(count);
             }
+            setTimeout(() => {
+                this.setState({
+                    solved: solvedList,
+                    clicked: clickedList,
+                    color_count: count,
+                });
+            }, delay);
+            if (count == 3) {
+                setTimeout(() => {
+                    this.solveBoard();
+                }, 1000);
+            }
+        });
+    }
+
+    unClickBlock(obj) {
+        let clickedList = [...this.state.clicked],
+            solvedList = [...this.state.solved];
+        clickedList = clickedList.filter((word) => {
+            return word.id !== obj.id;
+        });
+        let unclickIndex = this.idToIndex.get(obj.id);
+        solvedList[unclickIndex].color = "bg-oc-blue";
+        solvedList[unclickIndex].clicked = false;
+        this.setState({ solved: solvedList, clicked: clickedList });
+    }
+
+    checkForMatch(obj, clickedList, solvedList, count, delay) {
+        let areOfSameGroup =
+            clickedList[0].group == clickedList[1].group &&
+            clickedList[0].group == clickedList[2].group &&
+            clickedList[0].group == clickedList[3].group;
+        if (areOfSameGroup) {
+            this.areOfSameGroup(obj, clickedList, solvedList, count);
+            delay = 0;
+            count++;
+        } else {
+            this.areNotOfSameGroup(obj, clickedList, solvedList);
+            delay = 250;
         }
+        clickedList.length = 0;
+        return [delay, count];
+    }
+
+    areOfSameGroup(obj, clickedList, solvedList, count) {
+        const eltBoundsBefore = this.refsArr.map((el) => {
+            return el.current.getBoundingClientRect();
+        });
+        const arr = [...this.refsArr];
+        arr.forEach((el) => console.log(el.current.getBoundingClientRect()));
+        for (let block of clickedList) {
+            const foundIndex = solvedList.findIndex((word) => word.id == block.id);
+            solvedList[foundIndex].matched = true;
+            const removedVal = solvedList.splice(foundIndex, 1);
+            const removedRef = this.refsArr.splice(foundIndex, 1);
+            solvedList.splice(count * 4, 0, ...removedVal);
+            this.refsArr.splice(count * 4, 0, ...removedRef);
+        }
+        this.setState({ solved: solvedList }, () => {
+            arr.forEach((el) => console.log(el.current.getBoundingClientRect()));
+            animate(arr, eltBoundsBefore);
+            for (let [index, block] of solvedList.entries()) {
+                this.idToIndex.set(block.id, index);
+            }
+        });
+    }
+
+    areNotOfSameGroup(obj, clickedList, solvedList) {
+        for (let block of clickedList) {
+            let foundIndex = this.idToIndex.get(block.id);
+            solvedList[foundIndex].clicked = false;
+            solvedList[foundIndex].color = " bg-oc-blue";
+        }
+    }
+
+    solveBoard() {
+        const solvedList = [...this.state.solved];
+        const color = this.state.color_count;
+        const nodeToRef = new Map();
+        const eltBoundsBefore = this.refsArr.map((el) => {
+            return el.current.getBoundingClientRect();
+        });
+        let arr = [...this.refsArr];
+        //arr.forEach((el) => console.log(el.current.getBoundingClientRect()));
+        //console.log(arr);
+        const matchedIndex = solvedList.findIndex((el) => !el.matched);
+
+        solvedList.forEach((block, index) => {
+            nodeToRef.set(block.id, this.refsArr[index]);
+        });
+        const toBeMatched = solvedList.splice(matchedIndex, solvedList.length - matchedIndex);
+        console.log(toBeMatched); // WHY ARE THESE THE SAME
+        const refsMatched = this.refsArr.splice(matchedIndex, solvedList.length - matchedIndex);
+        toBeMatched.sort((a, b) => a.group - b.group);
+        console.log(toBeMatched); // WHY ARE THESE
+        toBeMatched.forEach((block, index) => {
+            block.matched = true;
+            block.clicked = true;
+            block.color = colorDictionary[color + Math.floor(index / 4)];
+            solvedList.push(block);
+            this.refsArr.push(nodeToRef.get(block.id));
+        });
+        this.setState({ solved: solvedList }, () => {
+            //arr.forEach((el) => console.log(el.current.getBoundingClientRect()));
+            animate(arr, eltBoundsBefore);
+        });
     }
 
     buildBoard() {
         return this.state.solved.map((block, index) => {
             return (
                 <Rectangle
-                    ref={refsArr[index]}
-                    key={index}
+                    ref={this.refsArr[index]}
+                    key={block.id}
                     type="wall"
                     {...block}
-                    clickBlock={this.clickBlock}
+                    clickBlock={this.handleClickBlock}
                 >
                     {block.word}
                 </Rectangle>
@@ -200,6 +211,7 @@ class WordWall extends Component {
             <div style={{ display: "flex", flexDirection: "column", placeItems: "center" }}>
                 <h1 style={{ textAlign: "center" }}>Word Wall</h1>
                 <div className="grid justify-center items-center">{this.buildBoard()}</div>
+                <button onClick={this.solveBoard}>Solve</button>
             </div>
         );
     }
