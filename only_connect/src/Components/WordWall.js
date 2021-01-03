@@ -79,8 +79,10 @@ class WordWall extends Component {
         this.setState({ solved: solvedList, clicked: clickedList }, () => {
             if (clickedList.length === 4) {
                 [delay, count] = this.checkForMatch(obj, clickedList, solvedList, count, delay);
-                console.log(delay);
-                console.log(count);
+                if (count == 3) {
+                    this.solveBoard();
+                    return;
+                }
             }
             setTimeout(() => {
                 this.setState({
@@ -89,11 +91,6 @@ class WordWall extends Component {
                     color_count: count,
                 });
             }, delay);
-            if (count == 3) {
-                setTimeout(() => {
-                    this.solveBoard();
-                }, 1000);
-            }
         });
     }
 
@@ -115,15 +112,15 @@ class WordWall extends Component {
             clickedList[0].group == clickedList[2].group &&
             clickedList[0].group == clickedList[3].group;
         if (areOfSameGroup) {
-            this.areOfSameGroup(obj, clickedList, solvedList, count);
-            delay = 0;
-            count++;
+            return this.areOfSameGroup(obj, clickedList, solvedList, count);
+            // delay = 0;
+            // count++;
         } else {
-            this.areNotOfSameGroup(obj, clickedList, solvedList);
-            delay = 250;
+            return this.areNotOfSameGroup(obj, clickedList, solvedList);
+            // delay = 250;
         }
-        clickedList.length = 0;
-        return [delay, count];
+        // clickedList.length = 0;
+        // return [delay, count];
     }
 
     areOfSameGroup(obj, clickedList, solvedList, count) {
@@ -165,18 +162,17 @@ class WordWall extends Component {
             return el.current.getBoundingClientRect();
         });
         let arr = [...this.refsArr];
-        //arr.forEach((el) => console.log(el.current.getBoundingClientRect()));
-        //console.log(arr);
+        arr.forEach((el) => console.log(el.current.getBoundingClientRect()));
         const matchedIndex = solvedList.findIndex((el) => !el.matched);
 
         solvedList.forEach((block, index) => {
             nodeToRef.set(block.id, this.refsArr[index]);
         });
-        const toBeMatched = solvedList.splice(matchedIndex, solvedList.length - matchedIndex);
-        console.log(toBeMatched); // WHY ARE THESE THE SAME
-        const refsMatched = this.refsArr.splice(matchedIndex, solvedList.length - matchedIndex);
+        const length = solvedList.length;
+        const toBeMatched = solvedList.splice(matchedIndex, length - matchedIndex);
+        const refsMatched = this.refsArr.splice(matchedIndex, length - matchedIndex);
+
         toBeMatched.sort((a, b) => a.group - b.group);
-        console.log(toBeMatched); // WHY ARE THESE
         toBeMatched.forEach((block, index) => {
             block.matched = true;
             block.clicked = true;
@@ -185,7 +181,6 @@ class WordWall extends Component {
             this.refsArr.push(nodeToRef.get(block.id));
         });
         this.setState({ solved: solvedList }, () => {
-            //arr.forEach((el) => console.log(el.current.getBoundingClientRect()));
             animate(arr, eltBoundsBefore);
         });
     }

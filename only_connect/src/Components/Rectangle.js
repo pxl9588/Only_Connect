@@ -16,6 +16,7 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
             id: props.id,
             group: props.group,
             clicked: props.clicked,
+            ref,
         };
         props.clickBlock(obj);
     }
@@ -58,8 +59,8 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
     return (
         <div
             ref={ref}
-            onClick={props.matched ? undefined : handleClick}
-            className={`${width} ${height} ${color} shadow-2xl rounded-md ${props.hidden}`}
+            onClick={!props.matched && handleClick}
+            className={`${width} ${height} ${color} shadow-2xl rounded-md`}
         >
             <h1
                 className={`${text_size} w-full h-full flex justify-center items-center text-center`}

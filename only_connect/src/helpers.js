@@ -9,7 +9,7 @@ export function randomize(arr) {
     return random;
 }
 
-export function animate(arr, eltBoundsBefore) {
+export function animate(arr, eltBoundsBefore, color) {
     const eltBoundsAfter = arr.map((el) => {
         return el.current.getBoundingClientRect();
     });
