@@ -2,6 +2,7 @@ import React, { createRef, Component } from "react";
 import Rectangle from "./Rectangle";
 import { v4 as uuidv4 } from "uuid";
 import { animate, randomize } from "../helpers";
+import Button from "@material-ui/core/Button";
 import "./WordWall.css";
 
 const colorDictionary = {
@@ -78,11 +79,21 @@ class WordWall extends Component {
         solvedList[foundIndex].color = colorDictionary[count];
         this.setState({ solved: solvedList, clicked: clickedList }, () => {
             if (clickedList.length === 4) {
-                [delay, count] = this.checkForMatch(obj, clickedList, solvedList, count, delay);
-                if (count == 3) {
-                    this.solveBoard();
-                    return;
+                const areOfSameGroup = this.checkForMatch(clickedList);
+                if (areOfSameGroup) {
+                    if (count == 2) {
+                        this.solveBoard();
+                        return;
+                    } else {
+                        this.matchRow(clickedList, solvedList, count);
+                        count++;
+                    }
+                } else {
+                    this.clearClickedList(obj, clickedList, solvedList);
+                    delay = 250;
                 }
+
+                clickedList.length = 0;
             }
             setTimeout(() => {
                 this.setState({
@@ -106,24 +117,26 @@ class WordWall extends Component {
         this.setState({ solved: solvedList, clicked: clickedList });
     }
 
-    checkForMatch(obj, clickedList, solvedList, count, delay) {
-        let areOfSameGroup =
+    checkForMatch(clickedList) {
+        //let areOfSameGroup =
+        return (
             clickedList[0].group == clickedList[1].group &&
             clickedList[0].group == clickedList[2].group &&
-            clickedList[0].group == clickedList[3].group;
-        if (areOfSameGroup) {
-            return this.areOfSameGroup(obj, clickedList, solvedList, count);
-            // delay = 0;
-            // count++;
-        } else {
-            return this.areNotOfSameGroup(obj, clickedList, solvedList);
-            // delay = 250;
-        }
+            clickedList[0].group == clickedList[3].group
+        );
+        // if (areOfSameGroup) {
+        //     return this.matchRow(obj, clickedList, solvedList, count);
+        //     // delay = 0;
+        //     // count++;
+        // } else {
+        //     return this.clearClickedList(obj, clickedList, solvedList);
+        //     // delay = 250;
+        // }
         // clickedList.length = 0;
         // return [delay, count];
     }
 
-    areOfSameGroup(obj, clickedList, solvedList, count) {
+    matchRow(clickedList, solvedList, count) {
         const eltBoundsBefore = this.refsArr.map((el) => {
             return el.current.getBoundingClientRect();
         });
@@ -146,7 +159,7 @@ class WordWall extends Component {
         });
     }
 
-    areNotOfSameGroup(obj, clickedList, solvedList) {
+    clearClickedList(obj, clickedList, solvedList) {
         for (let block of clickedList) {
             let foundIndex = this.idToIndex.get(block.id);
             solvedList[foundIndex].clicked = false;
@@ -206,7 +219,14 @@ class WordWall extends Component {
             <div style={{ display: "flex", flexDirection: "column", placeItems: "center" }}>
                 <h1 style={{ textAlign: "center" }}>Word Wall</h1>
                 <div className="grid justify-center items-center">{this.buildBoard()}</div>
-                <button onClick={this.solveBoard}>Solve</button>
+                <Button
+                    style={{ width: "50%" }}
+                    variant="contained"
+                    color="primary"
+                    onClick={this.solveBoard}
+                >
+                    Solve
+                </Button>
             </div>
         );
     }
