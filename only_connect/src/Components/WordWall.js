@@ -1,7 +1,7 @@
 import React, { createRef, Component } from "react";
 import Rectangle from "./Rectangle";
 import { v4 as uuidv4 } from "uuid";
-import { animate, randomize } from "../helpers";
+import { clearClickedList, checkForMatch, animate, randomize } from "../utilities/helpersWordWall";
 import Button from "@material-ui/core/Button";
 import "./WordWall.css";
 
@@ -21,14 +21,12 @@ const wordDictionary = [
 class WordWall extends Component {
     constructor() {
         super();
-
         this.idToIndex = new Map();
         this.refsArr = [];
         this.state = {
             clicked: [],
             color_count: 0,
             solved: [],
-            solved_group: [false, false, false, false],
         };
         this.handleClickBlock = this.handleClickBlock.bind(this);
         this.solveBoard = this.solveBoard.bind(this);
@@ -65,7 +63,6 @@ class WordWall extends Component {
                 this.clickBlock(obj);
             }
         }
-        //
     }
 
     clickBlock(obj) {
@@ -79,30 +76,37 @@ class WordWall extends Component {
         solvedList[foundIndex].color = colorDictionary[count];
         this.setState({ solved: solvedList, clicked: clickedList }, () => {
             if (clickedList.length === 4) {
-                const areOfSameGroup = this.checkForMatch(clickedList);
-                if (areOfSameGroup) {
-                    if (count == 2) {
-                        this.solveBoard();
-                        return;
-                    } else {
-                        this.matchRow(clickedList, solvedList, count);
-                        count++;
-                    }
-                } else {
-                    this.clearClickedList(obj, clickedList, solvedList);
-                    delay = 250;
-                }
-
-                clickedList.length = 0;
+                this.fourthBlockClicked();
             }
-            setTimeout(() => {
-                this.setState({
-                    solved: solvedList,
-                    clicked: clickedList,
-                    color_count: count,
-                });
-            }, delay);
         });
+    }
+
+    fourthBlockClicked() {
+        let delay = 0,
+            count = this.state.color_count;
+        const clickedList = [...this.state.clicked];
+        const solvedList = [...this.state.solved];
+        const areOfSameGroup = checkForMatch(clickedList);
+        if (areOfSameGroup) {
+            if (count == 2) {
+                this.solveBoard();
+                return;
+            } else {
+                this.matchRow(clickedList, solvedList, count);
+                count++;
+            }
+        } else {
+            clearClickedList(clickedList, solvedList, this.idToIndex);
+            delay = 250;
+        }
+        clickedList.length = 0;
+        setTimeout(() => {
+            this.setState({
+                solved: solvedList,
+                clicked: clickedList,
+                color_count: count,
+            });
+        }, delay);
     }
 
     unClickBlock(obj) {
@@ -117,31 +121,11 @@ class WordWall extends Component {
         this.setState({ solved: solvedList, clicked: clickedList });
     }
 
-    checkForMatch(clickedList) {
-        //let areOfSameGroup =
-        return (
-            clickedList[0].group == clickedList[1].group &&
-            clickedList[0].group == clickedList[2].group &&
-            clickedList[0].group == clickedList[3].group
-        );
-        // if (areOfSameGroup) {
-        //     return this.matchRow(obj, clickedList, solvedList, count);
-        //     // delay = 0;
-        //     // count++;
-        // } else {
-        //     return this.clearClickedList(obj, clickedList, solvedList);
-        //     // delay = 250;
-        // }
-        // clickedList.length = 0;
-        // return [delay, count];
-    }
-
     matchRow(clickedList, solvedList, count) {
         const eltBoundsBefore = this.refsArr.map((el) => {
             return el.current.getBoundingClientRect();
         });
         const arr = [...this.refsArr];
-        arr.forEach((el) => console.log(el.current.getBoundingClientRect()));
         for (let block of clickedList) {
             const foundIndex = solvedList.findIndex((word) => word.id == block.id);
             solvedList[foundIndex].matched = true;
@@ -151,20 +135,11 @@ class WordWall extends Component {
             this.refsArr.splice(count * 4, 0, ...removedRef);
         }
         this.setState({ solved: solvedList }, () => {
-            arr.forEach((el) => console.log(el.current.getBoundingClientRect()));
             animate(arr, eltBoundsBefore);
             for (let [index, block] of solvedList.entries()) {
                 this.idToIndex.set(block.id, index);
             }
         });
-    }
-
-    clearClickedList(obj, clickedList, solvedList) {
-        for (let block of clickedList) {
-            let foundIndex = this.idToIndex.get(block.id);
-            solvedList[foundIndex].clicked = false;
-            solvedList[foundIndex].color = " bg-oc-blue";
-        }
     }
 
     solveBoard() {
@@ -175,7 +150,6 @@ class WordWall extends Component {
             return el.current.getBoundingClientRect();
         });
         let arr = [...this.refsArr];
-        arr.forEach((el) => console.log(el.current.getBoundingClientRect()));
         const matchedIndex = solvedList.findIndex((el) => !el.matched);
 
         solvedList.forEach((block, index) => {
@@ -183,7 +157,7 @@ class WordWall extends Component {
         });
         const length = solvedList.length;
         const toBeMatched = solvedList.splice(matchedIndex, length - matchedIndex);
-        const refsMatched = this.refsArr.splice(matchedIndex, length - matchedIndex);
+        this.refsArr.splice(matchedIndex, length - matchedIndex);
 
         toBeMatched.sort((a, b) => a.group - b.group);
         toBeMatched.forEach((block, index) => {
