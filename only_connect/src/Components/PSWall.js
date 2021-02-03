@@ -9,6 +9,7 @@ import sloth from "./../images/sloth.png";
 import { useState } from "react";
 import { Card } from "@material-ui/core";
 import "./PSWall.css";
+import Data from "../utilities/gameData";
 
 function PSWall(props) {
     const [hidden, setHidden] = useState({
@@ -34,6 +35,7 @@ function PSWall(props) {
                 <Card>
                     <WallIcon
                         icon={frog}
+                        data={Data.sequences[0]}
                         hidden={hidden[1]}
                         id="1"
                         onClick={handleClick}
@@ -42,6 +44,7 @@ function PSWall(props) {
                 <Card>
                     <WallIcon
                         icon={kangaroo}
+                        data={Data.sequences[1]}
                         hidden={hidden[2]}
                         id="2"
                         onClick={handleClick}
@@ -50,6 +53,7 @@ function PSWall(props) {
                 <Card>
                     <WallIcon
                         icon={elephant}
+                        data={Data.sequences[2]}
                         hidden={hidden[3]}
                         id="3"
                         onClick={handleClick}
@@ -59,6 +63,7 @@ function PSWall(props) {
                     {" "}
                     <WallIcon
                         icon={bird}
+                        data={Data.sequences[3]}
                         hidden={hidden[4]}
                         id="4"
                         onClick={handleClick}
@@ -68,6 +73,7 @@ function PSWall(props) {
                 <Card>
                     <WallIcon
                         icon={koala}
+                        data={Data.sequences[4]}
                         hidden={hidden[5]}
                         id="5"
                         onClick={handleClick}
@@ -77,6 +83,7 @@ function PSWall(props) {
                 <Card>
                     <WallIcon
                         icon={sloth}
+                        data={Data.sequences[5]}
                         hidden={hidden[6]}
                         id="6"
                         onClick={handleClick}

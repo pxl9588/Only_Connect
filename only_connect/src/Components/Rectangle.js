@@ -1,15 +1,6 @@
 import React, { useCallback, useRef, useEffect, forwardRef } from "react";
 
 const Rectangle = forwardRef(({ ...props }, ref) => {
-    // const myRef = useCallback(node => {
-    //     if(node){
-    //         first = node.getBoundingClientRect()
-    //     }
-    //     console.log(first)
-    // },[props.matched])
-
-    // let myRef = useRef();
-    //console.log(myRef.current)
     function handleClick() {
         let obj = {
             word: props.word,
@@ -24,10 +15,6 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
     var width = "";
     var height = "";
     var color = "bg-oc-blue";
-
-    // useEffect(() => {
-    //     console.log(myRef.current.getBoundingClientRect());
-    // },[myRef.current.getBoundingClientRect()])
 
     //ANSWER
     if (props.type === "answer") {

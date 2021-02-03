@@ -3,6 +3,7 @@ import Rectangle from "./Rectangle";
 import { v4 as uuidv4 } from "uuid";
 import { clearClickedList, checkForMatch, animate, randomize } from "../utilities/helpersWordWall";
 import Button from "@material-ui/core/Button";
+import Data from "../utilities/gameData";
 import "./WordWall.css";
 
 const colorDictionary = {
@@ -11,12 +12,14 @@ const colorDictionary = {
     2: "bg-green-500",
     3: "bg-yellow-500",
 };
-const wordDictionary = [
-    ["Hazelnut", "Butter Pecan", "Coconut", "Caramel"],
-    ["Cube", "Vanilla", "T", "Prince"],
-    ["Australia", "Guam", "Papua New Guinea", "Cook Islands"],
-    ["Champagne", "San Pellegrino", "Fiji", "Mocha"],
-];
+// const wordDictionary = [
+//     ["Hazelnut", "Butter Pecan", "Coconut", "Caramel"],
+//     ["Cube", "Vanilla", "T", "Prince"],
+//     ["Australia", "Guam", "Papua New Guinea", "Cook Islands"],
+//     ["Champagne", "San Pellegrino", "Fiji", "Mocha"],
+// ];
+
+const wordDictionary = Data.wall.wall2;
 
 class WordWall extends Component {
     constructor() {
