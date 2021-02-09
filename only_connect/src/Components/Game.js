@@ -40,17 +40,17 @@ function Game({ ...props }) {
 
     var div = null;
 
-    if (gameState.round < 2) {
-        return (
-            <div>
-                {gameState.clickedRow === false ? (
-                    <PSWall onClick={psWallHandle}></PSWall>
-                ) : (
-                    <PSRow exitClick={psRowExit} row={patterns[gameState.wallIndex]}></PSRow>
-                )}
-            </div>
-        );
-    }
+    // if (gameState.round < 2) {
+    //     return (
+    //         <div>
+    //             {gameState.clickedRow === false ? (
+    //                 <PSWall onClick={psWallHandle}></PSWall>
+    //             ) : (
+    //                 <PSRow exitClick={psRowExit} row={patterns[gameState.wallIndex]}></PSRow>
+    //             )}
+    //         </div>
+    //     );
+    // }
     return <WordWall />;
 }
 export default Game;
