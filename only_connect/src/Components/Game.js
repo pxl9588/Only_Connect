@@ -3,9 +3,15 @@ import PSWall from "./PSWall";
 import WordWall from "./WordWall";
 import PSRow from "./PSRow";
 import MissingVowels from "./MissingVowels";
+import Data from "../utilities/gameData";
+
+const sequences = Data.sequences;
+const patterns = Data.patterns;
+const missingVowels = Data.missingVowels;
 
 function Game({ ...props }) {
     const [gameState, setGameState] = useState({
+        gameStarted: true,
         round: 0,
         wallIndex: 0,
         scores: 0,
@@ -24,8 +30,8 @@ function Game({ ...props }) {
         console.log(gameState.round);
     };
 
-    const psWallHandle = () => {
-        setGameState({ ...gameState, clickedRow: true });
+    const psWallHandle = (id) => {
+        setGameState({ ...gameState, clickedRow: true, wallIndex: id });
     };
 
     const psRowExit = () => {
@@ -40,7 +46,7 @@ function Game({ ...props }) {
                 {gameState.clickedRow === false ? (
                     <PSWall onClick={psWallHandle}></PSWall>
                 ) : (
-                    <PSRow exitClick={psRowExit} row={connectionWall[gameState.wallIndex]}></PSRow>
+                    <PSRow exitClick={psRowExit} row={patterns[gameState.wallIndex]}></PSRow>
                 )}
             </div>
         );

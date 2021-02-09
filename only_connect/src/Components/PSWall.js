@@ -21,11 +21,11 @@ function PSWall(props) {
         6: false,
     });
 
-    const handleClick = (i) => {
+    const handleClick = (id) => {
         const temp_hidden = { ...hidden };
-        temp_hidden[i] = "invisible";
+        temp_hidden[id] = "invisible";
         setHidden(temp_hidden);
-        props.onClick();
+        props.onClick(id);
     };
 
     return (
@@ -35,27 +35,24 @@ function PSWall(props) {
                 <Card>
                     <WallIcon
                         icon={frog}
-                        data={Data.sequences[0]}
                         hidden={hidden[1]}
-                        id="1"
+                        id={0}
                         onClick={handleClick}
                     ></WallIcon>
                 </Card>
                 <Card>
                     <WallIcon
                         icon={kangaroo}
-                        data={Data.sequences[1]}
                         hidden={hidden[2]}
-                        id="2"
+                        id={1}
                         onClick={handleClick}
                     ></WallIcon>
                 </Card>
                 <Card>
                     <WallIcon
                         icon={elephant}
-                        data={Data.sequences[2]}
                         hidden={hidden[3]}
-                        id="3"
+                        id={2}
                         onClick={handleClick}
                     ></WallIcon>
                 </Card>
@@ -63,9 +60,8 @@ function PSWall(props) {
                     {" "}
                     <WallIcon
                         icon={bird}
-                        data={Data.sequences[3]}
                         hidden={hidden[4]}
-                        id="4"
+                        id={3}
                         onClick={handleClick}
                     ></WallIcon>
                 </Card>
@@ -73,9 +69,8 @@ function PSWall(props) {
                 <Card>
                     <WallIcon
                         icon={koala}
-                        data={Data.sequences[4]}
                         hidden={hidden[5]}
-                        id="5"
+                        id={4}
                         onClick={handleClick}
                     ></WallIcon>
                 </Card>
@@ -83,9 +78,8 @@ function PSWall(props) {
                 <Card>
                     <WallIcon
                         icon={sloth}
-                        data={Data.sequences[5]}
                         hidden={hidden[6]}
-                        id="6"
+                        id={5}
                         onClick={handleClick}
                     ></WallIcon>
                 </Card>
