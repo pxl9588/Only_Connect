@@ -1,20 +1,21 @@
 import React, { useCallback, useRef, useEffect, forwardRef } from "react";
 
-function Rectangle({...props}){
-
-    function handleClick(){
+const Rectangle = forwardRef(({ ...props }, ref) => {
+    function handleClick() {
         if(props.clickBlock)
         {
             let obj = {
-                        word: props.word,
-                        id: props.id,
-                        group: props.group,
-                        clicked: props.clicked,
-                        matched: props.matched
-            }
+                word: props.word,
+                id: props.id,
+                group: props.group,
+                clicked: props.clicked,
+                matched: props.matched,
+                ref,
+            };
             props.clickBlock(obj);
         }
     }
+
     var text_size = "";
     var width = "";
     var height = "";
@@ -71,9 +72,10 @@ function Rectangle({...props}){
     }
 
     return (
-      <div onClick={props.matched ? undefined: handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-xl ${props.hidden ? "invisible" : "" }`}>
+      <div ref={ref} onClick={props.matched ? undefined: handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-xl ${props.hidden ? "invisible" : "" }`}>
           <h1 className={`${text_size} ${font_color} w-full h-full flex justify-center items-center text-center select-none`}>{props.children}</h1>
-        </div>)
-}
+        </div>
+        );
+});
 
 export default Rectangle

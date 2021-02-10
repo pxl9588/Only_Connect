@@ -2,7 +2,7 @@ import './tailwind.css';
 import './Components/PSWall';
 import Game from './Components/Game';
 
-function Apps() {
+function App() {
 
   return (
     <div className="App h-screen w-screen overflow-hidden">

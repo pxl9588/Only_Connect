@@ -194,7 +194,6 @@ class WordWall extends Component {
     render() {
         return (
             <div className="container">
-                <h1 style={{ textAlign: "center" }}>Word Wall</h1>
                 <div className="grid justify-center items-center">{this.buildBoard()}</div>
                 <Button
                     style={{ width: "50%" }}

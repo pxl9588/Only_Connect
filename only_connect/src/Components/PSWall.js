@@ -16,7 +16,6 @@ function PSWall(props)
 
     return (
         <div className="PSWall_container">
-            <h1 className="title">Only Connect</h1>
             <div className="grid grid-flow-col grid-rows-3 sm:grid-rows-2 lg:grid-rows-2">
                 <WallIcon icon={frog} hidden={props.hidden[1] ? "invisible" : ""} id="1" onClick={props.hidden[1]  ? null : handleClick}></WallIcon>
                 <WallIcon icon={kangaroo} hidden={props.hidden[2]  ? "invisible" : ""} id="2" onClick={props.hidden[2]  ? null : handleClick}></WallIcon>
