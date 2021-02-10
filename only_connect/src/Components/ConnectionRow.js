@@ -20,6 +20,8 @@ function ConnectionRow(props)
 
     var final_number = 4;
 
+    var test = 0;
+
     const handleClick = (i) =>
     {
         setCount(count + 1);
