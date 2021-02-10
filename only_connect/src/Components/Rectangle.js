@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useRef, useEffect, forwardRef } from "react";
 
 function Rectangle({...props}){
 
@@ -21,7 +21,6 @@ function Rectangle({...props}){
     var color = "bg-gradient-to-r from-oc-blue via-blue-300 to-oc-blue"//"bg-oc-blue";
     var font_color = "text-black";
 
-
     //ANSWER
     if(props.type === "answer")
     {
@@ -41,8 +40,7 @@ function Rectangle({...props}){
     }
 
     //WALL
-    else if (props.type === "wall")
-    {
+    else if (props.type === "wall") {
         width = "w-20 sm:w-24 lg:w-52 cursor-pointer";
         height = "h-16 sm:h-20 lg:h-40";
         text_size = "text-1xl lg:text-4xl";
