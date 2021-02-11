@@ -10,7 +10,7 @@ function Game({...props})
 {
     const[gameState, setGameState] = useState(
         {
-            round: 3,
+            round: 2,
             wallIndex: 0,
             scores:0,
             clickedRow: false,
@@ -19,6 +19,7 @@ function Game({...props})
     )
 
     const connectionWall = [["A", "B", "C", "D","Letter"], ["E", "F", "G", "H","Letter"], ["I", "J", "K", "L","Letter"], ["M", "N", "O", "P","Letter"], ["Q", "R", "S", "T","Letter"], ["U", "V", "W", "X","Letter"]];
+    
     const sequenceWall = [["1", "2", "3", "4","Numbers"], ["5", "6", "7", "8","Numbers"], ["9", "10", "11", "12","Numbers"], ["13", "14", "15", "16","Numbers"], ["17", "18", "19", "20","Numbers"], ["21", "22", "23", "24","Numbers"]];
 
     // Click handles

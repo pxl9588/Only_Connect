@@ -10,7 +10,7 @@ function Timer(props)
         {
             setCompleted(oldVal => {
                 const newVal = oldVal + 1;
-                if(newVal === props.max || props.hidden)
+                if(newVal === props.max || props.hidden || props.finished)
                 {
                     clearInterval(interval)
                 }
