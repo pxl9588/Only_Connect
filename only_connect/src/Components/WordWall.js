@@ -1,114 +1,209 @@
-import React, { Component } from "react";
-import Rectangle from './Rectangle'
-import { v4 as uuidv4 } from 'uuid';
-import randomize from '../randomize'
-import Timer from "./Timer";
+import React, { createRef, Component } from "react";
+import Rectangle from "./Rectangle";
+import { v4 as uuidv4 } from "uuid";
+import { clearClickedList, checkForMatch, animate, randomize } from "../utilities/helpersWordWall";
+import Button from "@material-ui/core/Button";
+import Data from "../utilities/gameData";
+import "./WordWall.css";
 
-const colorArray = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500"];
-const hoverArray = ["bg-red-300", "bg-blue-300", "bg-green-300", "bg-yellow-300"];
-const wordArray = [['Hazelnut','Butter Pecan','Coconut', 'Caramel'],['Cube','Vanilla','T','Prince'],['Australia','Guam', 'Papua New Guinea','Cook Islands'],['Champagne','San Pellegrino','Fiji', 'Mocha']]
-let idToIndex = new Map()
+const colorDictionary = {
+    0: "bg-red-500",
+    1: "bg-blue-500",
+    2: "bg-green-500",
+    3: "bg-yellow-500",
+};
+// const wordDictionary = [
+//     ["Hazelnut", "Butter Pecan", "Coconut", "Caramel"],
+//     ["Cube", "Vanilla", "T", "Prince"],
+//     ["Australia", "Guam", "Papua New Guinea", "Cook Islands"],
+//     ["Champagne", "San Pellegrino", "Fiji", "Mocha"],
+// ];
 
-let blocks = []
-    for(let [index, group] of wordArray.entries()){
-        let words = group.map((word) => {
-                    return{
-                    word: word,
-                    color: 'bg-oc-blue',
-                    id: uuidv4(),
-                    group: index,
-                    clicked: false,
-                    matched: false
-
-                }
-            })
-        blocks.push(...words)
-        }
-    blocks = randomize(blocks)
-    for(let [index,block] of blocks.entries()){
-       idToIndex.set(block.id, index) 
-    }
-    console.log(idToIndex)
-    
+const wordDictionary = Data.wall.wall2;
 
 class WordWall extends Component {
     constructor() {
         super();
+        this.idToIndex = new Map();
+        this.refsArr = [];
         this.state = {
             clicked: [],
             color_count: 0,
-            solved: blocks
+            solved: [],
         };
-        this.clickBlock = this.clickBlock.bind(this)
+        this.handleClickBlock = this.handleClickBlock.bind(this);
+        this.solveBoard = this.solveBoard.bind(this);
     }
 
-    clickBlock(obj){
-        let clickedList = this.state.clicked, solvedList = this.state.solved, count = this.state.color_count
-        let delay = 0
-        if (clickedList.length < 4)
-        {
-            if (obj.clicked)
-            {
-                clickedList = clickedList.filter((word) => { 
-                    console.log(word)
-                    return word.id !== obj.id
-                });
-                let unclickIndex = idToIndex.get(obj.id)
-                solvedList[unclickIndex].color = 'bg-oc-blue';
-                solvedList[unclickIndex].clicked = false;
-                setTimeout(() => {this.setState({solved:solvedList,clicked:clickedList,color_count:count})}, delay);
-            }
-            else
-            {
-                clickedList.push(obj)
-                let foundIndex = idToIndex.get(obj.id)
-                solvedList[foundIndex].clicked = true
-                solvedList[foundIndex].color = colorArray[count]
-                this.setState({solved:solvedList,clicked:clickedList,color_count:count}, () => {
-                    if( clickedList.length === 4)
-                    {
-                        let areOfSameGroup = clickedList[0].group == clickedList[1].group && clickedList[0].group == clickedList[2].group && clickedList[0].group == clickedList[3].group 
-                            if (areOfSameGroup){
-                                console.log("hello");
-                            count++;  
-                            }
-                        for(let block of clickedList){
-                            foundIndex = idToIndex.get(block.id)
-                            if(areOfSameGroup){
-                                solvedList[foundIndex].matched = true;
-                            }
-                            else{
-                                solvedList[foundIndex].clicked = false;
-                                solvedList[foundIndex].color = 'bg-oc-blue';
-                            }
-                            
-                        }
-                        clickedList = [];
-                        delay = 250;
-                    }
-                    setTimeout(() => {this.setState({solved:solvedList,clicked:clickedList,color_count:count})}, delay);
-                });
+    componentDidMount() {
+        let blocks = [];
+        for (let [index, group] of wordDictionary.entries()) {
+            let words = group.map((word) => {
+                this.refsArr.push(createRef());
+                return {
+                    word: word,
+                    color: "bg-oc-blue",
+                    id: uuidv4(),
+                    group: index,
+                    clicked: false,
+                    matched: false,
+                };
+            });
+            blocks.push(...words);
+        }
+        blocks = randomize(blocks);
+        for (let [index, block] of blocks.entries()) {
+            this.idToIndex.set(block.id, index);
+        }
+        this.setState({ solved: blocks });
+    }
+
+    handleClickBlock(obj) {
+        if (this.state.clicked.length < 4) {
+            if (obj.clicked) {
+                this.unClickBlock(obj);
+            } else {
+                this.clickBlock(obj);
             }
         }
     }
-    
-    buildBoard(){
-        return this.state.solved.map((block, index) => (
-            <Rectangle type="wall" hover={hoverArray[this.state.color_count]} key={index} {...block} clickBlock={this.clickBlock}>{block.word}</Rectangle>
-        )) 
+
+    clickBlock(obj) {
+        const clickedList = [...this.state.clicked],
+            solvedList = [...this.state.solved];
+        let delay = 0,
+            count = this.state.color_count;
+        clickedList.push(obj);
+        const foundIndex = this.idToIndex.get(obj.id);
+        solvedList[foundIndex].clicked = true;
+        solvedList[foundIndex].color = colorDictionary[count];
+        this.setState({ solved: solvedList, clicked: clickedList }, () => {
+            if (clickedList.length === 4) {
+                this.fourthBlockClicked();
+            }
+        });
     }
 
-    render(){
-       return (
-           <div>
-                <div className="grid grid-flow-col grid-rows-5 lg:py-0 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
-                    <div className="row-start-1 col-span-4">
-                        <Timer completed={0} max={150} type="wall"/>
-                    </div>
-                    {this.buildBoard()}
-            </div>  
-           </div>
-           
+    fourthBlockClicked() {
+        let delay = 0,
+            count = this.state.color_count;
+        const clickedList = [...this.state.clicked];
+        const solvedList = [...this.state.solved];
+        const areOfSameGroup = checkForMatch(clickedList);
+        if (areOfSameGroup) {
+            if (count == 2) {
+                this.solveBoard();
+                return;
+            } else {
+                this.matchRow(clickedList, solvedList, count);
+                count++;
+            }
+        } else {
+            clearClickedList(clickedList, solvedList, this.idToIndex);
+            delay = 250;
+        }
+        clickedList.length = 0;
+        setTimeout(() => {
+            this.setState({
+                solved: solvedList,
+                clicked: clickedList,
+                color_count: count,
+            });
+        }, delay);
+    }
+
+    unClickBlock(obj) {
+        let clickedList = [...this.state.clicked],
+            solvedList = [...this.state.solved];
+        clickedList = clickedList.filter((word) => {
+            return word.id !== obj.id;
+        });
+        let unclickIndex = this.idToIndex.get(obj.id);
+        solvedList[unclickIndex].color = "bg-oc-blue";
+        solvedList[unclickIndex].clicked = false;
+        this.setState({ solved: solvedList, clicked: clickedList });
+    }
+
+    matchRow(clickedList, solvedList, count) {
+        const eltBoundsBefore = this.refsArr.map((el) => {
+            return el.current.getBoundingClientRect();
+        });
+        const arr = [...this.refsArr];
+        for (let block of clickedList) {
+            const foundIndex = solvedList.findIndex((word) => word.id == block.id);
+            solvedList[foundIndex].matched = true;
+            const removedVal = solvedList.splice(foundIndex, 1);
+            const removedRef = this.refsArr.splice(foundIndex, 1);
+            solvedList.splice(count * 4, 0, ...removedVal);
+            this.refsArr.splice(count * 4, 0, ...removedRef);
+        }
+        this.setState({ solved: solvedList }, () => {
+            animate(arr, eltBoundsBefore);
+            for (let [index, block] of solvedList.entries()) {
+                this.idToIndex.set(block.id, index);
+            }
+        });
+    }
+
+    solveBoard() {
+        const solvedList = [...this.state.solved];
+        const color = this.state.color_count;
+        const nodeToRef = new Map();
+        const eltBoundsBefore = this.refsArr.map((el) => {
+            return el.current.getBoundingClientRect();
+        });
+        let arr = [...this.refsArr];
+        const matchedIndex = solvedList.findIndex((el) => !el.matched);
+
+        solvedList.forEach((block, index) => {
+            nodeToRef.set(block.id, this.refsArr[index]);
+        });
+        const length = solvedList.length;
+        const toBeMatched = solvedList.splice(matchedIndex, length - matchedIndex);
+        this.refsArr.splice(matchedIndex, length - matchedIndex);
+
+        toBeMatched.sort((a, b) => a.group - b.group);
+        toBeMatched.forEach((block, index) => {
+            block.matched = true;
+            block.clicked = true;
+            block.color = colorDictionary[color + Math.floor(index / 4)];
+            solvedList.push(block);
+            this.refsArr.push(nodeToRef.get(block.id));
+        });
+        this.setState({ solved: solvedList }, () => {
+            animate(arr, eltBoundsBefore);
+        });
+    }
+
+    buildBoard() {
+        return this.state.solved.map((block, index) => {
+            return (
+                <Rectangle
+                    ref={this.refsArr[index]}
+                    key={block.id}
+                    type="wall"
+                    {...block}
+                    clickBlock={this.handleClickBlock}
+                >
+                    {block.word}
+                </Rectangle>
+            );
+        });
+    }
+
+    render() {
+        return (
+            <div className="container">
+                <div className="grid justify-center items-center">{this.buildBoard()}</div>
+                <Button
+                    style={{ width: "50%" }}
+                    variant="contained"
+                    color="primary"
+                    onClick={this.solveBoard}
+                >
+                    Solve
+                </Button>
+            </div>
         );
     }
 }

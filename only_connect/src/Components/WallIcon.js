@@ -18,4 +18,4 @@ function WallIcon(props)
       </div>)
 }
 
-export default WallIcon
+export default WallIcon;
