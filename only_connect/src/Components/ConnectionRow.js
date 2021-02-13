@@ -21,9 +21,6 @@ function ConnectionRow(props)
 
     var final_number = 4;
 
-<<<<<<< Updated upstream
-    var test = 0;
-=======
     const endClick = () =>
     {
         if(!end)
@@ -35,7 +32,6 @@ function ConnectionRow(props)
             setEnd(true);
         }
     }
->>>>>>> Stashed changes
 
     const handleClick = (i) =>
     {
