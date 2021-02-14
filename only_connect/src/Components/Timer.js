@@ -21,7 +21,7 @@ function Timer(props)
             clearInterval(interval);
         }
       },
-    [props.hidden]);
+    [props.hidden, props.max]);
 
     var width = "w-16 sm:w-36 md:w-48 lg:w-56 xl:w-72";
     const height = "h-6 sm:h-8 lg:h-12";

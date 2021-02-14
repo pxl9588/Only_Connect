@@ -1,4 +1,4 @@
-export default {
+const GameData = {
     patterns: [
         {
             clues: ["Michael Jordan", "Magic Johnson", "Derek Fisher", "Scottie Pippen"],
@@ -78,3 +78,5 @@ export default {
         "Cities in Israel": ["JR S LM", "T LV V", "HF", "JF F"],
     },
 };
+
+export default GameData;

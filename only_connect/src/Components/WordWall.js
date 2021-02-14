@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { clearClickedList, checkForMatch, animate, randomize } from "../utilities/helpersWordWall";
 import Button from "@material-ui/core/Button";
 import Data from "../utilities/gameData";
+import Timer from "./Timer";
 import "./WordWall.css";
 
 const colorDictionary = {
@@ -71,8 +72,7 @@ class WordWall extends Component {
     clickBlock(obj) {
         const clickedList = [...this.state.clicked],
             solvedList = [...this.state.solved];
-        let delay = 0,
-            count = this.state.color_count;
+        let count = this.state.color_count;
         clickedList.push(obj);
         const foundIndex = this.idToIndex.get(obj.id);
         solvedList[foundIndex].clicked = true;
@@ -91,7 +91,7 @@ class WordWall extends Component {
         const solvedList = [...this.state.solved];
         const areOfSameGroup = checkForMatch(clickedList);
         if (areOfSameGroup) {
-            if (count == 2) {
+            if (count === 2) {
                 this.solveBoard();
                 return;
             } else {
@@ -130,7 +130,7 @@ class WordWall extends Component {
         });
         const arr = [...this.refsArr];
         for (let block of clickedList) {
-            const foundIndex = solvedList.findIndex((word) => word.id == block.id);
+            const foundIndex = solvedList.findIndex((word) => word.id === block.id);
             solvedList[foundIndex].matched = true;
             const removedVal = solvedList.splice(foundIndex, 1);
             const removedRef = this.refsArr.splice(foundIndex, 1);
@@ -194,7 +194,12 @@ class WordWall extends Component {
     render() {
         return (
             <div className="container">
-                <div className="grid justify-center items-center">{this.buildBoard()}</div>
+                <div className="grid grid-flow-col grid-rows-5 lg:py-0 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
+                    <div className="row-start-1 col-span-4">
+                        <Timer completed={0} max={150} type="wall"/>
+                    </div>
+                    {this.buildBoard()}
+                </div>
                 <Button
                     style={{ width: "50%" }}
                     variant="contained"
