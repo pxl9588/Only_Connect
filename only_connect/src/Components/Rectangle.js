@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect, forwardRef } from "react";
+import React, { forwardRef } from "react";
 
 const Rectangle = forwardRef(({ ...props }, ref) => {
     function handleClick() {

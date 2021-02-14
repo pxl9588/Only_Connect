@@ -48,9 +48,9 @@ export function animate(arr, eltBoundsBefore, color) {
 
 export function checkForMatch(clickedList) {
     return (
-        clickedList[0].group == clickedList[1].group &&
-        clickedList[0].group == clickedList[2].group &&
-        clickedList[0].group == clickedList[3].group
+        clickedList[0].group === clickedList[1].group &&
+        clickedList[0].group === clickedList[2].group &&
+        clickedList[0].group === clickedList[3].group
     );
 }
 

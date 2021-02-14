@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 //import socketIOClient from "socket.io-client";
 import Rectangle from './Rectangle';
 import Timer from './Timer';
@@ -37,11 +37,12 @@ function ConnectionRow(props)
     {
         setCount(count + 1);
         
+        var temp = {...hidden}
+
         if(count < final_number)
         {
             const point_array = [3,2,1]
             setTimerIndex(timerIndex + 1);
-            var temp = {...hidden}
             temp[count] = false;
             setHidden(temp);
             setPoints(point_array[count-1]);
@@ -49,7 +50,6 @@ function ConnectionRow(props)
         
         else
         {
-            var temp = {...hidden}
             temp[4] = false;
             temp[5] = true;
             setHidden(temp);
