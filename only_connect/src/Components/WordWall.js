@@ -2,7 +2,6 @@ import React, { createRef, Component } from "react";
 import Rectangle from "./Rectangle";
 import { v4 as uuidv4 } from "uuid";
 import { clearClickedList, checkForMatch, animate, randomize } from "../utilities/helpersWordWall";
-import Button from "@material-ui/core/Button";
 import Timer from "./Timer";
 
 const colorDictionary = {
@@ -177,15 +176,16 @@ class WordWall extends Component {
     buildBoard() {
         return this.state.solved.map((block, index) => {
             return (
-                <Rectangle
-                    ref={this.refsArr[index]}
-                    key={block.id}
-                    type="wall"
-                    {...block}
-                    clickBlock={this.handleClickBlock}
-                >
-                    {block.word}
-                </Rectangle>
+                <div className="col-span-1"><Rectangle
+                ref={this.refsArr[index]}
+                key={block.id}
+                type="wall"
+                {...block}
+                clickBlock={this.handleClickBlock}
+            >
+                {block.word}
+            </Rectangle></div>
+                
             );
         });
     }
@@ -193,17 +193,17 @@ class WordWall extends Component {
     render() {
         return (
             <div className="container">
-                <div className="grid grid-flow-row grid-rows-6 lg:py-0 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
+                <div className="grid grid-flow-row py-2 lg:py-10 gap-y-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
                     <div className="row-start-1 col-span-4">
                         <Timer completed={0} max={150} type="wall"/>
                     </div>
                     <div className="row-start-2 col-span-4">
-                        <div className="grid grid-cols-4 justify-center items-center">
+                        <div className="grid grid-cols-4 gap-y-1 gap-x-1 lg:gap-y-4 lg:gap-x-6">
                             {this.buildBoard()}
-                        </div>`
+                        </div>
                     </div>
-                    <div className="row-start-1 col-span-1">
-                        <Button style={{ width: "50%" }} variant="contained" color="primary" onClick={this.solveBoard}>Solve</Button>
+                    <div className="row-start-3 col-span-4">
+                        <button className="w-full bg-blue-700 hover:bg-blue-700 text-white font-bold border border-blue-700 rounded" onClick={this.solveBoard}>Solve</button>
                     </div>
                 </div>
             </div>

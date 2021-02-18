@@ -31,8 +31,8 @@ function Timer(props)
     [props.hidden, props.max, props.finished]);
 
     var width = "w-16 sm:w-36 md:w-48 lg:w-56 xl:w-72";
-    const height = "h-6 sm:h-8 lg:h-12";
-    const text_size = "text-md sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl sm:px-8 md:px-12 lg:px-16 xl:px-20";
+    const height = "h-6 sm:h-6 lg:h-12";
+    const text_size = "text-md sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl sm:px-8 md:px-12 lg:px-16 xl:px-20";
     const bg_color = "bg-blue-700";
     const fill_color = "bg-blue-900";
 

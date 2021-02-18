@@ -12,12 +12,12 @@ function Game({...props})
 {
     const[gameState, setGameState] = useState(
         {
-            round: 2,
+            round: 4,
             wallIndex: 0,
             scores:0,
             clickedRow: false,
             hidden: {1: false, 2:false, 3:false, 4:false, 5:false, 6:false},
-            wordWallIndex: 0,
+            wordWallIndex: 0
         }
     )
 
@@ -28,9 +28,9 @@ function Game({...props})
         3: "bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500",
     };
 
-    const connectionWall = [{"Letter": ["A", "B", "C", "D"]}, {"Letter": ["E", "F", "G", "H"]}, {"Letter": ["I", "J", "K", "L"]}, {"Letter": ["M", "N", "O", "P"]}, {"Letter": ["Q", "R", "S", "T"]}, {"Letter": ["U", "V", "W", "X"]}];
-    
-    const sequenceWall = [{"Numbers": ["1", "2", "3", "4"]}, {"Numbers": ["5", "6", "7", "8"]}, {"Numbers": ["9", "10", "11", "12"]}, {"Numbers": ["13", "14", "15", "16"]}, {"Numbers": ["17", "18", "19", "20"]}, {"Numbers": ["21", "22", "23", "24"]}];
+    const connectionWall = Data.patterns;
+    const sequenceWall = Data.sequences;
+    const missingVowels = Data.missingVowels;
 
     const wordWalls = [Data.wall.wall1, Data.wall.wall2]
 
@@ -46,7 +46,14 @@ function Game({...props})
     //When a missing vowel category is finished
     const missingVowelClick = () =>
     {
-        
+        if(gameState.wallIndex === 3)
+        {
+            setGameState({...gameState, wallIndex: 0, round: gameState.round + 1});
+        }
+        else
+        {
+            setGameState({...gameState, wallIndex: gameState.wallIndex + 1});
+        }
     }
     //When a connection row of the word wall is completed
     const wordRowExit = () =>
@@ -107,9 +114,9 @@ function Game({...props})
                 return <div><WordConnectionRow exitClick={wordRowExit} color={colorDictionary[gameState.wallIndex]} row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}></WordConnectionRow></div>
             
             case 6:
-                return <div><MissingVowels onClick={missingVowelClick}/></div>
+                return <div><MissingVowels data={missingVowels[gameState.wallIndex]} onClick={missingVowelClick}/></div>
             default:
-                return <div>round {round} not implemented</div>;
+                return <div><h1>GAME OVERR~!!!!!!!!</h1></div>;
         }
     }
 

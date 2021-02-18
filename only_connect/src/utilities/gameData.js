@@ -38,8 +38,8 @@ const GameData = {
                 "answer": "Celebrity Babies in order of birth"
             },
             {
-                "clues": "Order of sharks in Baby Shark",
-                "answer": ["Baby", "Mommy", "Daddy", "Grandma"]
+                "answer": "Order of sharks in Baby Shark",
+                "clues": ["Baby", "Mommy", "Daddy", "Grandma"]
             },
             {
                 "clues": ["Rachel", "Becca", "Hannah", "Clare"],
@@ -84,12 +84,12 @@ const GameData = {
             {"answer": 'Pokemon games', "clues": ['Crystal', 'Gold', 'Silver', 'Diamond']},
         ],
     },
-    missingVowels: {
-        "Chores": ["W SH NTH GD HS", "F LD NGL ND RY", "WPN GT HW NDW s", "HDNG STFF NTH CL ST"],
-        "Clothing Brands": ["CL VNKL N", "ZR", "N DRRM R", "K NNT HC L"],
-        "Mixed Drinks": ["W H TRS SN", "MSC WML", "D RKN DSTR M", "MRT TSR"],
-        "Cities in Israel": ["JR S LM", "T LV V", "HF", "JF F"],
-    },
+    missingVowels: [
+        {'category': 'Chores', 'clues': ['W SH NTH GD HS', 'F LD NGL ND RY', 'WPN GT HW NDW S', 'HDNG STFF NTH CL ST']},
+        {'category': 'Clothing Brands', 'clues': ['CL VNKL N', 'ZR', 'N DRRM R', 'K NNT HC L']},
+        {'category': 'Mixed Drinks', 'clues': ['W H TRS SN', 'MSC WML', 'D RKN DSTR M', 'MRT TSR']},
+        {'category': 'Cities in Israel', 'clues': ['JR S LM', 'T LV V', 'HF', 'JF F']}
+    ]
 };
 
 export default GameData;

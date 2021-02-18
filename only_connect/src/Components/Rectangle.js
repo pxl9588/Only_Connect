@@ -27,7 +27,7 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
     {
         width = "w-full";
         height = "h-8 lg:h-20";
-        text_size = "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl";
+        text_size = "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl";
         color = "bg-blue-700";
         font_color = "text-white";
     }
@@ -42,9 +42,9 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
 
     //WALL
     else if (props.type === "wall") {
-        width = "w-20 sm:w-24 lg:w-52 cursor-pointer";
-        height = "h-16 sm:h-20 lg:h-40";
-        text_size = "text-1xl lg:text-4xl";
+        width = "w-20 sm:w-20 lg:w-52 cursor-pointer";
+        height = "h-16 sm:h-16 lg:h-40";
+        text_size = "text-sm sm:text-md lg:text-4xl";
         color = `${props.color} ${!props.matched ? `md:hover:${props.hover}` : ""}`;
     }
 
@@ -53,14 +53,14 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
     {
         width = "w-full";
         height = "h-8 lg:h-20";
-        text_size = "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl";
+        text_size = "text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl";
         color = "bg-blue-700";
         font_color = "text-white";
     }
     else if (props.type === "timer")
     {
         width = "p-2";
-        height = "h-12 lg:h-20";
+        height = "h-16 sm:h-20 lg:h-20";
         text_size = "text-2xl sm:text-4xl lg:text-5xl";
     }
 
@@ -68,7 +68,7 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
     {
         width = "w-16 sm:w-36 md:w-48 lg:w-56 xl:w-72";
         height = "h-12 sm:h-28 md:h-44 g:h-52 xl:h-64";
-        text_size = "text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl";
+        text_size = "text-sm sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl";
     }
 
     if(props.color)
