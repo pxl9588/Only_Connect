@@ -43,7 +43,11 @@ function Game({...props})
         setGameState({...gameState, clickedRow: true, hidden: temp});
     }
 
-
+    //When a missing vowel category is finished
+    const missingVowelClick = () =>
+    {
+        
+    }
     //When a connection row of the word wall is completed
     const wordRowExit = () =>
     {
@@ -103,7 +107,7 @@ function Game({...props})
                 return <div><WordConnectionRow exitClick={wordRowExit} color={colorDictionary[gameState.wallIndex]} row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}></WordConnectionRow></div>
             
             case 6:
-                return <div><MissingVowels/></div>
+                return <div><MissingVowels onClick={missingVowelClick}/></div>
             default:
                 return <div>round {round} not implemented</div>;
         }

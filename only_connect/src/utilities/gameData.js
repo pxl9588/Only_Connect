@@ -28,7 +28,7 @@ const GameData = {
         },
         {
             clues: ["Wombat", "Opoosum", "Koala", "Kangaroo"],
-            answer: "Marsupials",
+            answer: "Marsupials"
         },
     ],
     sequences: {
@@ -59,16 +59,28 @@ const GameData = {
     },
     wall: {
         wall1: [
-            {"Drinks named after cities": ["Fiji", "Mocha", "San Pellegrino", "Champagne"]},
-            {"Rappers named Ice ____":["T", "Cube", "Vanilla", "Prince"]},
-            {"Dunkin Donuts Flavors" :["Hazelnut", "Coconut", "Butter Pecan", "Caramel"]},
-            {"Oceania islands": ["Papua New Guinea", "Guam", "Australia", "Cook Islands"]},
+            {
+                clues: ["Fiji", "Mocha", "San Pellegrino", "Champagne"],
+                answer: "Drinks named after cities"
+            },
+            {
+                clues: ["T", "Cube", "Vanilla", "Prince"],
+                answer: "Rappers named Ice ____"
+            },
+            {
+                clues: ["Hazelnut", "Coconut", "Butter Pecan", "Caramel"],
+                answer: "Dunkin Donuts Flavors"
+            },
+            {
+                clues: ["Papua New Guinea", "Guam", "Australia", "Cook Islands"],
+                answer: "Oceania islands"
+            }
         ],
         wall2: [
-            {"Animal named bands": ["Eagles", "Beatles", "Monkees", "Gorillaz"]},
-            {"Bird named sport teams": ["Pelicans", "Seahawks", "Falcons", "Cardinals"]},
-            {"Birth stones": ["Sapphire", "Ruby", "Emerald", "Amethyst"]},
-            {"Pokemon games": ["Crystal", "Gold", "Silver", "Diamond"]}
+            {answer: 'Animal named bands', clues: ['Eagles', 'Beatles', 'Monkees', 'Gorillaz']},
+            {answer: 'Bird named sport teams', clues: ['Pelicans', 'Seahawks', 'Falcons', 'Cardinals']},
+            {answer: 'Birth stones', clues: ['Sapphire', 'Ruby', 'Emerald', 'Amethyst']},
+            {answer: 'Pokemon games', clues: ['Crystal', 'Gold', 'Silver', 'Diamond']},
         ],
     },
     "missing vowels": {

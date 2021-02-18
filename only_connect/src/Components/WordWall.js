@@ -38,21 +38,18 @@ class WordWall extends Component {
     componentDidMount() {
         let blocks = [];
         for (let [index, group] of this.wordDictionary.entries()) {
-            for(var key in group)
-            {
-                let words = group[key].map((word) => {
-                    this.refsArr.push(createRef());
-                    return {
-                        word: word,
-                        color: "bg-oc-blue",
-                        id: uuidv4(),
-                        group: index,
-                        clicked: false,
-                        matched: false,
-                    };
-                });
-                blocks.push(...words);
-            }
+            let words = group["clues"].map((word) => {
+                this.refsArr.push(createRef());
+                return {
+                    word: word,
+                    color: "bg-oc-blue",
+                    id: uuidv4(),
+                    group: index,
+                    clicked: false,
+                    matched: false,
+                };
+            });
+            blocks.push(...words);
         }
         blocks = randomize(blocks);
         for (let [index, block] of blocks.entries()) {

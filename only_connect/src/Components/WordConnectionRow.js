@@ -5,7 +5,7 @@ import Timer from './Timer';
 
 function WordConnectionRow(props)
 {
-    const key = Object.keys(props.row)[0];
+    const key = props.row["answer"];
     const [end,setEnd] = useState(0);
     const [points, setPoints] = useState(1);
     const [count, setCount] = useState(1);
@@ -66,16 +66,16 @@ function WordConnectionRow(props)
             </div>
 
             <div className="row-start-2 col-span-1">
-                <Rectangle type="rectangle" color={props.color}>{props.row[key][0]}</Rectangle>
+                <Rectangle type="rectangle" color={props.color}>{props.row["clues"][0]}</Rectangle>
             </div>
             <div className="row-start-2 col-span-1">
-                <Rectangle type="rectangle" color={props.color}>{props.row[key][1]}</Rectangle>
+                <Rectangle type="rectangle" color={props.color}>{props.row["clues"][1]}</Rectangle>
             </div>
             <div className="row-start-2 col-span-1">
-                <Rectangle type="rectangle" color={props.color}>{props.row[key][2]}</Rectangle>
+                <Rectangle type="rectangle" color={props.color}>{props.row["clues"][2]}</Rectangle>
             </div>
             <div className="row-start-2 col-span-1">
-                <Rectangle type="rectangle" color={props.color}>{props.row[key][3]}</Rectangle>
+                <Rectangle type="rectangle" color={props.color}>{props.row["clues"][3]}</Rectangle>
             </div>
 
             <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:px-12 xl:px-24">
