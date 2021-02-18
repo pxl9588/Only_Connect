@@ -69,7 +69,7 @@ function Game({ ...props }) {
                 return (
                     <div>
                         {gameState.clickedRow === false ? (
-                            <div>
+                            <div className="center-game">
                                 <div>
                                     <h1 className="title">Only Connect</h1>
                                     <PSWall
