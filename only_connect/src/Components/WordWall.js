@@ -5,6 +5,7 @@ import { clearClickedList, checkForMatch, animate, randomize } from "../utilitie
 import Button from "@material-ui/core/Button";
 import Data from "../utilities/gameData";
 import Timer from "./Timer";
+import Lives from "./Lives";
 import "./WordWall.css";
 
 const colorDictionary = {
@@ -31,6 +32,7 @@ class WordWall extends Component {
             clicked: [],
             color_count: 0,
             solved: [],
+            lives: 3,
         };
         this.handleClickBlock = this.handleClickBlock.bind(this);
         this.solveBoard = this.solveBoard.bind(this);
@@ -193,24 +195,26 @@ class WordWall extends Component {
 
     render() {
         return (
-            <div>
-                <div className="center-screen">
-                    <div className="center_screen grid_word_wall">
-                        <div className="row-start-1 col-span-4">
-                            <Timer completed={0} max={150} type="wall" />
+            <div className="">
+                <div>
+                    <div className="center-screen">
+                        <div className="center_screen grid_word_wall">
+                            <div className="row-start-1 col-span-4">
+                                <Timer completed={0} max={150} type="wall" />
+                            </div>
+                            {this.buildBoard()}
                         </div>
-                        {this.buildBoard()}
                     </div>
-                </div>
-                <div className="center-screen">
-                    <Button
-                        style={{ width: "50%" }}
-                        variant="contained"
-                        color="primary"
-                        onClick={this.solveBoard}
-                    >
-                        Solve
-                    </Button>
+                    <div className="center-screen">
+                        <Button
+                            style={{ width: "50%" }}
+                            variant="contained"
+                            color="primary"
+                            onClick={this.solveBoard}
+                        >
+                            Solve
+                        </Button>
+                    </div>
                 </div>
             </div>
         );
