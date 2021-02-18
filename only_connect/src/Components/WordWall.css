@@ -8,3 +8,9 @@
 .grid_word_wall > * {
     margin: 10px 0 0 10px;
 }
+
+.center-screen {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

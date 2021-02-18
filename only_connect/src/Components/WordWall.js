@@ -193,21 +193,25 @@ class WordWall extends Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="grid_word_wall">
-                    <div className="row-start-1 col-span-4">
-                        <Timer completed={0} max={150} type="wall" />
+            <div>
+                <div className="center-screen">
+                    <div className="center_screen grid_word_wall">
+                        <div className="row-start-1 col-span-4">
+                            <Timer completed={0} max={150} type="wall" />
+                        </div>
+                        {this.buildBoard()}
                     </div>
-                    {this.buildBoard()}
                 </div>
-                <Button
-                    style={{ width: "50%" }}
-                    variant="contained"
-                    color="primary"
-                    onClick={this.solveBoard}
-                >
-                    Solve
-                </Button>
+                <div className="center-screen">
+                    <Button
+                        style={{ width: "50%" }}
+                        variant="contained"
+                        color="primary"
+                        onClick={this.solveBoard}
+                    >
+                        Solve
+                    </Button>
+                </div>
             </div>
         );
     }
