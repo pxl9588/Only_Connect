@@ -31,32 +31,32 @@ const GameData = {
             answer: "Marsupials",
         },
     ],
-    sequences: {
-        1: {
+    sequences: [
+        {
             clues: ["Blue", "North", "Luna", "X Æ A-Xii"],
-            answers: "Celebrity Babies in order of birth",
+            answer: "Celebrity Babies in order of birth",
         },
-        2: {
-            clues: "Order of sharks in Baby Shark",
-            answers: ["Baby", "Mommy", "Daddy", "Grandma"],
+        {
+            clues: ["Baby", "Mommy", "Daddy", "Grandma"],
+            answer: "Order of sharks in Baby Shark",
         },
-        3: {
+        {
             clues: ["Rachel", "Becca", "Hannah", "Clare"],
-            answers: "The Bachelorettes from ‘17-’20",
+            answer: "The Bachelorettes from ‘17-’20",
         },
-        4: {
+        {
             clues: ["M = 1", "V = 2", "E = 3", "M = 4"],
-            answers: "Planets",
+            answer: "Planets",
         },
-        5: {
+        {
             clues: ["Zach", "Alex", "PJ", "Ang"],
-            answers: "Big Rascals Birthday’s",
+            answer: "Big Rascals Birthday’s",
         },
-        6: {
+        {
             clues: ["United States", "China", "Canada", "Russia"],
-            answers: "Size of Countries (Increasing)",
+            answer: "Size of Countries (Increasing)",
         },
-    },
+    ],
     wall: {
         wall1: [
             ["Fiji", "Mocha", "San Pellegrino", "Champagne"],
