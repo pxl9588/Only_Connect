@@ -1,6 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Secular+One&display=swap");
-@use "@material/card";
-@include card.core-styles;
 
 .PSWall_container {
     display: flex;

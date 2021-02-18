@@ -194,9 +194,9 @@ class WordWall extends Component {
     render() {
         return (
             <div className="container">
-                <div className="grid grid-flow-col grid-rows-5 lg:py-0 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
+                <div className="grid_word_wall">
                     <div className="row-start-1 col-span-4">
-                        <Timer completed={0} max={150} type="wall"/>
+                        <Timer completed={0} max={150} type="wall" />
                     </div>
                     {this.buildBoard()}
                 </div>
