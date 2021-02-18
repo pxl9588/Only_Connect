@@ -14,12 +14,6 @@ const colorDictionary = {
     2: "bg-green-500",
     3: "bg-yellow-500",
 };
-// const wordDictionary = [
-//     ["Hazelnut", "Butter Pecan", "Coconut", "Caramel"],
-//     ["Cube", "Vanilla", "T", "Prince"],
-//     ["Australia", "Guam", "Papua New Guinea", "Cook Islands"],
-//     ["Champagne", "San Pellegrino", "Fiji", "Mocha"],
-// ];
 
 const wordDictionary = Data.wall.wall2;
 
@@ -33,6 +27,7 @@ class WordWall extends Component {
             color_count: 0,
             solved: [],
             lives: 3,
+            done: false,
         };
         this.handleClickBlock = this.handleClickBlock.bind(this);
         this.solveBoard = this.solveBoard.bind(this);
@@ -59,6 +54,12 @@ class WordWall extends Component {
             this.idToIndex.set(block.id, index);
         }
         this.setState({ solved: blocks });
+    }
+
+    componentDidUpdate() {
+        if (this.state.lives <= 0 && !this.state.done) {
+            this.setState({ done: true }, this.solveBoard);
+        }
     }
 
     handleClickBlock(obj) {
@@ -88,7 +89,8 @@ class WordWall extends Component {
 
     fourthBlockClicked() {
         let delay = 0,
-            count = this.state.color_count;
+            count = this.state.color_count,
+            lives = this.state.lives;
         const clickedList = [...this.state.clicked];
         const solvedList = [...this.state.solved];
         const areOfSameGroup = checkForMatch(clickedList);
@@ -102,11 +104,13 @@ class WordWall extends Component {
             }
         } else {
             clearClickedList(clickedList, solvedList, this.idToIndex);
+            lives = this.state.color_count > 1 ? lives - 1 : lives;
             delay = 250;
         }
         clickedList.length = 0;
         setTimeout(() => {
             this.setState({
+                lives: lives,
                 solved: solvedList,
                 clicked: clickedList,
                 color_count: count,
@@ -214,6 +218,16 @@ class WordWall extends Component {
                         >
                             Solve
                         </Button>
+                    </div>
+                    <div className="center-screen">
+                        {this.state.color_count > 1 ? (
+                            <div className="style" style={{ textAlign: "center" }}>
+                                <h1>Lives</h1>
+                                <h1>{this.state.lives}</h1>
+                            </div>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 </div>
             </div>
