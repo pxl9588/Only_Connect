@@ -1,5 +1,4 @@
 import React, { forwardRef } from "react";
-import "./rectangle.css";
 
 const Rectangle = forwardRef(({ ...props }, ref) => {
     function handleClick() {

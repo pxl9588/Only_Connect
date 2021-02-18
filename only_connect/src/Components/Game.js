@@ -6,6 +6,7 @@ import SequenceRow from "./SequenceRow";
 import MissingVowels from "./MissingVowels";
 import WordWallIcons from "./WorldWallIcons";
 import GameData from "../utilities/gameData";
+import "./Game.css";
 
 function Game({ ...props }) {
     const [gameState, setGameState] = useState({
@@ -18,14 +19,6 @@ function Game({ ...props }) {
 
     const connectionWall = GameData.connectionWall;
     const sequenceWall = GameData.sequences;
-    // [
-    //     ["1", "2", "3", "4", "Numbers"],
-    //     ["5", "6", "7", "8", "Numbers"],
-    //     ["9", "10", "11", "12", "Numbers"],
-    //     ["13", "14", "15", "16", "Numbers"],
-    //     ["17", "18", "19", "20", "Numbers"],
-    //     ["21", "22", "23", "24", "Numbers"],
-    // ];
 
     // Click handles
     const psWallHandle = (i) => {
@@ -55,7 +48,15 @@ function Game({ ...props }) {
                 return (
                     <div>
                         {gameState.clickedRow === false ? (
-                            <PSWall onClick={psWallHandle} hidden={gameState.hidden}></PSWall>
+                            <div className="center-game">
+                                <div>
+                                    <h1 className="title">Only Connect</h1>
+                                    <PSWall
+                                        onClick={psWallHandle}
+                                        hidden={gameState.hidden}
+                                    ></PSWall>
+                                </div>
+                            </div>
                         ) : (
                             <ConnectionRow
                                 exitClick={psRowExit}
@@ -68,7 +69,15 @@ function Game({ ...props }) {
                 return (
                     <div>
                         {gameState.clickedRow === false ? (
-                            <PSWall onClick={psWallHandle} hidden={gameState.hidden}></PSWall>
+                            <div>
+                                <div>
+                                    <h1 className="title">Only Connect</h1>
+                                    <PSWall
+                                        onClick={psWallHandle}
+                                        hidden={gameState.hidden}
+                                    ></PSWall>
+                                </div>
+                            </div>
                         ) : (
                             <SequenceRow
                                 exitClick={psRowExit}
