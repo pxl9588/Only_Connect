@@ -3,7 +3,6 @@ import Rectangle from "./Rectangle";
 import { v4 as uuidv4 } from "uuid";
 import { clearClickedList, checkForMatch, animate, randomize } from "../utilities/helpersWordWall";
 import Button from "@material-ui/core/Button";
-import Data from "../utilities/gameData";
 import Timer from "./Timer";
 
 const colorDictionary = {
@@ -199,13 +198,12 @@ class WordWall extends Component {
                         <Timer completed={0} max={150} type="wall"/>
                     </div>
                     <div className="row-start-2 col-span-4">
-                    `    <div className="grid grid-cols-4 justify-center items-center">
+                        <div className="grid grid-cols-4 justify-center items-center">
                             {this.buildBoard()}
                         </div>`
                     </div>
                     <div className="row-start-1 col-span-1">
-                        <Button style={{ width: "50%" }} variant="contained" color="primary" onClick={this.solveBoard}>Solve
-                    </Button>
+                        <Button style={{ width: "50%" }} variant="contained" color="primary" onClick={this.solveBoard}>Solve</Button>
                     </div>
                 </div>
             </div>

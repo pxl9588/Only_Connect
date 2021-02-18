@@ -6,10 +6,9 @@ import Timer from './Timer';
 function WordConnectionRow(props)
 {
     const key = props.row["answer"];
-    const [end,setEnd] = useState(0);
-    const [points, setPoints] = useState(1);
-    const [count, setCount] = useState(1);
-    const [timerIndex, setTimerIndex] = useState(4);
+    const end = 0;
+    const points = 1;
+    const timerIndex = 4;
     const [hidden, setHidden] = useState(true);
 
     /*useEffect(() =>
