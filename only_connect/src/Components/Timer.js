@@ -4,6 +4,8 @@ function Timer(props)
 {
     const [completed, setCompleted] = useState(0);
 
+
+
     useEffect(() =>
     {
         const interval = setInterval(() =>
@@ -12,6 +14,11 @@ function Timer(props)
                 const newVal = oldVal + 1;
                 if(newVal === props.max || props.hidden || props.finished)
                 {
+                    if(props.finished === 2)
+                    {
+                        setCompleted(props.max);
+                    }
+
                     clearInterval(interval)
                 }
                 return newVal;
@@ -21,7 +28,7 @@ function Timer(props)
             clearInterval(interval);
         }
       },
-    [props.hidden, props.max]);
+    [props.hidden, props.max, props.finished]);
 
     var width = "w-16 sm:w-36 md:w-48 lg:w-56 xl:w-72";
     const height = "h-6 sm:h-8 lg:h-12";

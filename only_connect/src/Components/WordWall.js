@@ -5,13 +5,12 @@ import { clearClickedList, checkForMatch, animate, randomize } from "../utilitie
 import Button from "@material-ui/core/Button";
 import Data from "../utilities/gameData";
 import Timer from "./Timer";
-import "./WordWall.css";
 
 const colorDictionary = {
-    0: "bg-red-500",
-    1: "bg-blue-500",
-    2: "bg-green-500",
-    3: "bg-yellow-500",
+    0: "bg-gradient-to-r from-red-500 via-red-400 to-red-500",
+    1: "bg-gradient-to-r from-blue-500 via-blue-400 to-blue-500",
+    2: "bg-gradient-to-r from-green-500 via-green-400 to-green-500",
+    3: "bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500",
 };
 // const wordDictionary = [
 //     ["Hazelnut", "Butter Pecan", "Coconut", "Caramel"],
@@ -20,11 +19,11 @@ const colorDictionary = {
 //     ["Champagne", "San Pellegrino", "Fiji", "Mocha"],
 // ];
 
-const wordDictionary = Data.wall.wall2;
 
 class WordWall extends Component {
-    constructor() {
+    constructor(props) {
         super();
+        this.wordDictionary = props.data;
         this.idToIndex = new Map();
         this.refsArr = [];
         this.state = {
@@ -38,19 +37,22 @@ class WordWall extends Component {
 
     componentDidMount() {
         let blocks = [];
-        for (let [index, group] of wordDictionary.entries()) {
-            let words = group.map((word) => {
-                this.refsArr.push(createRef());
-                return {
-                    word: word,
-                    color: "bg-oc-blue",
-                    id: uuidv4(),
-                    group: index,
-                    clicked: false,
-                    matched: false,
-                };
-            });
-            blocks.push(...words);
+        for (let [index, group] of this.wordDictionary.entries()) {
+            for(var key in group)
+            {
+                let words = group[key].map((word) => {
+                    this.refsArr.push(createRef());
+                    return {
+                        word: word,
+                        color: "bg-oc-blue",
+                        id: uuidv4(),
+                        group: index,
+                        clicked: false,
+                        matched: false,
+                    };
+                });
+                blocks.push(...words);
+            }
         }
         blocks = randomize(blocks);
         for (let [index, block] of blocks.entries()) {
@@ -93,7 +95,6 @@ class WordWall extends Component {
         if (areOfSameGroup) {
             if (count === 2) {
                 this.solveBoard();
-                return;
             } else {
                 this.matchRow(clickedList, solvedList, count);
                 count++;
@@ -173,6 +174,8 @@ class WordWall extends Component {
         this.setState({ solved: solvedList }, () => {
             animate(arr, eltBoundsBefore);
         });
+
+        setTimeout(()=>{this.props.exit();}, 2000);
     }
 
     buildBoard() {
@@ -194,20 +197,20 @@ class WordWall extends Component {
     render() {
         return (
             <div className="container">
-                <div className="grid grid-flow-col grid-rows-5 lg:py-0 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
+                <div className="grid grid-flow-row grid-rows-6 lg:py-0 gap-y-1 gap-x-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
                     <div className="row-start-1 col-span-4">
                         <Timer completed={0} max={150} type="wall"/>
                     </div>
-                    {this.buildBoard()}
+                    <div className="row-start-2 col-span-4">
+                    `    <div className="grid grid-cols-4 justify-center items-center">
+                            {this.buildBoard()}
+                        </div>`
+                    </div>
+                    <div className="row-start-1 col-span-1">
+                        <Button style={{ width: "50%" }} variant="contained" color="primary" onClick={this.solveBoard}>Solve
+                    </Button>
+                    </div>
                 </div>
-                <Button
-                    style={{ width: "50%" }}
-                    variant="contained"
-                    color="primary"
-                    onClick={this.solveBoard}
-                >
-                    Solve
-                </Button>
             </div>
         );
     }

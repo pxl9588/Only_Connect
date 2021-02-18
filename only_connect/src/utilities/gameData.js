@@ -59,16 +59,16 @@ const GameData = {
     },
     wall: {
         wall1: [
-            ["Fiji", "Mocha", "San Pellegrino", "Champagne"],
-            ["T", "Cube", "Vanilla", "Prince"],
-            ["Hazelnut", "Coconut", "Butter Pecan", "Caramel"],
-            ["Papua New Guinea", "Guam", "Australia", "Cook Islands"],
+            {"Drinks named after cities": ["Fiji", "Mocha", "San Pellegrino", "Champagne"]},
+            {"Rappers named Ice ____":["T", "Cube", "Vanilla", "Prince"]},
+            {"Dunkin Donuts Flavors" :["Hazelnut", "Coconut", "Butter Pecan", "Caramel"]},
+            {"Oceania islands": ["Papua New Guinea", "Guam", "Australia", "Cook Islands"]},
         ],
         wall2: [
-            ["Eagles", "Beatles", "Monkees", "Gorillaz"],
-            ["Pelicans", "Seahawks", "Flacons", "Cardinals"],
-            ["Sapphire", "Ruby", "Emerald", "Amethyst"],
-            ["Crystal", "Gold", "Silver", "Diamond"],
+            {"Animal named bands": ["Eagles", "Beatles", "Monkees", "Gorillaz"]},
+            {"Bird named sport teams": ["Pelicans", "Seahawks", "Falcons", "Cardinals"]},
+            {"Birth stones": ["Sapphire", "Ruby", "Emerald", "Amethyst"]},
+            {"Pokemon games": ["Crystal", "Gold", "Silver", "Diamond"]}
         ],
     },
     "missing vowels": {

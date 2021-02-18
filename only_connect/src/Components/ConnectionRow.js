@@ -5,7 +5,8 @@ import Timer from './Timer';
 
 function ConnectionRow(props)
 {
-    const [end,setEnd] = useState(false);
+    const key = Object.keys(props.row)[0];
+    const [end,setEnd] = useState(0);
     const [points, setPoints] = useState(5);
     const [count, setCount] = useState(1);
     const [timerIndex, setTimerIndex] = useState(1);
@@ -23,13 +24,22 @@ function ConnectionRow(props)
 
     const endClick = () =>
     {
-        if(!end)
+        if(count === final_number + 1)
+        {
+            return;
+        }
+        if(end === 0)
+        {
+            setEnd(1);
+        }
+        if(end === 1)
         {
             setTimerIndex(4);
             var temp = {1:false, 2:false, 3:false,4:true, 5:false}
             setHidden(temp);
             setPoints(1);
-            setEnd(true);
+            setEnd(2);
+            setCount(final_number);
         }
     }
 
@@ -69,21 +79,21 @@ function ConnectionRow(props)
                 <Timer completed={0} max={40} hidden={hidden[5]} finished={end} points={points}></Timer>
             </div>
 
-            <div className="row-start-2">
-                <Rectangle type="rectangle">{props.row[0]}</Rectangle>
+            <div className="row-start-2 col-span-1">
+                <Rectangle type="rectangle">{props.row[key][0]}</Rectangle>
             </div>
-            <div className="row-start-2">
-                <Rectangle type="rectangle" hidden={hidden[1]}>{props.row[1]}</Rectangle>
+            <div className="row-start-2 col-span-1">
+                <Rectangle type="rectangle" hidden={hidden[1]}>{props.row[key][1]}</Rectangle>
             </div>
-            <div className="row-start-2">
-                <Rectangle type="rectangle" hidden={hidden[2]}>{props.row[2]}</Rectangle>
+            <div className="row-start-2 col-span-1">
+                <Rectangle type="rectangle" hidden={hidden[2]}>{props.row[key][2]}</Rectangle>
             </div>
-            <div className="row-start-2">
-                <Rectangle type="rectangle" hidden={hidden[3]}>{props.row[3]}</Rectangle>
+            <div className="row-start-2 col-span-1">
+                <Rectangle type="rectangle" hidden={hidden[3]}>{props.row[key][3]}</Rectangle>
             </div>
 
             <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:px-12 xl:px-24">
-                <Rectangle type="answer" hidden={hidden[4]}>{props.row[4]}</Rectangle>
+                <Rectangle type="answer" hidden={hidden[4]}>{key}</Rectangle>
             </div>
 
             <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">

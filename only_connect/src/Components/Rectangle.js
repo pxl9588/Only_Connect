@@ -71,6 +71,11 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
         text_size = "text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl";
     }
 
+    if(props.color)
+    {
+        color = props.color;
+    }
+
     return (
       <div ref={ref} onClick={props.matched ? undefined: handleClick} className={`${width} ${height} ${color} shadow-2xl rounded-xl ${props.hidden ? "invisible" : "" }`}>
           <h1 className={`${text_size} ${font_color} w-full h-full flex justify-center items-center text-center select-none`}>{props.children}</h1>
