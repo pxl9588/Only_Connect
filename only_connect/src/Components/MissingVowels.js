@@ -18,7 +18,7 @@ function MissingVowels(props)
     }
 
     return (
-        <div className="grid grid-rows-3 justify-items-center items-center py-14 lg:py-40 gap-y-4 lg:gap-y-6">
+        <div className="grid grid-rows-3 justify-items-center items-center py-14 lg:py-40 lg:gap-y-6">
             <div className="w-auto">
                 <Rectangle type="vowels">{props.data["category"]}</Rectangle>
             </div>

@@ -12,7 +12,7 @@ function Game({...props})
 {
     const[gameState, setGameState] = useState(
         {
-            round: 4,
+            round: 0,
             wallIndex: 0,
             scores:0,
             clickedRow: false,

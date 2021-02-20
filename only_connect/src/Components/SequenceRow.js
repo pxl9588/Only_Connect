@@ -86,7 +86,7 @@ function SequenceRow(props)
                 <Rectangle type="rectangle" hidden={hidden[2]}>{ count > final_number ? props.row["clues"][3] : "?"}</Rectangle>
             </div>
 
-            <div className="row-start-3 col-span-4 w-full justify-items-center">
+            <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:px-8 xl:px-24">
                 <Rectangle type="answer" hidden={hidden[3]}>{props.row["answer"]}</Rectangle>
             </div>
 

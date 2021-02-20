@@ -25,10 +25,10 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
     //ANSWER
     if(props.type === "answer")
     {
-        width = "w-full";
+        width = "w-full px-10";
         height = "h-8 lg:h-20";
         text_size = "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl";
-        color = "bg-blue-700";
+        color = "bg-blue-800";
         font_color = "text-white";
     }
 
@@ -51,10 +51,10 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
     //VOWELS
     else if (props.type === "vowels")
     {
-        width = "w-full";
+        width = "w-full px-10";
         height = "h-8 lg:h-20";
         text_size = "text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl";
-        color = "bg-blue-700";
+        color = "bg-blue-800";
         font_color = "text-white";
     }
     else if (props.type === "timer")

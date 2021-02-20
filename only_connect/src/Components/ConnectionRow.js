@@ -91,7 +91,7 @@ function ConnectionRow(props)
                 <Rectangle type="rectangle" hidden={hidden[3]}>{props.row["clues"][3]}</Rectangle>
             </div>
 
-            <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:px-12 xl:px-24">
+            <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
                 <Rectangle type="answer" hidden={hidden[4]}>{props.row["answer"]}</Rectangle>
             </div>
 
