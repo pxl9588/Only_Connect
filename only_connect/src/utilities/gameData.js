@@ -1,5 +1,5 @@
 const GameData = {
-    connectionWall: [
+    connections: [
         {
             "clues": ["Michael Jordan", "Magic Johnson", "Derek Fisher", "Scottie Pippen"],
             "answer": " NBA Players with 5+ Championships",

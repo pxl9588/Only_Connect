@@ -28,8 +28,8 @@ function Game({...props})
         3: "bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500",
     };
 
-    const connectionWall = Data.patterns;
-    const sequenceWall = Data.sequences;
+    const connections = Data.connections;
+    const sequences = Data.sequences;
     const missingVowels = Data.missingVowels;
 
     const wordWalls = [Data.wall.wall1, Data.wall.wall2]
@@ -96,28 +96,9 @@ function Game({...props})
     const renderSwitch = (round) => {
         switch (gameState.round) {
             case 0:
-                return (
-                    <div>
-                        {gameState.clickedRow === false ? (
-                            <div className="center-game">
-                                <div>
-                                    <h1 className="title">Only Connect</h1>
-                                    <PSWall
-                                        onClick={psWallHandle}
-                                        hidden={gameState.hidden}
-                                    ></PSWall>
-                                </div>
-                            </div>
-                        ) : (
-                            <ConnectionRow
-                                exitClick={psRowExit}
-                                row={connectionWall[gameState.wallIndex]}
-                            ></ConnectionRow>
-                        )}
-                    </div>
-                );
+                return <div>{gameState.clickedRow === false ? <PSWall onClick={psWallHandle} hidden={gameState.hidden}></PSWall> : <ConnectionRow exitClick={psRowExit} row={connections[gameState.wallIndex]}></ConnectionRow>}</div>
             case 1:
-                return <div>{gameState.clickedRow === false ? <PSWall onClick={psWallHandle} hidden={gameState.hidden}></PSWall> : <SequenceRow exitClick={psRowExit} row={sequenceWall[gameState.wallIndex]}></SequenceRow>}</div>
+                return <div>{gameState.clickedRow === false ? <PSWall onClick={psWallHandle} hidden={gameState.hidden}></PSWall> : <SequenceRow exitClick={psRowExit} row={sequences[gameState.wallIndex]}></SequenceRow>}</div>
             
             case 2:
                 return <div>{gameState.clickedRow === false ? <WordWallIcons onClick={psWallHandle} hidden={gameState.hidden}></WordWallIcons> : <WordWall data={wordWalls[gameState.wordWallIndex]} exit={wallExit}> </WordWall>}</div>

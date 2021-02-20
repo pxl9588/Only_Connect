@@ -2,7 +2,6 @@ import React, { useState } from "react";
 //import socketIOClient from "socket.io-client";
 import Rectangle from "./Rectangle";
 import Timer from "./Timer";
-import "./connectionRow.css";
 
 function ConnectionRow(props)
 {
@@ -44,7 +43,8 @@ function ConnectionRow(props)
     const handleClick = (i) =>
     {
         setCount(count + 1);
-
+        var temp = {...hidden}
+        
         if(count < final_number)
         {
             const point_array = [3,2,1]
