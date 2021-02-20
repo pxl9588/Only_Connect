@@ -2,24 +2,20 @@ import React, { createRef, Component } from "react";
 import Rectangle from "./Rectangle";
 import { v4 as uuidv4 } from "uuid";
 import { clearClickedList, checkForMatch, animate, randomize } from "../utilities/helpersWordWall";
-import Button from "@material-ui/core/Button";
-import Data from "../utilities/gameData";
 import Timer from "./Timer";
-import Lives from "./Lives";
-import "./WordWall.css";
 
 const colorDictionary = {
-    0: "bg-red-500",
-    1: "bg-blue-500",
-    2: "bg-green-500",
-    3: "bg-yellow-500",
+    0: "bg-gradient-to-r from-red-500 via-red-400 to-red-500",
+    1: "bg-gradient-to-r from-blue-500 via-blue-400 to-blue-500",
+    2: "bg-gradient-to-r from-green-500 via-green-400 to-green-500",
+    3: "bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500",
 };
 
-const wordDictionary = Data.wall.wall2;
 
 class WordWall extends Component {
-    constructor() {
+    constructor(props) {
         super();
+        this.wordDictionary = props.data;
         this.idToIndex = new Map();
         this.refsArr = [];
         this.state = {
@@ -35,8 +31,8 @@ class WordWall extends Component {
 
     componentDidMount() {
         let blocks = [];
-        for (let [index, group] of wordDictionary.entries()) {
-            let words = group.map((word) => {
+        for (let [index, group] of this.wordDictionary.entries()) {
+            let words = group["clues"].map((word) => {
                 this.refsArr.push(createRef());
                 return {
                     word: word,
@@ -97,7 +93,6 @@ class WordWall extends Component {
         if (areOfSameGroup) {
             if (count === 2) {
                 this.solveBoard();
-                return;
             } else {
                 this.matchRow(clickedList, solvedList, count);
                 count++;
@@ -179,55 +174,41 @@ class WordWall extends Component {
         this.setState({ solved: solvedList }, () => {
             animate(arr, eltBoundsBefore);
         });
+
+        setTimeout(()=>{this.props.exit();}, 2000);
     }
 
     buildBoard() {
         return this.state.solved.map((block, index) => {
             return (
-                <Rectangle
-                    ref={this.refsArr[index]}
-                    key={block.id}
-                    type="wall"
-                    {...block}
-                    clickBlock={this.handleClickBlock}
-                >
-                    {block.word}
-                </Rectangle>
+                <div className="col-span-1"><Rectangle
+                ref={this.refsArr[index]}
+                key={block.id}
+                type="wall"
+                {...block}
+                clickBlock={this.handleClickBlock}
+            >
+                {block.word}
+            </Rectangle></div>
+                
             );
         });
     }
 
     render() {
         return (
-            <div className="">
-                <div>
-                    <div className="center-screen">
-                        <div className="center_screen grid_word_wall">
-                            <div className="row-start-1 col-span-4">
-                                <Timer completed={0} max={150} type="wall" />
-                            </div>
+            <div className="container">
+                <div className="grid grid-flow-row py-2 lg:py-10 gap-y-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
+                    <div className="row-start-1 col-span-4">
+                        <Timer completed={0} max={150} type="wall"/>
+                    </div>
+                    <div className="row-start-2 col-span-4">
+                        <div className="grid grid-cols-4 gap-y-1 gap-x-1 lg:gap-y-4 lg:gap-x-6">
                             {this.buildBoard()}
                         </div>
                     </div>
-                    <div className="center-screen">
-                        <Button
-                            style={{ width: "50%" }}
-                            variant="contained"
-                            color="primary"
-                            onClick={this.solveBoard}
-                        >
-                            Solve
-                        </Button>
-                    </div>
-                    <div className="center-screen">
-                        {this.state.color_count > 1 ? (
-                            <div className="style" style={{ textAlign: "center" }}>
-                                <h1>Lives</h1>
-                                <h1>{this.state.lives}</h1>
-                            </div>
-                        ) : (
-                            ""
-                        )}
+                    <div className="row-start-3 col-span-4">
+                        <button className="w-full bg-blue-700 hover:bg-blue-700 text-white font-bold border border-blue-700 rounded" onClick={this.solveBoard}>Solve</button>
                     </div>
                 </div>
             </div>

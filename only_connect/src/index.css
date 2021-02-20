@@ -17,4 +17,8 @@ code {
     monospace;
 }
 
+* {
+  touch-action: manipulation;
+}
+
 @tailwind utilities;
