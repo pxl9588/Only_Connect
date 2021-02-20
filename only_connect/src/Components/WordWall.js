@@ -202,10 +202,7 @@ class WordWall extends Component {
         return (
             <div className="container">
                 <div className="grid grid-flow-row py-2 lg:py-10 gap-y-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
-                    <div
-                        style={{ width: "100%", display: "flex" }}
-                        className="row-start-1 col-span-4"
-                    >
+                    <div className="flex row-start-1 col-span-4">
                         <div className="w-3/4">
                             <Timer completed={0} max={150} type="wall" />
                         </div>
