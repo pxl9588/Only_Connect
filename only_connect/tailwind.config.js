@@ -2,12 +2,26 @@ module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    boxShadow:
+    {
+      '3xl': '0 35px 60px -15px rgba(0, 0, 0, .75)',
+    },
     container: {
       center: true,
     },
+    fontFamily: {
+      'sans': ["Arial"]
+    },
     extend: {
       colors: {
-        'oc-blue': '#3ca9db',
+        'clue': '#CC59D2',
+        'answer': '#0BA0D6',
+        'next': '#94FFF1',
+        'next-text': '#AB19B3',
+        
+
+        'light': '#B6D2D4',
+        'dark': '#505869',
       },
       spacing: {
         '72': '18rem',

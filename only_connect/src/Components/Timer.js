@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 function Timer(props)
 {
     const [completed, setCompleted] = useState(0);
-
+    const [fill_color, setFillColor] = useState("bg-blue-900");
+    const [bg_color, SetBgColor] = useState("bg-blue-700");
 
 
     useEffect(() =>
@@ -14,9 +15,10 @@ function Timer(props)
                 const newVal = oldVal + 1;
                 if(newVal === props.max || props.hidden || props.finished)
                 {
-                    if(props.finished === 2)
+                    if(props.finished)
                     {
-                        setCompleted(props.max);
+                        setFillColor("bg-green-600");
+                        SetBgColor("bg-green-600");
                     }
 
                     clearInterval(interval)
@@ -24,17 +26,28 @@ function Timer(props)
                 return newVal;
             });
         }, 1000);
+
         return function cleanup() {
             clearInterval(interval);
         }
       },
     [props.hidden, props.max, props.finished]);
 
+
+    useEffect(() =>
+    {
+        if(completed === props.max)
+        {
+            console.log("Should be calling timer end");
+            setFillColor("bg-red-600");
+            props.timerEnd();
+        }
+           
+    }, [completed])
+
     var width = "w-16 sm:w-36 md:w-48 lg:w-56 xl:w-72";
     const height = "h-6 sm:h-6 lg:h-12";
     const text_size = "text-md sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl sm:px-8 md:px-12 lg:px-16 xl:px-20";
-    const bg_color = "bg-blue-700";
-    const fill_color = "bg-blue-900";
 
     const fill_width = `w-${completed}/${props.max}`;
 

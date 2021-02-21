@@ -108,7 +108,7 @@ function Game({ ...props }) {
         }
     };
 
-    const renderSwitch = (round) => {
+    const renderSwitch = () => {
         switch (gameState.round) {
             case 0:
                 return (
@@ -122,7 +122,7 @@ function Game({ ...props }) {
                             ></PSWall>
                         ) : (
                             <ConnectionRow
-                                exitClick={psRowExit}
+                                exit={psRowExit}
                                 row={connections[gameState.wallIndex]}
                                 addToScore={addToScore}
                                 switchTurn={switchTurn}
@@ -137,7 +137,7 @@ function Game({ ...props }) {
                             <PSWall onClick={psWallHandle} hidden={gameState.hidden}></PSWall>
                         ) : (
                             <SequenceRow
-                                exitClick={psRowExit}
+                                exit={psRowExit}
                                 row={sequences[gameState.wallIndex]}
                                 addToScore={addToScore}
                                 switchTurn={switchTurn}
@@ -231,6 +231,6 @@ function Game({ ...props }) {
         }
     };
 
-    return <div>{renderSwitch(gameState.round)}</div>;
+    return <div>{renderSwitch()}</div>;
 }
 export default Game;
