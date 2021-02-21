@@ -102,7 +102,7 @@ function SequenceRow(props)
                 props.exit();
             }, 2000);
         }
-    }
+    };
 
     const correct = () =>
     {
@@ -219,4 +219,4 @@ function SequenceRow(props)
     );
 }
 
-export default SequenceRow
+export default SequenceRow;
