@@ -362,7 +362,7 @@ ul {
  */
 
 html {
-  font-family: Arial; /* 1 */
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 1 */
   line-height: 1.5; /* 2 */
 }
 
@@ -571,6 +571,8 @@ video {
     max-width: 1536px;
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway&family=Rubik&display=swap');
 
 body {
   margin: 0;
@@ -11828,8 +11830,8 @@ code {
   clear: none;
 }
 
-.font-sans {
-  font-family: Arial;
+.font-body {
+  font-family: Oswald;
 }
 
 .font-thin {
@@ -26281,6 +26283,10 @@ code {
 
 .w-max {
   width: max-content;
+}
+
+.w-0\/5 {
+  width: 0.0%;
 }
 
 .w-0\/40 {
@@ -42448,8 +42454,8 @@ code {
     clear: none;
   }
 
-  .sm\:font-sans {
-    font-family: Arial;
+  .sm\:font-body {
+    font-family: Oswald;
   }
 
   .sm\:font-thin {
@@ -56888,6 +56894,10 @@ code {
 
   .sm\:w-max {
     width: max-content;
+  }
+
+  .sm\:w-0\/5 {
+    width: 0.0%;
   }
 
   .sm\:w-0\/40 {
@@ -73025,8 +73035,8 @@ code {
     clear: none;
   }
 
-  .md\:font-sans {
-    font-family: Arial;
+  .md\:font-body {
+    font-family: Oswald;
   }
 
   .md\:font-thin {
@@ -87465,6 +87475,10 @@ code {
 
   .md\:w-max {
     width: max-content;
+  }
+
+  .md\:w-0\/5 {
+    width: 0.0%;
   }
 
   .md\:w-0\/40 {
@@ -103602,8 +103616,8 @@ code {
     clear: none;
   }
 
-  .lg\:font-sans {
-    font-family: Arial;
+  .lg\:font-body {
+    font-family: Oswald;
   }
 
   .lg\:font-thin {
@@ -118042,6 +118056,10 @@ code {
 
   .lg\:w-max {
     width: max-content;
+  }
+
+  .lg\:w-0\/5 {
+    width: 0.0%;
   }
 
   .lg\:w-0\/40 {
@@ -134179,8 +134197,8 @@ code {
     clear: none;
   }
 
-  .xl\:font-sans {
-    font-family: Arial;
+  .xl\:font-body {
+    font-family: Oswald;
   }
 
   .xl\:font-thin {
@@ -148619,6 +148637,10 @@ code {
 
   .xl\:w-max {
     width: max-content;
+  }
+
+  .xl\:w-0\/5 {
+    width: 0.0%;
   }
 
   .xl\:w-0\/40 {
@@ -164756,8 +164778,8 @@ code {
     clear: none;
   }
 
-  .\32xl\:font-sans {
-    font-family: Arial;
+  .\32xl\:font-body {
+    font-family: Oswald;
   }
 
   .\32xl\:font-thin {
@@ -179196,6 +179218,10 @@ code {
 
   .\32xl\:w-max {
     width: max-content;
+  }
+
+  .\32xl\:w-0\/5 {
+    width: 0.0%;
   }
 
   .\32xl\:w-0\/40 {

@@ -1,55 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 function Timer(props)
 {
-    const [completed, setCompleted] = useState(0);
-    const [fill_color, setFillColor] = useState("bg-blue-900");
-    const [bg_color, SetBgColor] = useState("bg-blue-700");
-
-
-    useEffect(() =>
-    {
-        const interval = setInterval(() =>
-        {
-            setCompleted(oldVal => {
-                const newVal = oldVal + 1;
-                if(newVal === props.max || props.hidden || props.finished)
-                {
-                    if(props.finished)
-                    {
-                        setFillColor("bg-green-600");
-                        SetBgColor("bg-green-600");
-                    }
-
-                    clearInterval(interval)
-                }
-                return newVal;
-            });
-        }, 1000);
-
-        return function cleanup() {
-            clearInterval(interval);
-        }
-      },
-    [props.hidden, props.max, props.finished]);
-
-
-    useEffect(() =>
-    {
-        if(completed === props.max)
-        {
-            console.log("Should be calling timer end");
-            setFillColor("bg-red-600");
-            props.timerEnd();
-        }
-           
-    }, [completed])
-
     var width = "w-16 sm:w-36 md:w-48 lg:w-56 xl:w-72";
     const height = "h-6 sm:h-6 lg:h-12";
     const text_size = "text-md sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl sm:px-8 md:px-12 lg:px-16 xl:px-20";
 
-    const fill_width = `w-${completed}/${props.max}`;
+    const fill_width = `w-${props.completed}/${props.max}`;
 
     if(props.type === "wall")
     {
@@ -58,8 +15,8 @@ function Timer(props)
     
 
   return (
-    <div className={`${width} ${height} ${bg_color} shadow-2xl rounded-md ${props.hidden ? "invisible" : ""}`}>
-        <div className={`${fill_width} ${height} ${fill_color} shadow-2xl rounded-md ease-in ${props.hidden}`}>
+    <div className={`${width} ${height} ${props.color} shadow-2xl rounded-md ${props.hidden ? "invisible" : ""}  ease-in-out`}>
+        <div className={`${fill_width} ${height} ${props.fill_color} shadow-2xl rounded-md ease-in ${props.hidden}`}>
             <span className={`${text_size} fixed text-white`}>{props.points} {props.points ? props.points === 1 ? "Point" : "Points" : ""} </span>
         </div>
         </div>

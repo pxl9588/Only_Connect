@@ -6,10 +6,16 @@ import ButtonNext from "./ButtonNext";
 import ButtonCorrect from "./ButtonCorrect";
 import ButtonBuzzer from "./ButtonBuzzer";
 import Timer from "./Timer";
-import Rectangle from "./Rectangle";
 
 function ConnectionRow(props)
 {
+     //Timer stuff
+     const max_time = 5;
+     const [time, setTime] = useState(0);
+     const [timer_fill_color, setFillColor] = useState("bg-blue-900");
+     const [timer_color, SetTimerColor] = useState("bg-blue-700");
+ 
+     //Game stuff
     const [buzzed, setBuzzed] = useState(0);
     const [timerOver, setTimerOver] = useState(false);
     const [points, setPoints] = useState(5);
@@ -27,13 +33,29 @@ function ConnectionRow(props)
 
     var final_number = 4;
 
-    useEffect(() => {
-        if(timerOver)
+    useEffect(
+        () =>
         {
-            setBuzzed(2);
-            displayLastClue();
-        }
-    }, [timerOver]);
+            var id = null;
+            //Max time reached, other team get's to answer
+            if(time === max_time)
+            {
+                SetTimerColor("bg-red-600");
+                setFillColor("bg-red-600");
+                setBuzzed(2);
+                displayLastClue();
+            }
+            else if(buzzed)
+            {
+                SetTimerColor("bg-green-600");
+                setFillColor("bg-green-600");
+            }
+            else
+            {
+                id = setInterval(()=>{setTime(time+1);}, 1000);
+            }
+            return () => clearInterval(id);
+        },[time, buzzed]);
 
     const displayEnd = () =>
     {
@@ -69,16 +91,17 @@ function ConnectionRow(props)
     {
         setTimerOver(true);
     }
+
     const incorrect = () =>
     {
-        if(buzzed == 1)
+        if(buzzed === 1)
         {
             // Answer was correct, add the current points to the teams score, display end
             displayLastClue();
 
             setBuzzed(2);
         }
-        else if(buzzed == 2)
+        else if(buzzed === 2)
         {
             displayEnd();
 
@@ -128,7 +151,7 @@ function ConnectionRow(props)
             <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
 
                 <div className={`justify-items-center items-center row-start-1 col-start-${timerIndex}`}>
-                    <Timer completed={0} max={40} hidden={answerHidden[2]} timerEnd={timerEnd} finished={buzzed} points={points}></Timer>
+                    <Timer completed={time} max={max_time} color={timer_color} fill_color={timer_fill_color} hidden={answerHidden[2]} points={points}></Timer>
                 </div>
 
                 <div className="row-start-2 col-span-1">
@@ -145,7 +168,7 @@ function ConnectionRow(props)
                 </div>
 
                 <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                    <Rectangle type="answer" hidden={answerHidden[1]}>{props.row["answer"]}</Rectangle>
+                    <Answer type="answer" hidden={answerHidden[1]}>{props.row["answer"]}</Answer>
                 </div>
 
                 <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
@@ -164,9 +187,9 @@ function ConnectionRow(props)
             return (
                 <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
     
-                    <div className={`justify-items-center items-center row-start-1 col-start-${timerIndex}`}>
-                        <Timer completed={0} max={40} hidden={answerHidden[2]} timerEnd={timerEnd} finished={buzzed} points={points}></Timer>
-                    </div>
+                 <div className={`justify-items-center items-center row-start-1 col-start-${timerIndex}`}>
+                    <Timer completed={time} max={max_time} color={timer_color} fill_color={timer_fill_color} hidden={answerHidden[2]} points={points}></Timer>
+                </div>
 
                     <div className="row-start-2 col-span-1">
                         <Clue>{props.row["clues"][0]}</Clue>
@@ -182,7 +205,7 @@ function ConnectionRow(props)
                     </div>
 
                     <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                        <Rectangle type="answer" hidden={answerHidden[1]}>{props.row["answer"]}</Rectangle>
+                        <Answer type="answer" hidden={answerHidden[1]}>{props.row["answer"]}</Answer>
                     </div>
 
                     <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
