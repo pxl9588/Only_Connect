@@ -1,10 +1,18 @@
 import React from "react";
+import dot from "../images/orange-dot.png";
 
 export default function Lives(props) {
-    return (
-        <div style={{ textAlign: "center" }}>
-            <h1>Lives</h1>
-            <h2>3</h2>
-        </div>
-    );
+    const lives = [];
+    for (let i = 0; i < props.lives; i++) {
+        lives.push(
+            <img
+                style={{ left: `${15 + 10 * i}%`, position: "relative" }}
+                className={`h-12 w-12 pointer-events-none`}
+                src={dot}
+                alt={dot}
+            ></img>,
+        );
+    }
+
+    return <div className="flex">{lives}</div>;
 }

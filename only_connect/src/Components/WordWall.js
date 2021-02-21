@@ -3,6 +3,7 @@ import Rectangle from "./Rectangle";
 import { v4 as uuidv4 } from "uuid";
 import { clearClickedList, checkForMatch, animate, randomize } from "../utilities/helpersWordWall";
 import Timer from "./Timer";
+import Lives from "./Lives";
 
 const colorDictionary = {
     0: "bg-gradient-to-r from-red-500 via-red-400 to-red-500",
@@ -10,7 +11,6 @@ const colorDictionary = {
     2: "bg-gradient-to-r from-green-500 via-green-400 to-green-500",
     3: "bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500",
 };
-
 
 class WordWall extends Component {
     constructor(props) {
@@ -175,22 +175,25 @@ class WordWall extends Component {
             animate(arr, eltBoundsBefore);
         });
 
-        setTimeout(()=>{this.props.exit();}, 2000);
+        setTimeout(() => {
+            this.props.exit();
+        }, 2000);
     }
 
     buildBoard() {
         return this.state.solved.map((block, index) => {
             return (
-                <div className="col-span-1"><Rectangle
-                ref={this.refsArr[index]}
-                key={block.id}
-                type="wall"
-                {...block}
-                clickBlock={this.handleClickBlock}
-            >
-                {block.word}
-            </Rectangle></div>
-                
+                <div className="col-span-1">
+                    <Rectangle
+                        ref={this.refsArr[index]}
+                        key={block.id}
+                        type="wall"
+                        {...block}
+                        clickBlock={this.handleClickBlock}
+                    >
+                        {block.word}
+                    </Rectangle>
+                </div>
             );
         });
     }
@@ -199,8 +202,17 @@ class WordWall extends Component {
         return (
             <div className="container">
                 <div className="grid grid-flow-row py-2 lg:py-10 gap-y-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
-                    <div className="row-start-1 col-span-4">
-                        <Timer completed={0} max={150} type="wall"/>
+                    <div className="flex row-start-1 col-span-4">
+                        <div className="w-3/4">
+                            <Timer completed={0} max={150} type="wall" />
+                        </div>
+                        {this.state.color_count >= 2 ? (
+                            <div className="w-1/4">
+                                <Lives lives={this.state.lives}></Lives>
+                            </div>
+                        ) : (
+                            ""
+                        )}
                     </div>
                     <div className="row-start-2 col-span-4">
                         <div className="grid grid-cols-4 gap-y-1 gap-x-1 lg:gap-y-4 lg:gap-x-6">
@@ -208,7 +220,12 @@ class WordWall extends Component {
                         </div>
                     </div>
                     <div className="row-start-3 col-span-4">
-                        <button className="w-full bg-blue-700 hover:bg-blue-700 text-white font-bold border border-blue-700 rounded" onClick={this.solveBoard}>Solve</button>
+                        <button
+                            className="w-full bg-blue-700 hover:bg-blue-700 text-white font-bold border border-blue-700 rounded"
+                            onClick={this.solveBoard}
+                        >
+                            Solve
+                        </button>
                     </div>
                 </div>
             </div>

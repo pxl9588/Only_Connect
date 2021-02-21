@@ -13,12 +13,11 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 * {
-  touch-action: manipulation;
+    touch-action: manipulation;
 }
 
 @tailwind utilities;
