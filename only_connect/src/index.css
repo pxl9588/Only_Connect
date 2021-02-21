@@ -3,23 +3,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway&family=Rubik&display=swap");
 
 body {
-<<<<<<< HEAD
     margin: 0;
     font-family: "Rubik", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #cae1e2;
     overflow: hidden;
-=======
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow:hidden;
-  background-color: #505869;
->>>>>>> 201de0d412fb4b8cbf56b353a03e30f1158a4e41
 }
 
 code {
