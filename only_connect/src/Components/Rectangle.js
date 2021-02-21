@@ -28,15 +28,8 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
         width = "w-full px-10";
         height = "h-8 lg:h-20";
         text_size = "text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl";
-        color = "bg-answer";
+        color = "bg-white";
 
-    }
-    else if (props.type === "next")
-    {
-        width = "w-full px-16";
-        height = "h-12 lg:h-20";
-        text_size = "text-2xl sm:text-4xl lg:text-5xl";
-        color = "bg-next";
     }
     else if (props.type === "correct")
     {
@@ -101,7 +94,7 @@ const Rectangle = forwardRef(({ ...props }, ref) => {
             ${width}
             ${height}
             ${color}
-            shadow-2xl
+            shadow-3xl
             rounded-xl
             ${props.hidden ? "invisible" : ""}
             ${text_size}

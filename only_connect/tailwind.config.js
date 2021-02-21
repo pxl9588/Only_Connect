@@ -2,6 +2,10 @@ module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    boxShadow:
+    {
+      '3xl': '0 35px 60px -15px rgba(0, 0, 0, .75)',
+    },
     container: {
       center: true,
     },
@@ -10,9 +14,10 @@ module.exports = {
     },
     extend: {
       colors: {
-        'clue': '#E7C8DD',
-        'answer': '#DBAFC1',
-        'next': '#3CA9DB',
+        'clue': '#CC59D2',
+        'answer': '#0BA0D6',
+        'next': '#94FFF1',
+        'next-text': '#AB19B3',
         
 
         'light': '#B6D2D4',

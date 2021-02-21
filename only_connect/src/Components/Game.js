@@ -107,7 +107,7 @@ function Game({ ...props }) {
                             ></PSWall>
                         ) : (
                             <ConnectionRow
-                                exitClick={psRowExit}
+                                exit={psRowExit}
                                 row={connections[gameState.wallIndex]}
                             ></ConnectionRow>
                         )}
@@ -120,7 +120,7 @@ function Game({ ...props }) {
                             <PSWall onClick={psWallHandle} hidden={gameState.hidden}></PSWall>
                         ) : (
                             <SequenceRow
-                                exitClick={psRowExit}
+                                exit={psRowExit}
                                 row={sequences[gameState.wallIndex]}
                             ></SequenceRow>
                         )}
