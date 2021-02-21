@@ -18,6 +18,7 @@ function Game({ ...props }) {
         wordWallIndex: 0,
         score1: 0,
         score2: 0,
+        player1Turn: true,
     });
 
     const colorDictionary = {
@@ -32,6 +33,20 @@ function Game({ ...props }) {
     const missingVowels = Data.missingVowels;
 
     const wordWalls = [Data.wall.wall1, Data.wall.wall2];
+
+    const addToScore = (score) => {
+        if (gameState.player1Turn) {
+            score += gameState.score1;
+            setGameState({ ...gameState, score1: score });
+        } else {
+            score += gameState.score2;
+            setGameState({ ...gameState, score2: score });
+        }
+    };
+
+    const switchTurn = () => {
+        setGameState({ ...gameState, player1Turn: !gameState.player1Turn });
+    };
 
     // Click handles
     const psWallHandle = (i) => {
@@ -109,6 +124,8 @@ function Game({ ...props }) {
                             <ConnectionRow
                                 exitClick={psRowExit}
                                 row={connections[gameState.wallIndex]}
+                                addToScore={addToScore}
+                                switchTurn={switchTurn}
                             ></ConnectionRow>
                         )}
                     </div>
@@ -122,6 +139,8 @@ function Game({ ...props }) {
                             <SequenceRow
                                 exitClick={psRowExit}
                                 row={sequences[gameState.wallIndex]}
+                                addToScore={addToScore}
+                                switchTurn={switchTurn}
                             ></SequenceRow>
                         )}
                     </div>
@@ -136,7 +155,12 @@ function Game({ ...props }) {
                                 hidden={gameState.hidden}
                             ></WordWallIcons>
                         ) : (
-                            <WordWall data={wordWalls[gameState.wordWallIndex]} exit={wallExit}>
+                            <WordWall
+                                data={wordWalls[gameState.wordWallIndex]}
+                                addToScore={addToScore}
+                                switchTurn={switchTurn}
+                                exit={wallExit}
+                            >
                                 {" "}
                             </WordWall>
                         )}
@@ -149,6 +173,8 @@ function Game({ ...props }) {
                             exitClick={wordRowExit}
                             color={colorDictionary[gameState.wallIndex]}
                             row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}
+                            addToScore={addToScore}
+                            switchTurn={switchTurn}
                         ></WordConnectionRow>
                     </div>
                 );
@@ -161,7 +187,12 @@ function Game({ ...props }) {
                                 hidden={gameState.hidden}
                             ></WordWallIcons>
                         ) : (
-                            <WordWall data={wordWalls[gameState.wordWallIndex]} exit={wallExit}>
+                            <WordWall
+                                data={wordWalls[gameState.wordWallIndex]}
+                                addToScore={addToScore}
+                                switchTurn={switchTurn}
+                                exit={wallExit}
+                            >
                                 {" "}
                             </WordWall>
                         )}
@@ -174,6 +205,8 @@ function Game({ ...props }) {
                             exitClick={wordRowExit}
                             color={colorDictionary[gameState.wallIndex]}
                             row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}
+                            addToScore={addToScore}
+                            switchTurn={switchTurn}
                         ></WordConnectionRow>
                     </div>
                 );
@@ -184,6 +217,8 @@ function Game({ ...props }) {
                         <MissingVowels
                             data={missingVowels[gameState.wallIndex]}
                             onClick={missingVowelClick}
+                            switchTurn={switchTurn}
+                            addToScore={addToScore}
                         />
                     </div>
                 );
