@@ -5,9 +5,18 @@ module.exports = {
     container: {
       center: true,
     },
+    fontFamily: {
+      'sans': ["Arial"]
+    },
     extend: {
       colors: {
-        'oc-blue': '#3ca9db',
+        'clue': '#E7C8DD',
+        'answer': '#DBAFC1',
+        'next': '#3CA9DB',
+        
+
+        'light': '#B6D2D4',
+        'dark': '#505869',
       },
       spacing: {
         '72': '18rem',

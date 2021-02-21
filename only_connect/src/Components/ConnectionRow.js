@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 //import socketIOClient from "socket.io-client";
-import Rectangle from "./Rectangle";
+import Clue from "./Clue";
 import Timer from "./Timer";
+import Rectangle from "./Rectangle";
 
 function ConnectionRow(props)
 {
@@ -40,7 +41,7 @@ function ConnectionRow(props)
         }
     }
 
-    const handleClick = (i) =>
+    const nextClick = (i) =>
     {
         setCount(count + 1);
         var temp = {...hidden}
@@ -67,39 +68,82 @@ function ConnectionRow(props)
         }
     };
 
+
+    const renderSwitch = (admin) => {
+        if(admin)
+        {
+            return (
+            <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
+
+                <div className={`justify-items-center items-center row-start-1 col-start-${timerIndex}`}>
+                    <Timer completed={0} max={40} hidden={hidden[5]} finished={end} points={points}></Timer>
+                </div>
+
+                <div className="row-start-2 col-span-1">
+                    <Clue>{props.row["clues"][0]}</Clue>
+                </div>
+                <div className="row-start-2 col-span-1">
+                    <Clue hidden={hidden[1]}>{props.row["clues"][1]}</Clue>
+                </div>
+                <div className="row-start-2 col-span-1">
+                    <Clue hidden={hidden[2]}>{props.row["clues"][2]}</Clue>
+                </div>
+                <div className="row-start-2 col-span-1">
+                    <Clue hidden={hidden[3]}>{props.row["clues"][3]}</Clue>
+                </div>
+
+                <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
+                    <Rectangle type="answer" hidden={hidden[4]}>{props.row["answer"]}</Rectangle>
+                </div>
+
+                <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
+                    <Rectangle clickBlock={endClick} type="correct">Correct</Rectangle>
+                </div>
+
+                <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
+                    <Rectangle clickBlock={endClick} type="incorrect">Incorrect</Rectangle>
+                </div>
+
+            </div>  
+            );
+        }
+        else
+        {
+            return (
+                <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
+    
+                    <div className={`justify-items-center items-center row-start-1 col-start-${timerIndex}`}>
+                        <Timer completed={0} max={40} hidden={hidden[5]} finished={end} points={points}></Timer>
+                    </div>
+    
+                    <div className="row-start-2 col-span-1">
+                        <Clue>{props.row["clues"][0]}</Clue>
+                    </div>
+                    <div className="row-start-2 col-span-1">
+                        <Clue hidden={hidden[1]}>{props.row["clues"][1]}</Clue>
+                    </div>
+                    <div className="row-start-2 col-span-1">
+                        <Clue hidden={hidden[2]}>{props.row["clues"][2]}</Clue>
+                    </div>
+                    <div className="row-start-2 col-span-1">
+                        <Clue hidden={hidden[3]}>{props.row["clues"][3]}</Clue>
+                    </div>
+    
+                    <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
+                        <Rectangle type="answer" hidden={hidden[4]}>{props.row["answer"]}</Rectangle>
+                    </div>
+    
+                    <div className="row-start-4 col-span-4 justify-items-center px-4 lg:px-20 cursor-pointer">
+                        <Rectangle clickBlock={nextClick} type="next">Next</Rectangle>
+                    </div>
+    
+                </div>  
+                );
+        }
+    }
+
     return (
-        <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
-
-            <div className={`justify-items-center items-center row-start-1 col-start-${timerIndex}`}>
-                <Timer completed={0} max={40} hidden={hidden[5]} finished={end} points={points}></Timer>
-            </div>
-
-            <div className="row-start-2 col-span-1">
-                <Rectangle type="rectangle">{props.row["clues"][0]}</Rectangle>
-            </div>
-            <div className="row-start-2 col-span-1">
-                <Rectangle type="rectangle" hidden={hidden[1]}>{props.row["clues"][1]}</Rectangle>
-            </div>
-            <div className="row-start-2 col-span-1">
-                <Rectangle type="rectangle" hidden={hidden[2]}>{props.row["clues"][2]}</Rectangle>
-            </div>
-            <div className="row-start-2 col-span-1">
-                <Rectangle type="rectangle" hidden={hidden[3]}>{props.row["clues"][3]}</Rectangle>
-            </div>
-
-            <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                <Rectangle type="answer" hidden={hidden[4]}>{props.row["answer"]}</Rectangle>
-            </div>
-
-            <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
-                <Rectangle clickBlock={handleClick} type="next">Next</Rectangle>
-            </div>
-
-            <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
-                <Rectangle clickBlock={endClick} type="next">End</Rectangle>
-            </div>
-
-        </div>
+        <div>{renderSwitch(false)}</div>
     );
 }
 

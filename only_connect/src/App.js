@@ -5,7 +5,7 @@ import Game from './Components/Game';
 function App() {
 
   return (
-    <div className="App h-screen w-screen overflow-hidden">
+    <div className="App h-screen w-screen overflow-hidden bg-dark">
      <Game></Game>
     </div>
   );
