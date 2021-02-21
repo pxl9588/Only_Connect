@@ -10,14 +10,13 @@ import Timer from "./Timer";
 function ConnectionRow(props)
 {
      //Timer stuff
-     const max_time = 5;
+     const max_time = 40;
      const [time, setTime] = useState(0);
      const [timer_fill_color, setFillColor] = useState("bg-blue-900");
      const [timer_color, SetTimerColor] = useState("bg-blue-700");
  
      //Game stuff
     const [buzzed, setBuzzed] = useState(0);
-    const [timerOver, setTimerOver] = useState(false);
     const [points, setPoints] = useState(5);
     const [count, setCount] = useState(1);
     const [timerIndex, setTimerIndex] = useState(1);
@@ -84,17 +83,14 @@ function ConnectionRow(props)
         setTimerIndex(4);
         setPoints(1);
     };
-    const timerEnd = () => {
-        setTimerOver(true);
-    }
 
     const incorrect = () =>
     {
         if(buzzed === 1)
         {
-            // Answer was correct, add the current points to the teams score, display end
+            // Answer was incorrect, display all clues, and switch turns
+            props.switchTurn();
             displayLastClue();
-
             setBuzzed(2);
         }
         else if(buzzed === 2)
@@ -112,11 +108,18 @@ function ConnectionRow(props)
             // Answer was correct, add the current points to the teams score, display end
             displayEnd();
 
+            props.addToScore(points);
+            if(buzzed == 1)
+            {
+                props.switchTurn();
+            }
+
             setTimeout(() => {
                 props.exit();
             }, 2000);
-        }
+        }        
     };
+    
     const buzzerClick = () => {
         setBuzzed(1);
     };

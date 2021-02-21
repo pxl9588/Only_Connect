@@ -10,7 +10,7 @@ import Timer from "./Timer";
 function SequenceRow(props)
 {
     //Timer stuff
-    const max_time = 5;
+    const max_time = 40;
     const [time, setTime] = useState(0);
     const [timer_fill_color, setFillColor] = useState("bg-blue-900");
     const [timer_color, SetTimerColor] = useState("bg-blue-700");
@@ -89,9 +89,9 @@ function SequenceRow(props)
     {
         if(buzzed === 1)
         {
-            // Answer was correct, add the current points to the teams score, display end
+            // Answer was incorrect, display all clues, and switch turns
+            props.switchTurn();
             displayLastClue();
-
             setBuzzed(2);
         }
         else if(buzzed === 2)
@@ -104,18 +104,23 @@ function SequenceRow(props)
         }
     };
 
-    const correct = () =>
-    {
-        if(buzzed)
-        {
+    const correct = () => {
+        if (buzzed) {
             // Answer was correct, add the current points to the teams score, display end
             displayEnd();
+
+            props.addToScore(points);
+            if(buzzed == 1)
+            {
+                props.switchTurn();
+            }
 
             setTimeout(() => {
                 props.exit();
             }, 2000);
-        }
-    }
+        }        
+    };
+    
     const buzzerClick = () =>
     {
         setBuzzed(1);

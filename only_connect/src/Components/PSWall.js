@@ -1,5 +1,8 @@
 import React from 'react'
 import WallIcon from './WallIcon'
+
+//TODO: Attribute Freepik for icons, don't want a law suit. But WHere do we put this, Credits?
+//<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 import frog from './../images/frog.png'
 import kangaroo from './../images/kangaroo.png'
 import elephant from './../images/elephant.png'

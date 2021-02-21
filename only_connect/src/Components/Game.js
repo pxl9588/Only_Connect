@@ -7,17 +7,18 @@ import SequenceRow from "./SequenceRow";
 import MissingVowels from "./MissingVowels";
 import WordWallIcons from "./WorldWallIcons";
 import Data from "./../utilities/gameData";
+import ScoreWall from "./ScoreWall";
 
 function Game({ ...props }) {
     const [gameState, setGameState] = useState({
-        round: 0,
+        round: 1,
         wallIndex: 0,
         scores: 0,
         clickedRow: false,
         hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
         wordWallIndex: 0,
-        score1: 0,
-        score2: 0,
+        score1: 25,
+        score2: 32,
         player1Turn: true,
     });
 
@@ -49,6 +50,10 @@ function Game({ ...props }) {
     };
 
     // Click handles
+    const scoreExit = () =>
+    {
+        setGameState({ ...gameState, clickedRow: false, round: gameState.round + 1 });
+    }
     const psWallHandle = (i) => {
         var temp = { ...gameState.hidden };
         temp[i] = true;
@@ -117,8 +122,6 @@ function Game({ ...props }) {
                             <PSWall
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
-                                score1={gameState.score1}
-                                score2={gameState.score2}
                             ></PSWall>
                         ) : (
                             <ConnectionRow
@@ -131,6 +134,8 @@ function Game({ ...props }) {
                     </div>
                 );
             case 1:
+                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
+            case 2:
                 return (
                     <div>
                         {gameState.clickedRow === false ? (
@@ -145,39 +150,9 @@ function Game({ ...props }) {
                         )}
                     </div>
                 );
-
-            case 2:
-                return (
-                    <div>
-                        {gameState.clickedRow === false ? (
-                            <WordWallIcons
-                                onClick={psWallHandle}
-                                hidden={gameState.hidden}
-                            ></WordWallIcons>
-                        ) : (
-                            <WordWall
-                                data={wordWalls[gameState.wordWallIndex]}
-                                addToScore={addToScore}
-                                switchTurn={switchTurn}
-                                exit={wallExit}
-                            >
-                                {" "}
-                            </WordWall>
-                        )}
-                    </div>
-                );
             case 3:
-                return (
-                    <div>
-                        <WordConnectionRow
-                            exitClick={wordRowExit}
-                            color={colorDictionary[gameState.wallIndex]}
-                            row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}
-                            addToScore={addToScore}
-                            switchTurn={switchTurn}
-                        ></WordConnectionRow>
-                    </div>
-                );
+                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
+
             case 4:
                 return (
                     <div>
@@ -210,8 +185,43 @@ function Game({ ...props }) {
                         ></WordConnectionRow>
                     </div>
                 );
-
             case 6:
+                return (
+                    <div>
+                        {gameState.clickedRow === false ? (
+                            <WordWallIcons
+                                onClick={psWallHandle}
+                                hidden={gameState.hidden}
+                            ></WordWallIcons>
+                        ) : (
+                            <WordWall
+                                data={wordWalls[gameState.wordWallIndex]}
+                                addToScore={addToScore}
+                                switchTurn={switchTurn}
+                                exit={wallExit}
+                            >
+                                {" "}
+                            </WordWall>
+                        )}
+                    </div>
+                );
+            case 7:
+                return (
+                    <div>
+                        <WordConnectionRow
+                            exitClick={wordRowExit}
+                            color={colorDictionary[gameState.wallIndex]}
+                            row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}
+                            addToScore={addToScore}
+                            switchTurn={switchTurn}
+                        ></WordConnectionRow>
+                    </div>
+                );
+
+            case 8:
+                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
+
+            case 9:
                 return (
                     <div>
                         <MissingVowels
@@ -222,6 +232,8 @@ function Game({ ...props }) {
                         />
                     </div>
                 );
+            case 10:
+                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
             default:
                 return (
                     <div>
