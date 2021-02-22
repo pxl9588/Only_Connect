@@ -576,16 +576,10 @@ video {
 
 body {
   margin: 0;
-<<<<<<< HEAD
-  font-family: "Rubik", sans-serif;
-=======
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
->>>>>>> 201de0d412fb4b8cbf56b353a03e30f1158a4e41
+  font-family: "Rubik", "sans-serif";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow:hidden;
+  overflow: hidden;
   background-color: #505869;
 }
 

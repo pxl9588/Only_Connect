@@ -2,7 +2,6 @@ import React, { useState } from "react";
 //import socketIOClient from "socket.io-client";
 import Rectangle from "./Rectangle";
 import Timer from "./Timer";
-import Paper from "@material-ui/core/Paper";
 
 function SequenceRow(props) {
     const [end, setEnd] = useState(0);
@@ -68,25 +67,19 @@ function SequenceRow(props) {
                 <Rectangle type="rectangle">{props.row["clues"][0]}</Rectangle>
             </div>
             <div className="row-start-2 justify-items-center items-center">
-                <Paper elevation={3}>
-                    <Rectangle type="rectangle" hidden={hidden[1]}>
-                        {props.row["clues"][1]}
-                    </Rectangle>
-                </Paper>
+                <Rectangle type="rectangle" hidden={hidden[1]}>
+                    {props.row["clues"][1]}
+                </Rectangle>
             </div>
             <div className="row-start-2 justify-items-center items-center">
-                <Paper>
-                    <Rectangle type="rectangle" hidden={hidden[2]}>
-                        {props.row["clues"][2]}
-                    </Rectangle>
-                </Paper>
+                <Rectangle type="rectangle" hidden={hidden[2]}>
+                    {props.row["clues"][2]}
+                </Rectangle>
             </div>
             <div className="row-start-2 justify-items-center items-center">
-                <Paper>
-                    <Rectangle type="rectangle" hidden={hidden[2]}>
-                        {count > final_number ? props.row["clues"][3] : "?"}
-                    </Rectangle>
-                </Paper>
+                <Rectangle type="rectangle" hidden={hidden[2]}>
+                    {count > final_number ? props.row["clues"][3] : "?"}
+                </Rectangle>
             </div>
 
             <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:px-8 xl:px-24">

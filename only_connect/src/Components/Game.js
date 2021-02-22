@@ -7,10 +7,11 @@ import SequenceRow from "./SequenceRow";
 import MissingVowels from "./MissingVowels";
 import WordWallIcons from "./WorldWallIcons";
 import Data from "./../utilities/gameData";
+import HomePage from "./HomePage";
 
 function Game({ ...props }) {
     const [gameState, setGameState] = useState({
-        round: 0,
+        round: -1,
         wallIndex: 0,
         scores: 0,
         clickedRow: false,
@@ -110,6 +111,8 @@ function Game({ ...props }) {
 
     const renderSwitch = () => {
         switch (gameState.round) {
+            case -1:
+                return <HomePage></HomePage>;
             case 0:
                 return (
                     <div>
