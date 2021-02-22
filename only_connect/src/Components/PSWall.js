@@ -18,8 +18,10 @@ function PSWall(props)
     };
 
     return (
-        <div className="flex justify-center items-center h-screen -my-12 sm:-my-0">
-            <div className="grid grid-flow-col grid-rows-3 sm:grid-rows-2 lg:grid-rows-2">
+        <div className="justify-center items-center h-screen -my-12 sm:-my-0">
+            <h2 className='text-5xl mt-20 text-center'>{`${props.player1Turn ? props.teamOne : props.teamTwo} Selects:`}</h2>
+            <div className='flex justify-center items-center -my-12 sm:-my-0'>
+                <div className="grid grid-flow-col grid-rows-3 sm:grid-rows-2 lg:grid-rows-2">
                 <WallIcon icon={frog} hidden={props.hidden[1] ? "invisible" : ""} id="1" onClick={props.hidden[1]  ? null : handleClick}></WallIcon>
                 <WallIcon icon={kangaroo} hidden={props.hidden[2]  ? "invisible" : ""} id="2" onClick={props.hidden[2]  ? null : handleClick}></WallIcon>
                 <WallIcon icon={elephant} hidden={props.hidden[3]  ? "invisible" : ""} id="3" onClick={props.hidden[3]  ? null : handleClick}></WallIcon>
@@ -27,6 +29,9 @@ function PSWall(props)
                 <WallIcon icon={koala} hidden={props.hidden[5]  ? "invisible" : ""} id="5" onClick={props.hidden[5]  ? null : handleClick}></WallIcon>
                 <WallIcon icon={sloth} hidden={props.hidden[6]  ? "invisible" : ""} id="6" onClick={props.hidden[6]  ? null : handleClick}></WallIcon>
             </div>
+            </div>
+            
+            
         </div>
     );
 }

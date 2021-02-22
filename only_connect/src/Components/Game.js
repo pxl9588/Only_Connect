@@ -12,7 +12,7 @@ import ScoreWall from "./ScoreWall";
 
 function Game({ ...props }) {
     const [gameState, setGameState] = useState({
-        round: 2,
+        round: -1,
         wallIndex: 0,
         scores: 0,
         clickedRow: false,
@@ -138,6 +138,9 @@ function Game({ ...props }) {
                             <PSWall
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
+                                player1Turn={gameState.player1turn}
+                                teamOne={gameState.teamOne}
+                                teamTwo={gameState.teamTwo}
                             ></PSWall>
                         ) : (
                             <ConnectionRow
