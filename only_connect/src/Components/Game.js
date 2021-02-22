@@ -7,19 +7,12 @@ import SequenceRow from "./SequenceRow";
 import MissingVowels from "./MissingVowels";
 import WordWallIcons from "./WorldWallIcons";
 import Data from "./../utilities/gameData";
-<<<<<<< HEAD
 import HomePage from "./HomePage";
-
-function Game({ ...props }) {
-    const [gameState, setGameState] = useState({
-        round: -1,
-=======
 import ScoreWall from "./ScoreWall";
 
 function Game({ ...props }) {
     const [gameState, setGameState] = useState({
-        round: 1,
->>>>>>> 17a43b3750b6126b489473931ab6de6eb9ce2fe8
+        round: -1,
         wallIndex: 0,
         scores: 0,
         clickedRow: false,

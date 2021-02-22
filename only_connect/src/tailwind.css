@@ -578,12 +578,7 @@ video {
 
 body {
   margin: 0;
-<<<<<<< HEAD
   font-family: "Rubik", "sans-serif";
-=======
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-        "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
->>>>>>> 17a43b3750b6126b489473931ab6de6eb9ce2fe8
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
