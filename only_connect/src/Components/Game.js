@@ -57,7 +57,7 @@ function Game({ ...props }) {
         console.log("Start Game");
     };
 
-    const setName = (evt) => {
+    const setTeamNames = (evt) => {
         const newState = {...gameState}
         newState[evt.target.id] = evt.target.value 
        setGameState({...newState})
@@ -130,7 +130,7 @@ function Game({ ...props }) {
     const renderSwitch = () => {
         switch (gameState.round) {
             case -1:
-                return <HomePage teamOne={gameState.teamOne} teamTwo={gameState.teamTwo} setName={setName}startGame={startGame}></HomePage>;
+                return <HomePage teamOne={gameState.teamOne} teamTwo={gameState.teamTwo} setName={setTeamNames}startGame={startGame}></HomePage>;
             case 0:
                 return (
                     <div>
