@@ -9,14 +9,14 @@ const theme = createMuiTheme({
             // Name of the rule
             text: {
                 // Some CSS
-                background: "linear-gradient(45deg, #dfa3e6 30%, #7e3387 90%)",
+                background: "linear-gradient(45deg, #dfa3e6 30%, #ffffff 90%)",
                 borderRadius: 3,
                 border: 0,
                 color: "black",
                 height: 70,
                 padding: "0 30px",
                 boxShadow: "0 3px 5px 2px #7e5a82",
-                width: 150,
+                width: 250,
                 fontSize: "x-large",
             },
         },
@@ -26,7 +26,7 @@ const theme = createMuiTheme({
 function OverridesCss(props) {
     return (
         <ThemeProvider theme={theme}>
-            <Button>{props.children}</Button>
+            <Button onClick={props.onClick}>{props.children}</Button>
         </ThemeProvider>
     );
 }

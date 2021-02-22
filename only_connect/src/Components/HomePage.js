@@ -1,6 +1,7 @@
 import React from "react";
 import OverrideButton from "./OverrideButton";
 import TextField from "@material-ui/core/TextField";
+import ButtonCorrect from "./ButtonCorrect";
 
 export default function HomePage(props) {
     return (
@@ -26,7 +27,7 @@ export default function HomePage(props) {
                 style={{ left: `-2%`, position: "relative" }}
                 className="mt-20 flex justify-center"
             >
-                <OverrideButton>Start Game</OverrideButton>
+                <OverrideButton onClick={props.startGame}>Start Game</OverrideButton>
             </div>
         </div>
     );

@@ -49,6 +49,11 @@ function Game({ ...props }) {
         setGameState({ ...gameState, player1Turn: !gameState.player1Turn });
     };
 
+    const startGame = () => {
+        setGameState({ ...gameState, round: 0 });
+        console.log("Start Game");
+    };
+
     // Click handles
     const psWallHandle = (i) => {
         var temp = { ...gameState.hidden };
@@ -112,7 +117,7 @@ function Game({ ...props }) {
     const renderSwitch = () => {
         switch (gameState.round) {
             case -1:
-                return <HomePage></HomePage>;
+                return <HomePage startGame={startGame}></HomePage>;
             case 0:
                 return (
                     <div>

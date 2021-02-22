@@ -15,6 +15,8 @@ const colorDictionary = {
 class WordWall extends Component {
     constructor(props) {
         super();
+        this.max_time = 150;
+        this.time = 0;
         this.wordDictionary = props.data;
         this.idToIndex = new Map();
         this.refsArr = [];
@@ -204,7 +206,7 @@ class WordWall extends Component {
                 <div className="grid grid-flow-row py-2 lg:py-10 gap-y-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
                     <div className="flex row-start-1 col-span-4">
                         <div className="w-3/4">
-                            <Timer completed={0} max={150} type="wall" />
+                            <Timer completed={this.time} max={this.max_time} type="wall" />
                         </div>
                         {this.state.color_count >= 2 ? (
                             <div className="w-1/4">
