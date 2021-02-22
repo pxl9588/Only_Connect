@@ -147,107 +147,63 @@ function SequenceRow(props) {
         };
 
     const renderSwitch = (admin) => {
-        if (admin) {
-            return (
-                <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
-                    <div
-                        className={`justify-items-center items-center row-start-1 col-start-${gameState.timerIndex}`}
-                    >
-                        <Timer
-                            completed={gameState.time}
-                            max={max_time}
-                            color={gameState.timer_color}
-                            fill_color={gameState.timer_fill_color}
-                            hidden={gameState.answerHidden[2]}
-                            points={gameState.points}
-                        ></Timer>
-                    </div>
-
-                    <div className="row-start-2 col-span-1">
-                        <Clue>{props.row["clues"][0]}</Clue>
-                    </div>
-                    <div className="row-start-2 col-span-1">
-                        <Clue hidden={gameState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
-                    </div>
-                    <div className="row-start-2 col-span-1">
-                        <Clue hidden={gameState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
-                    </div>
-                    <div className="row-start-2 col-span-1">
-                        <Clue hidden={gameState.cluesHidden[2]}>
-                            {!gameState.answerHidden[1] ? props.row["clues"][3] : "?"}
-                        </Clue>
-                    </div>
-
-                    <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                        <Answer type="answer" hidden={gameState.answerHidden[1]}>
-                            {props.row["answer"]}
-                        </Answer>
-                    </div>
-
-                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
-                        <ButtonCorrect clickBlock={correct} type="correct">
-                            Correct
-                        </ButtonCorrect>
-                    </div>
-
-                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
-                        <ButtonCorrect clickBlock={incorrect} type="incorrect">
-                            Incorrect
-                        </ButtonCorrect>
-                    </div>
+        return (
+            <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
+                <div
+                    className={`justify-items-center items-center row-start-1 col-start-${gameState.timerIndex}`}
+                >
+                    <Timer
+                        completed={gameState.time}
+                        max={max_time}
+                        color={gameState.timer_color}
+                        fill_color={gameState.timer_fill_color}
+                        hidden={gameState.answerHidden[2]}
+                        points={gameState.points}
+                    ></Timer>
                 </div>
-            );
-        } else {
-            return (
-                <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
-                    <div
-                        className={`justify-items-center items-center row-start-1 col-start-${gameState.timerIndex}`}
-                    >
-                        <Timer
-                            completed={gameState.time}
-                            max={max_time}
-                            hidden={gameState.answerHidden[2]}
-                            color={gameState.timer_color}
-                            fill_color={gameState.timer_fill_color}
-                            finished={gameState.buzzed}
-                            points={gameState.points}
-                        ></Timer>
-                    </div>
 
-                    <div className="row-start-2 col-span-1">
-                        <Clue>{props.row["clues"][0]}</Clue>
-                    </div>
-                    <div className="row-start-2 col-span-1">
-                        <Clue hidden={gameState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
-                    </div>
-                    <div className="row-start-2 col-span-1">
-                        <Clue hidden={gameState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
-                    </div>
-                    <div className="row-start-2 col-span-1">
-                        <Clue hidden={gameState.cluesHidden[2]}>
-                            {!gameState.answerHidden[1] ? props.row["clues"][3] : "?"}
-                        </Clue>
-                    </div>
+                <div className="row-start-2 col-span-1">
+                    <Clue>{props.row["clues"][0]}</Clue>
+                </div>
+                <div className="row-start-2 col-span-1">
+                    <Clue hidden={gameState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
+                </div>
+                <div className="row-start-2 col-span-1">
+                    <Clue hidden={gameState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
+                </div>
+                <div className="row-start-2 col-span-1">
+                    <Clue hidden={!admin && gameState.cluesHidden[2]}>
+                        {(admin || !gameState.answerHidden[1]) ? props.row["clues"][3] : "?"}
+                    </Clue>
+                </div>
 
-                    <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                        <Answer type="answer" hidden={gameState.answerHidden[1]}>
-                            {props.row["answer"]}
-                        </Answer>
-                    </div>
+                <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
+                    <Answer type="answer" hidden={!admin && gameState.answerHidden[1]}>{props.row["answer"]}</Answer>
+                </div>
 
-                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
+
+                <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
+                    {
+                        admin ? 
+                        <ButtonCorrect clickBlock={correct} type="correct"> Correct </ButtonCorrect>
+                        : 
                         <ButtonBuzzer clickBlock={buzzerClick}>Buzzer</ButtonBuzzer>
-                    </div>
-
-                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
-                        <ButtonNext clickBlock={nextClick}>Next</ButtonNext>
-                    </div>
+                    }
                 </div>
-            );
-        }
+
+                <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
+                    {
+                        admin ? 
+                        <ButtonCorrect clickBlock={incorrect} type="incorrect"> Incorrect</ButtonCorrect>
+                        :
+                        <ButtonNext clickBlock={nextClick}>Next</ButtonNext>
+                    }
+                </div>
+            </div>
+        );
     };
 
-    return <div>{renderSwitch(false)}</div>;
+    return <div>{renderSwitch(true)}</div>;
 }
 
 export default SequenceRow;
