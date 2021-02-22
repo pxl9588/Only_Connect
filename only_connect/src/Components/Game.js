@@ -21,6 +21,8 @@ function Game({ ...props }) {
         score1: 25,
         score2: 32,
         player1Turn: true,
+        teamOne: '',
+        teamTwo: ''
     });
 
     const colorDictionary = {
@@ -54,6 +56,12 @@ function Game({ ...props }) {
         setGameState({ ...gameState, round: 0 });
         console.log("Start Game");
     };
+
+    const setName = (evt) => {
+        const newState = {...gameState}
+        newState[evt.target.id] = evt.target.value 
+       setGameState({...newState})
+    }
 
     // Click handles
     const scoreExit = () =>
@@ -122,7 +130,7 @@ function Game({ ...props }) {
     const renderSwitch = () => {
         switch (gameState.round) {
             case -1:
-                return <HomePage startGame={startGame}></HomePage>;
+                return <HomePage teamOne={gameState.teamOne} teamTwo={gameState.teamTwo} setName={setName}startGame={startGame}></HomePage>;
             case 0:
                 return (
                     <div>

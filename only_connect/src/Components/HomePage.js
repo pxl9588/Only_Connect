@@ -16,8 +16,10 @@ export default function HomePage(props) {
                     <img src={Whale}></img>
                     <div className='justify-center flex'>
                     <TextField
+                        id='teamOne'
                         size={"medium"}
-                        value={"Hello"}
+                        onChange={props.setName}
+                        value={props.teamOneName}
                         margin="normal"
                         autoFocus
                     ></TextField>
@@ -27,7 +29,7 @@ export default function HomePage(props) {
                     <h2 className="text-3xl text-center">Team2:</h2>
                     <img src={Seal}></img>
                     <div className='flex justify-center '>
-                    <TextField value={"Hello"} margin="normal" autoFocus></TextField>
+                    <TextField id='teamTwo'onChange={props.setName} value={props.teamTwoName} margin="normal" autoFocus></TextField>
                     </div>
                 </div>
             </div>
