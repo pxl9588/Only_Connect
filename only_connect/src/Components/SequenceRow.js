@@ -8,136 +8,158 @@ import ButtonBuzzer from "./ButtonBuzzer";
 import Timer from "./Timer";
 
 function SequenceRow(props) {
-    //Timer stuff
+
+    const final_number = 3;
     const max_time = 40;
-    const [time, setTime] = useState(0);
-    const [timer_fill_color, setFillColor] = useState("bg-blue-900");
-    const [timer_color, SetTimerColor] = useState("bg-blue-700");
-
-    //Game stuff
-    const [buzzed, setBuzzed] = useState(0);
-    const [points, setPoints] = useState(5);
-    const [count, setCount] = useState(1);
-    const [timerIndex, setTimerIndex] = useState(1);
-    const [cluesHidden, setCluesHidden] = useState({
-        1: true,
-        2: true,
-        3: true,
-    });
-    const [answerHidden, setAnswerHidden] = useState({
-        1: true,
-        2: false,
-    });
-
-    useEffect(() => {
-        var id = null;
-        //Max time reached, other team get's to answer
-        if (time === max_time) {
-            SetTimerColor("bg-red-600");
-            setFillColor("bg-red-600");
-            setBuzzed(2);
-            displayLastClue();
-        } else if (buzzed) {
-            SetTimerColor("bg-green-600");
-            setFillColor("bg-green-600");
-        } else {
-            id = setInterval(() => {
-                setTime(time + 1);
-            }, 1000);
-        }
-        return () => clearInterval(id);
-    }, [time, buzzed]);
-
-    var final_number = 3;
-
-    const displayEnd = () => {
-        setCluesHidden({
-            1: false,
-            2: false,
-        });
-
-        setAnswerHidden({
-            1: false,
-            2: true,
-        });
-    };
-    const displayLastClue = () => {
-        setCluesHidden({
-            1: false,
-            2: false,
-        });
-
-        setAnswerHidden({
-            1: true,
-            2: false,
-        });
-
-        setTimerIndex(4);
-        setPoints(1);
-    };
-
-    const incorrect = () => {
-        if (buzzed === 1) {
-            // Answer was incorrect, display all clues, and switch turns
-            props.switchTurn();
-            displayLastClue();
-            setBuzzed(2);
-        } else if (buzzed === 2) {
-            displayEnd();
-
-            setTimeout(() => {
-                props.exit();
-            }, 2000);
-        }
-    };
-
-    const correct = () => {
-        if (buzzed) {
-            // Answer was correct, add the current points to the teams score, display end
-            displayEnd();
-
-            props.addToScore(points);
-            if (buzzed == 1) {
-                props.switchTurn();
+    const [gameState, setGameState] = useState(
+        {
+            time: 0,
+            timer_fill_color: "bg-blue-900",
+            timer_color: "bg-blue-700",
+            buzzed: 0,
+            points: 5,
+            count: 1,
+            timerIndex: 1,
+            cluesHidden:
+            {
+                1: true,
+                2: true
+            },
+            answerHidden:
+            {
+                1:true,
+                2:false
             }
-
-            setTimeout(() => {
-                props.exit();
-            }, 2000);
         }
-    };
+    );
 
-    const buzzerClick = () => {
-        setBuzzed(1);
-    };
+    useEffect(
+        () =>
+        {
+            var id = null;
+            //Max time reached, other team get's to answer
+            if(gameState.time < max_time)
+            {
+                id = setInterval(()=>{setGameState({...gameState, time: gameState.time + 1});}, 1000);
+            }
+            else if(gameState.time === max_time)
+            {
+                setGameState({...gameState, timer_color: "bg-red-600", timer_fill_color: "bg-red-600", buzzed: 2, cluesHidden:
+                {
+                    1: false,
+                    2: false
+                },
+                answerHidden:
+                {
+                    1:true,
+                    2:false
+                },
+                timerIndex: 4,
+                points: 1});
+            }
+            return () => clearInterval(id);
+        },[gameState]);
 
-    const nextClick = () => {
-        if (count < final_number && !buzzed) {
-            setCount(count + 1);
-            var temp = { ...cluesHidden };
+        const displayEnd = () => {
+            setGameState(
+                {
+                    ...gameState,
+                    cluesHidden:
+                    {
+                        1: false,
+                        2: false
+                    },
+                    answerHidden:
+                    {
+                        1:false,
+                        2:true
+                    }
+                }
+            )
+        };
 
-            const point_array = [3, 2, 1];
-            setTimerIndex(timerIndex + 1);
-            temp[count] = false;
-            setCluesHidden(temp);
-            setPoints(point_array[count - 1]);
-        }
-    };
+        const incorrect = () =>
+        {
+            if(gameState.buzzed === 1)
+            {
+                // Answer was incorrect, display all clues, and switch turns
+                props.switchTurn();
+                setGameState({...gameState, buzzed: 2, cluesHidden:
+                    {
+                        1: false,
+                        2: false
+                    },
+                    answerHidden:
+                    {
+                        1:true,
+                        2:false
+                    },
+                    timerIndex: 4,
+                    points: 1});
+            }
+            else if(gameState.buzzed === 2)
+            {
+                displayEnd();
+    
+                setTimeout(() => {
+                    props.exit();
+                }, 2000);
+            }
+        };
+    
+        const correct = () => {
+            if (gameState.buzzed) {
+                // Answer was correct, add the current points to the teams score, display end
+                displayEnd();
+    
+                props.addToScore(gameState.points);
+                if(gameState.buzzed === 1)
+                {
+                    props.switchTurn();
+                }
+    
+                setTimeout(() => {
+                    props.exit();
+                }, 2000);
+            }        
+        };
+        
+        const buzzerClick = () => {
+            setGameState({...gameState, timer_color: "bg-green-600", timer_fill_color: "bg-green-600", buzzed: 1, time:max_time+1});
+        };
+    
+        const nextClick = () => {
+            if (gameState.count < final_number && !gameState.buzzed) {
+                const point_array = [3, 2, 1];
+                var temp = { ...gameState.cluesHidden};
+                temp[gameState.count] = false;
+    
+                setGameState(
+                    {
+                        ...gameState,
+                        timerIndex: gameState.timerIndex + 1,
+                        count: gameState.count + 1,
+                        points: point_array[gameState.count-1],
+                        cluesHidden: temp
+                    }
+                )
+            }
+        };
 
     const renderSwitch = (admin) => {
         if (admin) {
             return (
                 <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
                     <div
-                        className={`justify-items-center items-center row-start-1 col-start-${timerIndex}`}
+                        className={`justify-items-center items-center row-start-1 col-start-${gameState.timerIndex}`}
                     >
                         <Timer
-                            completed={time}
+                            completed={gameState.time}
                             max={max_time}
-                            color={timer_color}
-                            fill_color={timer_fill_color}
-                            hidden={answerHidden[2]}
-                            points={points}
+                            color={gameState.timer_color}
+                            fill_color={gameState.timer_fill_color}
+                            hidden={gameState.answerHidden[2]}
+                            points={gameState.points}
                         ></Timer>
                     </div>
 
@@ -145,19 +167,19 @@ function SequenceRow(props) {
                         <Clue>{props.row["clues"][0]}</Clue>
                     </div>
                     <div className="row-start-2 col-span-1">
-                        <Clue hidden={cluesHidden[1]}>{props.row["clues"][1]}</Clue>
+                        <Clue hidden={gameState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
                     </div>
                     <div className="row-start-2 col-span-1">
-                        <Clue hidden={cluesHidden[2]}>{props.row["clues"][2]}</Clue>
+                        <Clue hidden={gameState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
                     </div>
                     <div className="row-start-2 col-span-1">
-                        <Clue hidden={cluesHidden[2]}>
-                            {!answerHidden[1] ? props.row["clues"][3] : "?"}
+                        <Clue hidden={gameState.cluesHidden[2]}>
+                            {!gameState.answerHidden[1] ? props.row["clues"][3] : "?"}
                         </Clue>
                     </div>
 
                     <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                        <Answer type="answer" hidden={answerHidden[1]}>
+                        <Answer type="answer" hidden={gameState.answerHidden[1]}>
                             {props.row["answer"]}
                         </Answer>
                     </div>
@@ -179,16 +201,16 @@ function SequenceRow(props) {
             return (
                 <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
                     <div
-                        className={`justify-items-center items-center row-start-1 col-start-${timerIndex}`}
+                        className={`justify-items-center items-center row-start-1 col-start-${gameState.timerIndex}`}
                     >
                         <Timer
-                            completed={time}
+                            completed={gameState.time}
                             max={max_time}
-                            hidden={answerHidden[2]}
-                            color={timer_color}
-                            fill_color={timer_fill_color}
-                            finished={buzzed}
-                            points={points}
+                            hidden={gameState.answerHidden[2]}
+                            color={gameState.timer_color}
+                            fill_color={gameState.timer_fill_color}
+                            finished={gameState.buzzed}
+                            points={gameState.points}
                         ></Timer>
                     </div>
 
@@ -196,19 +218,19 @@ function SequenceRow(props) {
                         <Clue>{props.row["clues"][0]}</Clue>
                     </div>
                     <div className="row-start-2 col-span-1">
-                        <Clue hidden={cluesHidden[1]}>{props.row["clues"][1]}</Clue>
+                        <Clue hidden={gameState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
                     </div>
                     <div className="row-start-2 col-span-1">
-                        <Clue hidden={cluesHidden[2]}>{props.row["clues"][2]}</Clue>
+                        <Clue hidden={gameState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
                     </div>
                     <div className="row-start-2 col-span-1">
-                        <Clue hidden={cluesHidden[2]}>
-                            {!answerHidden[1] ? props.row["clues"][3] : "?"}
+                        <Clue hidden={gameState.cluesHidden[2]}>
+                            {!gameState.answerHidden[1] ? props.row["clues"][3] : "?"}
                         </Clue>
                     </div>
 
                     <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                        <Answer type="answer" hidden={answerHidden[1]}>
+                        <Answer type="answer" hidden={gameState.answerHidden[1]}>
                             {props.row["answer"]}
                         </Answer>
                     </div>
@@ -225,7 +247,7 @@ function SequenceRow(props) {
         }
     };
 
-    return <div>{renderSwitch(true)}</div>;
+    return <div>{renderSwitch(false)}</div>;
 }
 
 export default SequenceRow;

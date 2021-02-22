@@ -12,7 +12,7 @@ import ScoreWall from "./ScoreWall";
 
 function Game({ ...props }) {
     const [gameState, setGameState] = useState({
-        round: -1,
+        round: 2,
         wallIndex: 0,
         scores: 0,
         clickedRow: false,
@@ -130,7 +130,7 @@ function Game({ ...props }) {
     const renderSwitch = () => {
         switch (gameState.round) {
             case -1:
-                return <HomePage teamOne={gameState.teamOne} teamTwo={gameState.teamTwo} setName={setTeamNames}startGame={startGame}></HomePage>;
+                return <HomePage teamOne={gameState.teamOne} teamTwo={gameState.teamTwo} setName={setTeamNames} startGame={startGame}></HomePage>;
             case 0:
                 return (
                     <div>
