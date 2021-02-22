@@ -10,7 +10,7 @@ module.exports = {
       center: true,
     },
     fontFamily: {
-      'sans': ["Arial"]
+      'body': ["Oswald"]
     },
     extend: {
       colors: {
@@ -31,6 +31,7 @@ module.exports = {
       },
       width:
       {
+        '0/5': '0.0%',
         '0/40': '0.0%',
         '1/40': '2.5%',
         '2/40': '5.0%',

@@ -17,11 +17,11 @@ function ButtonCorrect(props){
     var color = "bg-white";
     var font_color = "text-black font-sans";
     var align_content = "flex justify-center items-center select-none"
-    var border = "border-2 border-red-700"
+    //var border = "border-2 border-red-700"
     var rounded = "rounded-xl lg:rounded-2xl"
     var shadow = "shadow-3xl"
 
-    if(props.type == "correct")
+    if(props.type === "correct")
     {
         text_color = "text-green-600";
     }

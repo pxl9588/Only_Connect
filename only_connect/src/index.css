@@ -2,6 +2,8 @@
 @tailwind components;
 @import url("https://fonts.googleapis.com/css2?family=Raleway&family=Rubik&display=swap");
 
+@import url('https://fonts.googleapis.com/css2?family=Raleway&family=Rubik&display=swap');
+
 body {
     margin: 0;
     font-family: "Rubik", "sans-serif";

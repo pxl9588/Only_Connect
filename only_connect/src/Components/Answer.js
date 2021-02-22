@@ -10,7 +10,7 @@ function Answer(props) {
     var color = "bg-white";
     var font_color = "text-black font-sans";
     var align_content = "flex justify-center items-center select-none"
-    var border = "border-2 border-black"
+    //var border = "border-2 border-black"
     var rounded = "rounded-xl lg:rounded-3xl"
     var shadow = "shadow-3xl"
 
