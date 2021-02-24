@@ -1,7 +1,6 @@
 import React from "react";
 import OverrideButton from "./OverrideButton";
 import TextField from "@material-ui/core/TextField";
-import ButtonCorrect from "./ButtonCorrect";
 import Whale from '../images/whale.png'
 import Seal from '../images/seal.png'
 import firebase from 'firebase'
@@ -35,7 +34,7 @@ export default function HomePage(props) {
             <div className="mt-20 flex justify-center">
                 <div style={{ left: `-5%`, position: "relative" }}>
                     <h2 className="text-3xl text-center">Team 1:</h2>
-                    <img src={Whale}></img>
+                    <img src={Whale} alt={Whale}></img>
                     <div className='justify-center flex'>
                     <TextField
                         id='teamOne'
@@ -49,7 +48,7 @@ export default function HomePage(props) {
                 </div>
                 <div style={{ left: `$5%`, position: "relative" }}>
                     <h2 className="text-3xl text-center">Team2:</h2>
-                    <img src={Seal}></img>
+                    <img src={Seal} alt={Seal}></img>
                     <div className='flex justify-center '>
                     <TextField id='teamTwo'onChange={props.setName} value={props.teamTwoName} margin="normal" autoFocus></TextField>
                     </div>
