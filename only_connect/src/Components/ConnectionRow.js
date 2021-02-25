@@ -57,7 +57,10 @@ function ConnectionRow(props)
                     2:false
                 },
                 timerIndex: 4,
-                points: 1});
+                points: 1,
+                //So useEffect never runs again
+                time: max_time + 1
+            });
             }
             return () => clearInterval(id);
         },[roundState]);
