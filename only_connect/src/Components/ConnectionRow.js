@@ -14,8 +14,8 @@ function ConnectionRow(props)
     const [gameState, setGameState] = useState(
         {
             time: 0,
-            timer_fill_color: "bg-blue-900",
-            timer_color: "bg-blue-700",
+            timer_fill_color: "bg-dark-accent",
+            timer_color: "bg-light-shade",
             buzzed: 0,
             points: 5,
             count: 1,
@@ -130,7 +130,7 @@ function ConnectionRow(props)
     };
     
     const buzzerClick = () => {
-        setGameState({...gameState, timer_color: "bg-green-600", timer_fill_color: "bg-green-600", buzzed: 1, time:max_time+1});
+        setGameState({...gameState, timer_color: "bg-light-accent", timer_fill_color: "bg-light-accent", buzzed: 1, time:max_time+1});
     };
 
     const nextClick = () => {
@@ -176,7 +176,6 @@ function ConnectionRow(props)
                     <Answer type="answer" hidden={!admin && gameState.answerHidden[1]}>{props.row["answer"]}</Answer>
                 </div>
 
-
                 <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
                     {
                         admin ? 
@@ -198,7 +197,7 @@ function ConnectionRow(props)
         );
     };
 
-    return <div>{renderSwitch(true)}</div>;
+    return <div>{renderSwitch(false)}</div>;
 }
 
 export default ConnectionRow;

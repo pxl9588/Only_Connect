@@ -9,13 +9,13 @@ const theme = createMuiTheme({
             // Name of the rule
             text: {
                 // Some CSS
-                background: "linear-gradient(45deg, #dfa3e6 30%, #ffffff 90%)",
+                background: "#F3F0EF",
                 borderRadius: 3,
                 border: 0,
-                color: "black",
+                color: "#1D2036",
                 height: 70,
                 padding: "0 30px",
-                boxShadow: "0 3px 5px 2px #7e5a82",
+                boxShadow: "0 3px 5px 2px #000000",
                 width: 250,
                 fontSize: "x-large",
             },

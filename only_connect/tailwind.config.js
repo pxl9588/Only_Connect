@@ -14,14 +14,16 @@ module.exports = {
     },
     extend: {
       colors: {
-        'clue': '#CC59D2',
-        'answer': '#0BA0D6',
+        'light-accent': '#4EC8D6',
+        'dark-accent': '#6E8EBE',
+        'light-shade': '#F3F0EF',
+        'dark-shade': '#1D2036',
         'next': '#94FFF1',
         'next-text': '#AB19B3',
         
 
         'light': '#B6D2D4',
-        'dark': '#505869',
+        'dark': '#646370',
       },
       spacing: {
         '72': '18rem',
