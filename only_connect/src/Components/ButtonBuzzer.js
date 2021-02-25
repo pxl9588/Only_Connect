@@ -10,11 +10,11 @@ function ButtonBuzzer(props){
 
     var text_align = "text-center"
     var text_size = "text-2xl sm:text-3xl lg:text-5xl";
-    var text_color = "text-red-500"
+    var text_color = "text-light-shade"
     var width = "w-full sm:px-8 lg:px-16";
     var height = "h-10 lg:h-20";
     //var color = "bg-gradient-to-r from-oc-blue via-blue-500 to-oc-blue";
-    var color = "bg-white";
+    var color = "bg-dark-shade";
     var font_color = "text-black font-sans";
     var align_content = "flex justify-center items-center select-none"
     //var border = "border-2 border-red-700"

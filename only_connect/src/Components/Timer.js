@@ -15,9 +15,9 @@ function Timer(props)
     
 
   return (
-    <div className={`${width} ${height} ${props.color} shadow-2xl rounded-md ${props.hidden ? "invisible" : ""}  ease-in-out`}>
-        <div className={`${fill_width} ${height} ${props.fill_color} shadow-2xl rounded-md ease-in ${props.hidden}`}>
-            <span className={`${text_size} fixed text-white`}>{props.points} {props.points ? props.points === 1 ? "Point" : "Points" : ""} </span>
+    <div className={`${width} ${height} ${props.color} rounded-md ${props.hidden ? "invisible" : ""}`}>
+        <div className={`${fill_width} ${height} ${props.fill_color} shadow-3xl rounded-md ease-in ${props.hidden}`}>
+            <span className={`${text_size} fixed text-dark-shade`}>{props.points} {props.points ? props.points === 1 ? "Point" : "Points" : ""} </span>
         </div>
         </div>
     )
