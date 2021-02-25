@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PSWall from "./PSWall";
 import WordWall from "./WordWall";
 import WordConnectionRow from "./WordConnectionRow";
@@ -12,17 +12,22 @@ import ScoreWall from "./ScoreWall";
 
 function Game({ ...props }) {
     const [gameState, setGameState] = useState({
-        round: -1,
+        round: -1,  
         wallIndex: 0,
-        scores: 0,
         clickedRow: false,
         hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
+        teamOneTurn: true,
+        teamOne:
+        {
+            score: 0,
+            name: ''
+        },
+        teamTwo:
+        {
+            score: 0,
+            name: ''
+        },
         wordWallIndex: 0,
-        score1: 25,
-        score2: 32,
-        player1Turn: true,
-        teamOne: '',
-        teamTwo: ''
     });
 
     const colorDictionary = {
@@ -41,10 +46,10 @@ function Game({ ...props }) {
     const addToScore = (score) => {
         if (gameState.player1Turn) {
             score += gameState.score1;
-            setGameState({ ...gameState, score1: score });
+            setGameState({ ...gameState, score1: score});
         } else {
             score += gameState.score2;
-            setGameState({ ...gameState, score2: score });
+            setGameState({ ...gameState, score2: score});
         }
     };
 
@@ -54,13 +59,18 @@ function Game({ ...props }) {
 
     const startGame = () => {
         setGameState({ ...gameState, round: 0 });
-        console.log("Start Game");
     };
 
     const setTeamNames = (evt) => {
         const newState = {...gameState}
-        newState[evt.target.id] = evt.target.value 
+        newState[evt.target.id].name = evt.target.value 
        setGameState({...newState})
+    }
+
+    // Click handles
+    const gameOver = () =>
+    {
+        setGameState({ ...gameState, clickedRow: false, round: -1 });
     }
 
     // Click handles
@@ -112,19 +122,37 @@ function Game({ ...props }) {
         }
     };
 
-    //When a connection/sequence row is completed
-    const psRowExit = () => {
-        if (gameState.wallIndex === 5) {
-            setGameState({
-                ...gameState,
-                wallIndex: 0,
-                clickedRow: false,
-                round: gameState.round + 1,
-                hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
-            });
-        } else {
-            setGameState({ ...gameState, wallIndex: gameState.wallIndex + 1, clickedRow: false });
+    /**
+     * When the connection / sequence row exits
+     * @param  {[type]} points Number of points to add
+     * @param  {[type]} team Team that receives points
+    */
+    const psRowExit = (points, team) => {
+        var tempGameState = {...gameState};
+        tempGameState.teamOneTurn = !gameState.teamOneTurn;
+        tempGameState.clickedRow = false;
+
+        if(team)
+        {
+            tempGameState.teamOne = {...gameState.teamOne, score: gameState.teamOne.score + points};
         }
+        else
+        {
+            tempGameState.teamTwo = {...gameState.teamTwo, score: gameState.teamTwo.score + points}
+        }
+
+        if (gameState.wallIndex === 5)
+        {
+            tempGameState.wallIndex = 0;
+            tempGameState.round = gameState.round + 1;
+            tempGameState.hidden = { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false };
+        }
+        else
+        { 
+            tempGameState.wallIndex = gameState.wallIndex + 1;
+        }
+
+        setGameState(tempGameState);
     };
 
     const renderSwitch = () => {
@@ -138,7 +166,7 @@ function Game({ ...props }) {
                             <PSWall
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
-                                player1Turn={gameState.player1turn}
+                                turn={gameState.teamOneTurn}
                                 teamOne={gameState.teamOne}
                                 teamTwo={gameState.teamTwo}
                             ></PSWall>
@@ -146,31 +174,35 @@ function Game({ ...props }) {
                             <ConnectionRow
                                 exit={psRowExit}
                                 row={connections[gameState.wallIndex]}
-                                addToScore={addToScore}
-                                switchTurn={switchTurn}
+                                turn={gameState.teamOneTurn}
                             ></ConnectionRow>
                         )}
                     </div>
                 );
             case 1:
-                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
+                return (<ScoreWall exit={scoreExit} play1Score={gameState.teamOne.score} play2Score={gameState.teamTwo.score}></ScoreWall>);
             case 2:
                 return (
                     <div>
                         {gameState.clickedRow === false ? (
-                            <PSWall onClick={psWallHandle} hidden={gameState.hidden}></PSWall>
+                            <PSWall
+                            onClick={psWallHandle}
+                            hidden={gameState.hidden}
+                            turn={gameState.teamOneTurn}
+                            teamOne={gameState.teamOne}
+                            teamTwo={gameState.teamTwo}
+                        ></PSWall>
                         ) : (
                             <SequenceRow
                                 exit={psRowExit}
                                 row={sequences[gameState.wallIndex]}
-                                addToScore={addToScore}
-                                switchTurn={switchTurn}
+                                turn={gameState.teamOneTurn}
                             ></SequenceRow>
                         )}
                     </div>
                 );
             case 3:
-                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
+                return (<ScoreWall exit={scoreExit} play1Score={gameState.teamOne.score} play2Score={gameState.teamTwo.score}></ScoreWall>);
 
             case 4:
                 return (
@@ -238,7 +270,7 @@ function Game({ ...props }) {
                 );
 
             case 8:
-                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
+                return (<ScoreWall exit={scoreExit} play1Score={gameState.teamOne.score} play2Score={gameState.teamTwo.score}></ScoreWall>);
 
             case 9:
                 return (
@@ -252,7 +284,7 @@ function Game({ ...props }) {
                     </div>
                 );
             case 10:
-                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
+                return (<ScoreWall exit={gameOver} play1Score={gameState.teamOne.score} play2Score={gameState.teamTwo.score}></ScoreWall>);
             default:
                 return (
                     <div>
