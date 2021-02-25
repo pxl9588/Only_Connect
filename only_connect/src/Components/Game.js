@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PSWall from "./PSWall";
 import WordWall from "./WordWall";
 import WordConnectionRow from "./WordConnectionRow";
@@ -9,6 +9,10 @@ import WordWallIcons from "./WorldWallIcons";
 import Data from "./../utilities/gameData";
 import HomePage from "./HomePage";
 import ScoreWall from "./ScoreWall";
+import GameState from "./hooks/gameState";
+import firebase from "firebase";
+import { id } from "./HomePage";
+var database = firebase.database();
 
 function Game({ ...props }) {
     const [gameState, setGameState] = useState({
@@ -21,9 +25,39 @@ function Game({ ...props }) {
         score1: 25,
         score2: 32,
         player1Turn: true,
-        teamOne: '',
-        teamTwo: ''
+        teamOne: "",
+        teamTwo: "",
     });
+    // setInterval(() => {
+    //     setGameState({ ...gameState, player1Turn: !gameState.player1Turn });
+    // }, 3000);
+    // const { gameState, setGameState, setGameStateLocal } = GameState({
+    //     round: -1,
+    //     wallIndex: 0,
+    //     scores: 0,
+    //     clickedRow: false,
+    //     hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
+    //     wordWallIndex: 0,
+    //     score1: 25,
+    //     score2: 32,
+    //     player1Turn: true,
+    //     teamOne: "",
+    //     teamTwo: "",
+    // });
+
+    // useEffect(() => {
+    //     const ref = database.ref(id);
+    //     ref.on("value", (state) => {
+    //         const data = state.val();
+    //         if (data) {
+    //             console.log(data);
+    //             setGameStateLocal(data);
+    //         }
+    //     });
+    //     return () => {
+    //         ref.off();
+    //     };
+    // }, []);
 
     const colorDictionary = {
         0: "bg-gradient-to-r from-red-500 via-red-400 to-red-500",
@@ -57,17 +91,18 @@ function Game({ ...props }) {
         console.log("Start Game");
     };
 
-    const setTeamNames = (evt) => {
-        const newState = {...gameState}
-        newState[evt.target.id] = evt.target.value 
-       setGameState({...newState})
-    }
+    const setTeamNames = (id, value) => {
+        // evt.preventDefault();
+        const newState = { ...gameState };
+        newState[id] = value;
+        // console.log(evt.target.id);
+        setGameState({ ...newState });
+    };
 
     // Click handles
-    const scoreExit = () =>
-    {
+    const scoreExit = () => {
         setGameState({ ...gameState, clickedRow: false, round: gameState.round + 1 });
-    }
+    };
     const psWallHandle = (i) => {
         var temp = { ...gameState.hidden };
         temp[i] = true;
@@ -130,7 +165,15 @@ function Game({ ...props }) {
     const renderSwitch = () => {
         switch (gameState.round) {
             case -1:
-                return <HomePage teamOne={gameState.teamOne} teamTwo={gameState.teamTwo} setName={setTeamNames} startGame={startGame}></HomePage>;
+                return (
+                    <HomePage
+                        gameState={gameState}
+                        teamOne={gameState.teamOne}
+                        teamTwo={gameState.teamTwo}
+                        setName={setTeamNames}
+                        startGame={startGame}
+                    ></HomePage>
+                );
             case 0:
                 return (
                     <div>
@@ -138,7 +181,7 @@ function Game({ ...props }) {
                             <PSWall
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
-                                player1Turn={gameState.player1turn}
+                                player1Turn={gameState.player1Turn}
                                 teamOne={gameState.teamOne}
                                 teamTwo={gameState.teamTwo}
                             ></PSWall>
@@ -153,7 +196,13 @@ function Game({ ...props }) {
                     </div>
                 );
             case 1:
-                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
+                return (
+                    <ScoreWall
+                        exit={scoreExit}
+                        play1Score={gameState.score1}
+                        play2Score={gameState.score2}
+                    ></ScoreWall>
+                );
             case 2:
                 return (
                     <div>
@@ -170,7 +219,13 @@ function Game({ ...props }) {
                     </div>
                 );
             case 3:
-                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
+                return (
+                    <ScoreWall
+                        exit={scoreExit}
+                        play1Score={gameState.score1}
+                        play2Score={gameState.score2}
+                    ></ScoreWall>
+                );
 
             case 4:
                 return (
@@ -238,7 +293,13 @@ function Game({ ...props }) {
                 );
 
             case 8:
-                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
+                return (
+                    <ScoreWall
+                        exit={scoreExit}
+                        play1Score={gameState.score1}
+                        play2Score={gameState.score2}
+                    ></ScoreWall>
+                );
 
             case 9:
                 return (
@@ -252,7 +313,13 @@ function Game({ ...props }) {
                     </div>
                 );
             case 10:
-                return (<ScoreWall exit={scoreExit} play1Score={gameState.score1} play2Score={gameState.score2}></ScoreWall>);
+                return (
+                    <ScoreWall
+                        exit={scoreExit}
+                        play1Score={gameState.score1}
+                        play2Score={gameState.score2}
+                    ></ScoreWall>
+                );
             default:
                 return (
                     <div>
