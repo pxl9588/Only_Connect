@@ -33,7 +33,7 @@ function ButtonCorrect(props){
     ${color}
     ${shadow}
     ${rounded}
-    ${props.hidden ? "invisible" : ""}
+    ${props.hidden ? "invisible" : "cursor-pointer"}
     ${text_style}
     ${font_color}
     ${align_content}

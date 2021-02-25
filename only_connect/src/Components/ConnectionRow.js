@@ -151,9 +151,11 @@ function ConnectionRow(props)
         }
     };
 
-    const renderSwitch = (admin) => {
-        return (
-            <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
+    const renderSwitch = (admin, spectator) => {
+        if(spectator)
+        {
+            return (
+                <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
 
                 <div className={`justify-items-center items-center row-start-1 col-start-${roundState.timerIndex}`}>
                     <Timer completed={roundState.time} max={max_time} color={roundState.timer_color} fill_color={roundState.timer_fill_color} hidden={roundState.answerHidden[2]} points={roundState.points}></Timer>
@@ -173,31 +175,61 @@ function ConnectionRow(props)
                 </div>
 
                 <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                    <Answer type="answer" hidden={!admin && roundState.answerHidden[1]}>{props.row["answer"]}</Answer>
-                </div>
-
-                <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
-                    {
-                        admin ? 
-                        <ButtonCorrect clickBlock={correct} type="correct"> Correct </ButtonCorrect>
-                        : 
-                        <ButtonBuzzer clickBlock={buzzerClick}>Buzzer</ButtonBuzzer>
-                    }
-                </div>
-
-                <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
-                    {
-                        admin ? 
-                        <ButtonCorrect clickBlock={incorrect} type="incorrect"> Incorrect</ButtonCorrect>
-                        :
-                        <ButtonNext clickBlock={nextClick}>Next</ButtonNext>
-                    }
+                    <Answer type="answer" hidden={roundState.answerHidden[1]}>{props.row["answer"]}</Answer>
                 </div>
             </div>
-        );
+            );
+        }
+        else
+        {
+            return (
+                <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
+    
+                    <div className={`justify-items-center items-center row-start-1 col-start-${roundState.timerIndex}`}>
+                        <Timer completed={roundState.time} max={max_time} color={roundState.timer_color} fill_color={roundState.timer_fill_color} hidden={roundState.answerHidden[2]} points={roundState.points}></Timer>
+                    </div>
+    
+                    <div className="row-start-2">
+                        <Clue>{props.row["clues"][0]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[3]}>{props.row["clues"][3]}</Clue>
+                    </div>
+    
+                    <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
+                        <Answer type="answer" hidden={!admin && roundState.answerHidden[1]}>{props.row["answer"]}</Answer>
+                    </div>
+    
+                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
+                        {
+                            admin ? 
+                            <ButtonCorrect clickBlock={correct} type="correct">Correct</ButtonCorrect>
+                            : 
+                            <ButtonBuzzer clickBlock={buzzerClick}>Buzzer</ButtonBuzzer>
+                        }
+                    </div>
+    
+                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
+                        {
+                            admin ? 
+                            <ButtonCorrect clickBlock={incorrect} type="incorrect">Incorrect</ButtonCorrect>
+                            :
+                            <ButtonNext clickBlock={nextClick}>Next</ButtonNext>
+                        }
+                    </div>
+                </div>
+            );
+        }
+        
     };
 
-    return <div>{renderSwitch(false)}</div>;
+    return <div>{renderSwitch(false, true)}</div>;
 }
 
 export default ConnectionRow;

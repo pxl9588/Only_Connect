@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PSWall from "./PSWall";
 import WordWall from "./WordWall";
 import WordConnectionRow from "./WordConnectionRow";
@@ -12,7 +12,11 @@ import ScoreWall from "./ScoreWall";
 
 function Game({ ...props }) {
     const [gameState, setGameState] = useState({
-        round: -1,  
+        // 0: Connection
+        // 2: Sequence
+        // 4: WordWall
+        // 9: Missing Vowel
+        round: 9,  
         wallIndex: 0,
         clickedRow: false,
         hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
@@ -44,17 +48,15 @@ function Game({ ...props }) {
     const wordWalls = [Data.wall.wall1, Data.wall.wall2];
 
     const addToScore = (score) => {
-        if (gameState.player1Turn) {
-            score += gameState.score1;
-            setGameState({ ...gameState, score1: score});
+        if (gameState.teamOneTurn) {
+            setGameState({ ...gameState, teamOne:{ ...gameState.teamOne,  score: gameState.teamOne.score + score}});
         } else {
-            score += gameState.score2;
-            setGameState({ ...gameState, score2: score});
+            setGameState({ ...gameState, teamTwo:{ ...gameState.teamTwo,  score: gameState.teamTwo.score + score}});
         }
     };
 
     const switchTurn = () => {
-        setGameState({ ...gameState, player1Turn: !gameState.player1Turn });
+        setGameState({ ...gameState, teamOneTurn: !gameState.teamOneTurn });
     };
 
     const startGame = () => {
@@ -93,19 +95,37 @@ function Game({ ...props }) {
             setGameState({ ...gameState, wallIndex: gameState.wallIndex + 1 });
         }
     };
-    //When a connection row of the word wall is completed
-    const wordRowExit = () => {
-        if (gameState.wallIndex === 3) {
-            setGameState({
-                ...gameState,
-                wallIndex: 0,
-                wordWallIndex: gameState.wordWallIndex + 1,
-                clickedRow: false,
-                round: gameState.round + 1,
-            });
-        } else {
-            setGameState({ ...gameState, wallIndex: gameState.wallIndex + 1 });
+    /**
+     * When the Word Wall Connection Row exits
+     * @param  {int} points Number of points to add
+     * There is no stealing in this phase, if team is true, the team whose turn it is gets the points
+    */
+    const wordRowExit = (points) => {
+        var tempGameState = {...gameState};
+        if (gameState.wallIndex === 3)
+        {
+            tempGameState.wallIndex = 0;
+            tempGameState.wordWallIndex = gameState.wordWallIndex + 1;
+            tempGameState.clickedRow = false;
+            tempGameState.round = gameState.round + 1;
+            
+            tempGameState.teamOneTurn = !gameState.teamOneTurn;
         }
+        else
+        {
+            tempGameState.wallIndex = gameState.wallIndex + 1;
+        }
+
+        if(gameState.teamOneTurn)
+        {
+            tempGameState.teamOne.score += points
+        }
+        else
+        {
+            tempGameState.teamTwo.score += points
+        }
+
+        setGameState(tempGameState);
     };
 
     //When the word wall has been solved
@@ -215,11 +235,9 @@ function Game({ ...props }) {
                         ) : (
                             <WordWall
                                 data={wordWalls[gameState.wordWallIndex]}
-                                addToScore={addToScore}
-                                switchTurn={switchTurn}
                                 exit={wallExit}
+                                addToScore={addToScore}
                             >
-                                {" "}
                             </WordWall>
                         )}
                     </div>
@@ -228,11 +246,9 @@ function Game({ ...props }) {
                 return (
                     <div>
                         <WordConnectionRow
-                            exitClick={wordRowExit}
+                            exit={wordRowExit}
                             color={colorDictionary[gameState.wallIndex]}
                             row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}
-                            addToScore={addToScore}
-                            switchTurn={switchTurn}
                         ></WordConnectionRow>
                     </div>
                 );
@@ -247,11 +263,9 @@ function Game({ ...props }) {
                         ) : (
                             <WordWall
                                 data={wordWalls[gameState.wordWallIndex]}
-                                addToScore={addToScore}
-                                switchTurn={switchTurn}
                                 exit={wallExit}
+                                addToScore={addToScore}
                             >
-                                {" "}
                             </WordWall>
                         )}
                     </div>
@@ -260,11 +274,9 @@ function Game({ ...props }) {
                 return (
                     <div>
                         <WordConnectionRow
-                            exitClick={wordRowExit}
+                            exit={wordRowExit}
                             color={colorDictionary[gameState.wallIndex]}
                             row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}
-                            addToScore={addToScore}
-                            switchTurn={switchTurn}
                         ></WordConnectionRow>
                     </div>
                 );
