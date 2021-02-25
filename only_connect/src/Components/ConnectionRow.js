@@ -10,7 +10,7 @@ import Timer from "./Timer";
 function ConnectionRow(props)
 {
     const final_number = 4;
-    const max_time = 40;
+    const max_time = 5;
     const [roundState, setRoundState] = useState(
         {
             time: 0,
@@ -37,6 +37,7 @@ function ConnectionRow(props)
     useEffect(
         () =>
         {
+            console.log("useEffect");
             var id = null;
             //Max time reached, other team get's to answer
             if(roundState.time < max_time)
@@ -45,21 +46,26 @@ function ConnectionRow(props)
             }
             else if(roundState.time === max_time)
             {
-                setRoundState({...roundState, timer_color: "bg-red-600", timer_fill_color: "bg-red-600", buzzed: 2, cluesHidden:
-                {
-                    1: false,
-                    2: false,
-                    3: false
-                },
-                answerHidden:
-                {
-                    1:true,
-                    2:false
-                },
-                timerIndex: 4,
-                points: 1,
-                //So useEffect never runs again
-                time: max_time + 1
+                setRoundState({
+                    ...roundState,
+                    timer_color: "bg-red-600",
+                    timer_fill_color: "bg-red-600",
+                    buzzed: 2,
+                    cluesHidden:
+                    {
+                        1: false,
+                        2: false,
+                        3: false
+                    },
+                    answerHidden:
+                    {
+                        1:true,
+                        2:false
+                    },
+                    timerIndex: 4,
+                    points: 1,
+                    //So useEffect never runs again
+                    time: max_time + 1
             });
             }
             return () => clearInterval(id);
@@ -209,21 +215,21 @@ function ConnectionRow(props)
                         <Answer type="answer" hidden={!admin && roundState.answerHidden[1]}>{props.row["answer"]}</Answer>
                     </div>
     
-                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
+                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20">
                         {
                             admin ? 
-                            <ButtonCorrect clickBlock={correct} type="correct">Correct</ButtonCorrect>
+                            <ButtonCorrect clickBlock={correct} hidden={roundState.buzzed < 1} type="correct">Correct</ButtonCorrect>
                             : 
-                            <ButtonBuzzer clickBlock={buzzerClick}>Buzzer</ButtonBuzzer>
+                            <ButtonBuzzer clickBlock={buzzerClick} hidden={roundState.buzzed > 0}>Buzzer</ButtonBuzzer>
                         }
                     </div>
     
-                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
+                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20">
                         {
                             admin ? 
-                            <ButtonCorrect clickBlock={incorrect} type="incorrect">Incorrect</ButtonCorrect>
+                            <ButtonCorrect clickBlock={incorrect} hidden={roundState.buzzed < 1} type="incorrect">Incorrect</ButtonCorrect>
                             :
-                            <ButtonNext clickBlock={nextClick}>Next</ButtonNext>
+                            <ButtonNext clickBlock={nextClick} hidden={roundState.buzzed > 0}>Next</ButtonNext>
                         }
                     </div>
                 </div>
@@ -232,7 +238,7 @@ function ConnectionRow(props)
         
     };
 
-    return <div>{renderSwitch(false, true)}</div>;
+    return <div>{renderSwitch(false, false)}</div>;
 }
 
 export default ConnectionRow;

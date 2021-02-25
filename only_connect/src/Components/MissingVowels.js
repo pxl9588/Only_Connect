@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MissingVowelCategory from './MissingVowelCategory';
 import Answer from './Answer';
 import ButtonCorrect from "./ButtonCorrect";
-import ButtonNext from './ButtonNext';
+//import ButtonNext from './ButtonNext';
 
 function MissingVowels(props)
 {
@@ -19,7 +19,7 @@ function MissingVowels(props)
             props.onClick();
         }
     }
-    const handleClick = (wasCorrect) =>
+    /*const handleClick = (wasCorrect) =>
     {
         if(index < 3)
         {
@@ -30,7 +30,7 @@ function MissingVowels(props)
             setIndex(-1);
             props.onClick();
         }
-    }
+    }*/
 
     const renderView = (admin) =>
     {
