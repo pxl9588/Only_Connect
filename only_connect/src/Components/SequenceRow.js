@@ -11,7 +11,7 @@ function SequenceRow(props) {
 
     const final_number = 3;
     const max_time = 40;
-    const [roundState, setroundState] = useState(
+    const [roundState, setRoundState] = useState(
         {
             time: 0,
             timer_fill_color: "bg-blue-900",
@@ -40,11 +40,11 @@ function SequenceRow(props) {
             //Max time reached, other team get's to answer
             if(roundState.time < max_time)
             {
-                id = setInterval(()=>{setroundState({...roundState, time: roundState.time + 1});}, 1000);
+                id = setInterval(()=>{setRoundState({...roundState, time: roundState.time + 1});}, 1000);
             }
             else if(roundState.time === max_time)
             {
-                setroundState({...roundState, timer_color: "bg-red-600", timer_fill_color: "bg-red-600", buzzed: 2, cluesHidden:
+                setRoundState({...roundState, timer_color: "bg-red-600", timer_fill_color: "bg-red-600", buzzed: 2, cluesHidden:
                 {
                     1: false,
                     2: false
@@ -61,7 +61,7 @@ function SequenceRow(props) {
         },[roundState]);
 
         const displayEnd = () => {
-            setroundState(
+            setRoundState(
                 {
                     ...roundState,
                     cluesHidden:
@@ -83,7 +83,7 @@ function SequenceRow(props) {
         if(roundState.buzzed === 1)
         {
             // Answer was incorrect, display all clues, and switch turns
-            setroundState({...roundState, buzzed: 2, cluesHidden:
+            setRoundState({...roundState, buzzed: 2, cluesHidden:
                 {
                     1: false,
                     2: false,
@@ -126,27 +126,27 @@ function SequenceRow(props) {
         }        
     };
         
-        const buzzerClick = () => {
-            setroundState({...roundState, timer_color: "bg-green-600", timer_fill_color: "bg-green-600", buzzed: 1, time:max_time+1});
-        };
+    const buzzerClick = () => {
+        setRoundState({...roundState, timer_color: "bg-light-accent", timer_fill_color: "bg-light-accent", buzzed: 1, time:max_time+1});
+    };
     
-        const nextClick = () => {
-            if (roundState.count < final_number && !roundState.buzzed) {
-                const point_array = [3, 2, 1];
-                var temp = { ...roundState.cluesHidden};
-                temp[roundState.count] = false;
-    
-                setroundState(
-                    {
-                        ...roundState,
-                        timerIndex: roundState.timerIndex + 1,
-                        count: roundState.count + 1,
-                        points: point_array[roundState.count-1],
-                        cluesHidden: temp
-                    }
-                )
-            }
-        };
+    const nextClick = () => {
+        if (roundState.count < final_number && !roundState.buzzed) {
+            const point_array = [3, 2, 1];
+            var temp = { ...roundState.cluesHidden};
+            temp[roundState.count] = false;
+
+            setRoundState(
+                {
+                    ...roundState,
+                    timerIndex: roundState.timerIndex + 1,
+                    count: roundState.count + 1,
+                    points: point_array[roundState.count-1],
+                    cluesHidden: temp
+                }
+            )
+        }
+    };
 
     const renderSwitch = (admin) => {
         return (

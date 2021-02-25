@@ -11,7 +11,7 @@ function ConnectionRow(props)
 {
     const final_number = 4;
     const max_time = 40;
-    const [roundState, setroundState] = useState(
+    const [roundState, setRoundState] = useState(
         {
             time: 0,
             timer_fill_color: "bg-dark-accent",
@@ -41,11 +41,11 @@ function ConnectionRow(props)
             //Max time reached, other team get's to answer
             if(roundState.time < max_time)
             {
-                id = setInterval(()=>{setroundState({...roundState, time: roundState.time + 1});}, 1000);
+                id = setInterval(()=>{setRoundState({...roundState, time: roundState.time + 1});}, 1000);
             }
             else if(roundState.time === max_time)
             {
-                setroundState({...roundState, timer_color: "bg-red-600", timer_fill_color: "bg-red-600", buzzed: 2, cluesHidden:
+                setRoundState({...roundState, timer_color: "bg-red-600", timer_fill_color: "bg-red-600", buzzed: 2, cluesHidden:
                 {
                     1: false,
                     2: false,
@@ -63,7 +63,7 @@ function ConnectionRow(props)
         },[roundState]);
 
     const displayEnd = () => {
-        setroundState(
+        setRoundState(
             {
                 ...roundState,
                 cluesHidden:
@@ -86,7 +86,7 @@ function ConnectionRow(props)
         if(roundState.buzzed === 1)
         {
             // Answer was incorrect, display all clues, and switch turns
-            setroundState({...roundState, buzzed: 2, cluesHidden:
+            setRoundState({...roundState, buzzed: 2, cluesHidden:
                 {
                     1: false,
                     2: false,
@@ -130,7 +130,7 @@ function ConnectionRow(props)
     };
     
     const buzzerClick = () => {
-        setGameState({...roundState, timer_color: "bg-light-accent", timer_fill_color: "bg-light-accent", buzzed: 1, time:max_time+1});
+        setRoundState({...roundState, timer_color: "bg-light-accent", timer_fill_color: "bg-light-accent", buzzed: 1, time:max_time+1});
     };
 
     const nextClick = () => {
@@ -139,7 +139,7 @@ function ConnectionRow(props)
             var temp = { ...roundState.cluesHidden};
             temp[roundState.count] = false;
 
-            setroundState(
+            setRoundState(
                 {
                     ...roundState,
                     timerIndex: roundState.timerIndex + 1,
