@@ -16,10 +16,10 @@ function Game({ ...props }) {
         // 2: Sequence
         // 4: WordWall
         // 9: Missing Vowel
-        round: 0,  
+        round: 9,  
         wallIndex: 0,
         clickedRow: false,
-        hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
+        hidden: { 1: false, 2: false, 3: true, 4: false, 5: false, 6: false },
         teamOneTurn: true,
         teamOne:
         {

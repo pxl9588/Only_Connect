@@ -10,14 +10,14 @@ module.exports = {
       center: true,
     },
     fontFamily: {
-      'body': ["Oswald"]
+      'sans': ["Times New Roman"]
     },
     extend: {
       colors: {
-        'light-accent': '#4EC8D6',
-        'dark-accent': '#6E8EBE',
-        'light-shade': '#F3F0EF',
-        'dark-shade': '#1D2036',
+        'light-accent': '#c1acb2',
+        'dark-accent': '#888793',
+        'light-shade': '#F2EDE8',
+        'dark-shade': '#3F76B6',
         'next': '#94FFF1',
         'next-text': '#AB19B3',
         

@@ -10,7 +10,7 @@ import Timer from "./Timer";
 function ConnectionRow(props)
 {
     const final_number = 4;
-    const max_time = 5;
+    const max_time = 150;
     const [roundState, setRoundState] = useState(
         {
             time: 0,
@@ -238,7 +238,7 @@ function ConnectionRow(props)
         
     };
 
-    return <div>{renderSwitch(false, false)}</div>;
+    return <div>{renderSwitch(true, false)}</div>;
 }
 
 export default ConnectionRow;

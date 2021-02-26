@@ -85,10 +85,30 @@ const GameData = {
         ],
     },
     missingVowels: [
-        {'category': 'Chores', 'clues': ['W SH NTH GD HS', 'F LD NGL ND RY', 'WPN GT HW NDW S', 'HDNG STFF NTH CL ST']},
-        {'category': 'Clothing Brands', 'clues': ['CL VNKL N', 'ZR', 'N DRRM R', 'K NNT HC L']},
-        {'category': 'Mixed Drinks', 'clues': ['W H TRS SN', 'MSC WML', 'D RKN DSTR M', 'MRT TSR']},
-        {'category': 'Cities in Israel', 'clues': ['JR S LM', 'T LV V', 'HF', 'JF F']}
+        {'category': 'Chores', 'clues': [
+            {'clue': 'W SH NTH GD HS', 'answer': 'WASHING THE DISHES'},
+            {'clue': 'F LD NGL ND RY', 'answer': 'FOLDING LAUNDRY'},
+            {'clue': 'WPN GT HW NDW S', 'answer': 'WIPING THE WINDOWS'},
+            {'clue': 'HNG NGCL THS NTH CL ST', 'answer': 'HANGING CLOTHES IN THE CLOSET'}
+        ]},
+        {'category': 'Clothing Brands', 'clues': [
+            {'clue': 'CL VNKL N', 'answer': 'CALVIN KLEIN'},
+            {'clue': 'ZR', 'answer': 'ZARA'},
+            {'clue': 'N DRRM R', 'answer': 'UNDER ARMOUR'},
+            {'clue': 'K NNT HC L', 'answer': 'KENNETH COLE'}
+        ]},
+        {'category': 'Mixed Drinks', 'clues': [
+            {'clue': 'W H TRS SN', 'answer': 'WHITE RUSSIAN'},
+            {'clue': 'MSC WML', 'answer': 'MOSCOW MULE'},
+            {'clue': 'D RKN DSTR M', 'answer': 'DARK AND STORMY'},
+            {'clue': 'MRT TSR', 'answer': 'AMARETTO SOUR'}
+        ]},
+        {'category': 'Cities in Israel', 'clues': [
+            {'clue': 'JR S LM', 'answer': 'JERUSALEM'},
+            {'clue': 'T LV V', 'answer': 'TEL AVIV'},
+            {'clue': 'HF', 'answer': 'HAIFA'},
+            {'clue': 'JF F', 'answer': 'JAFFA'}]
+        }
     ]
 };
 

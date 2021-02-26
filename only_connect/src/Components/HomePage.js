@@ -1,18 +1,18 @@
 import React from "react";
 import OverrideButton from "./OverrideButton";
 import TextField from "@material-ui/core/TextField";
-import Whale from '../images/whale.png'
-import Seal from '../images/seal.png'
+import seal from '../images/black_and_white/seal.png'
+import whale from '../images/black_and_white/whale.png'
 
 
 export default function HomePage(props) {
     return (
         <div className="mt-20">
-            <h1 className="text-9xl text-center text-light-shade">Sole Relation</h1>;
+            <h1 className="text-9xl text-center text-dark-shade font-sans">Sole Relation</h1>;
             <div className="mt-20 flex justify-center">
                 <div style={{ left: `-5%`, position: "relative" }}>
-                    <h2 className="text-3xl text-center text-light-shade">Team 1</h2>
-                    <img src={Whale} alt={Whale}></img>
+                    <h2 className="text-3xl text-center text-dark-shade font-sans">Team 1</h2>
+                    <img src={seal} alt={seal   }></img>
                     <div className='justify-center flex'>
                     <TextField
                         id='teamOne'
@@ -25,8 +25,8 @@ export default function HomePage(props) {
                     </div>
                 </div>
                 <div style={{ left: `$5%`, position: "relative" }}>
-                    <h2 className="text-3xl text-center text-light-shade">Team 2</h2>
-                    <img src={Seal} alt={Seal}></img>
+                    <h2 className="text-3xl text-center text-dark-shade">Team 2</h2>
+                    <img src={whale} alt={whale}></img>
                     <div className='flex justify-center '>
                     <TextField id='teamTwo'onChange={props.setName} value={props.teamTwoName} margin="normal" autoFocus></TextField>
                     </div>
