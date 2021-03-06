@@ -19,7 +19,7 @@ function PSWall(props)
 
     return (
         <div className="justify-center items-center h-screen -my-12 sm:-my-0">
-            <h2 className='text-5xl mt-20 text-center'>{`${props.player1Turn ? props.teamOne : props.teamTwo} Selects:`}</h2>
+            <h2 className='text-5xl mt-20 text-center'>{`${props.turn  ? props.teamOne.name : props.teamTwo.name} Selects`}</h2>
             <div className='flex justify-center items-center -my-12 sm:-my-0'>
                 <div className="grid grid-flow-col grid-rows-3 sm:grid-rows-2 lg:grid-rows-2">
                 <WallIcon icon={frog} hidden={props.hidden[1] ? "invisible" : ""} id="1" onClick={props.hidden[1]  ? null : handleClick}></WallIcon>

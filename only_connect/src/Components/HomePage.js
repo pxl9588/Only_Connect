@@ -38,7 +38,7 @@ export default function HomePage(props) {
     const [teamTwo, setTeamTwo] = useState("");
 
     return (
-        <div className="mt-20">
+        <div className="bg-mt-20">
             <h1 className=" text-5xl sm:text-7xl md:text-7xl lg:text-7xl xl:text-9xl text-center">
                 Sole Relation
             </h1>
@@ -70,13 +70,17 @@ export default function HomePage(props) {
                                 style={{ left: "15%", top: "2%", position: "relative" }}
                                 className="justify-content flex"
                             >
-                                <button className='"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"'>
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     Set Team Name
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
+                {/* <div
+                    className="w-28 h-28 flex bg-blue-500 hover:bg-blue-700" 
+                    
+                > </div> */}
                 <div style={{ left: `$5%`, position: "relative" }}>
                     <h2 className="text-3xl text-center">Team2:</h2>
                     <h2 className="text-5xl text-center">{props.teamTwo}</h2>
@@ -105,7 +109,7 @@ export default function HomePage(props) {
                                 style={{ left: `15%`, top: "2%", position: "relative" }}
                                 className="justify-content flex"
                             >
-                                <button className='"bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"'>
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     Set Team Name
                                 </button>
                             </div>

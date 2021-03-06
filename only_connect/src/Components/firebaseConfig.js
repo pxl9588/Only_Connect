@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import database from "firebase/database";
+import "firebase/auth";
 
 var firebaseConfig = {
     apiKey: "AIzaSyBVW4nxJbj2K0sLhzMM8yLUardBYR6hIrs",
@@ -12,7 +13,9 @@ var firebaseConfig = {
     measurementId: "G-2MB7M8V461",
 };
 // Initialize Firebase
+
 function initFireBase() {
+    
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }

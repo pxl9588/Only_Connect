@@ -58,6 +58,6 @@ export function clearClickedList(clickedList, solvedList, idToIndex) {
     for (let block of clickedList) {
         let foundIndex = idToIndex.get(block.id);
         solvedList[foundIndex].clicked = false;
-        solvedList[foundIndex].color = " bg-oc-blue";
+        solvedList[foundIndex].color = " bg-light-shade";
     }
 }

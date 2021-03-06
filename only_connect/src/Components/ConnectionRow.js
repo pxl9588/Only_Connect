@@ -10,10 +10,10 @@ import Timer from "./Timer";
 function ConnectionRow(props) {
     const final_number = 4;
     const max_time = 40;
-    const [gameState, setGameState] = useState({
+    const [roundState, setRoundState] = useState({
         time: 0,
-        timer_fill_color: "bg-blue-900",
-        timer_color: "bg-blue-700",
+        timer_fill_color: "bg-dark-accent",
+        timer_color: "bg-light-shade",
         buzzed: 0,
         points: 5,
         count: 1,
@@ -32,14 +32,13 @@ function ConnectionRow(props) {
     useEffect(() => {
         var id = null;
         //Max time reached, other team get's to answer
-        if (gameState.time < max_time) {
+        if (roundState.time < max_time) {
             id = setInterval(() => {
-                setGameState({ ...gameState, time: gameState.time + 1 });
+                setRoundState({ ...roundState, time: roundState.time + 1 });
             }, 1000);
-        } else if (gameState.time === max_time) {
-            console.log("Hello");
-            setGameState({
-                ...gameState,
+        } else if (roundState.time === max_time) {
+            setRoundState({
+                ...roundState,
                 timer_color: "bg-red-600",
                 timer_fill_color: "bg-red-600",
                 buzzed: 2,
@@ -57,11 +56,11 @@ function ConnectionRow(props) {
             });
         }
         return () => clearInterval(id);
-    }, [gameState]);
+    }, [roundState.time]);
 
     const displayEnd = () => {
-        setGameState({
-            ...gameState,
+        setRoundState({
+            ...roundState,
             cluesHidden: {
                 1: false,
                 2: false,
@@ -75,11 +74,10 @@ function ConnectionRow(props) {
     };
 
     const incorrect = () => {
-        if (gameState.buzzed === 1) {
+        if (roundState.buzzed === 1) {
             // Answer was incorrect, display all clues, and switch turns
-            props.switchTurn();
-            setGameState({
-                ...gameState,
+            setRoundState({
+                ...roundState,
                 buzzed: 2,
                 cluesHidden: {
                     1: false,
@@ -93,118 +91,156 @@ function ConnectionRow(props) {
                 timerIndex: 4,
                 points: 1,
             });
-        } else if (gameState.buzzed === 2) {
+        } else if (roundState.buzzed === 2) {
             displayEnd();
 
             setTimeout(() => {
-                props.exit();
+                // No points added, team doesn't matter we always switch turns
+                props.exit(0, true);
             }, 2000);
         }
     };
 
     const correct = () => {
-        if (gameState.buzzed) {
+        if (roundState.buzzed) {
+            var teamOneTurn = props.turn;
             // Answer was correct, add the current points to the teams score, display end
             displayEnd();
 
-            props.addToScore(gameState.points);
-            if (gameState.buzzed === 1) {
-                props.switchTurn();
+            // If buzzed = 2, the other steam stole the points
+            if (roundState.buzzed === 2) {
+                teamOneTurn = !props.turn;
             }
 
             setTimeout(() => {
-                props.exit();
+                props.exit(roundState.points, teamOneTurn);
             }, 2000);
         }
     };
 
     const buzzerClick = () => {
-        setGameState({
-            ...gameState,
-            timer_color: "bg-green-600",
-            timer_fill_color: "bg-green-600",
+        setRoundState({
+            ...roundState,
+            timer_color: "bg-light-accent",
+            timer_fill_color: "bg-light-accent",
             buzzed: 1,
             time: max_time + 1,
         });
     };
 
     const nextClick = () => {
-        if (gameState.count < final_number && !gameState.buzzed) {
+        if (roundState.count < final_number && !roundState.buzzed) {
             const point_array = [3, 2, 1];
-            var temp = { ...gameState.cluesHidden };
-            temp[gameState.count] = false;
+            var temp = { ...roundState.cluesHidden };
+            temp[roundState.count] = false;
 
-            setGameState({
-                ...gameState,
-                timerIndex: gameState.timerIndex + 1,
-                count: gameState.count + 1,
-                points: point_array[gameState.count - 1],
+            setRoundState({
+                ...roundState,
+                timerIndex: roundState.timerIndex + 1,
+                count: roundState.count + 1,
+                points: point_array[roundState.count - 1],
                 cluesHidden: temp,
             });
         }
     };
 
-    const renderSwitch = (admin) => {
-        return (
-            <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
-                <div
-                    className={`justify-items-center items-center row-start-1 col-start-${gameState.timerIndex}`}
-                >
-                    <Timer
-                        completed={gameState.time}
-                        max={max_time}
-                        color={gameState.timer_color}
-                        fill_color={gameState.timer_fill_color}
-                        hidden={gameState.answerHidden[2]}
-                        points={gameState.points}
-                    ></Timer>
-                </div>
+    const renderSwitch = (admin, spectator) => {
+        if (spectator) {
+            return (
+                <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
+                    <div
+                        className={`justify-items-center items-center row-start-1 col-start-${roundState.timerIndex}`}
+                    >
+                        <Timer
+                            completed={roundState.time}
+                            max={max_time}
+                            color={roundState.timer_color}
+                            fill_color={roundState.timer_fill_color}
+                            hidden={roundState.answerHidden[2]}
+                            points={roundState.points}
+                        ></Timer>
+                    </div>
 
-                <div className="row-start-2">
-                    <Clue>{props.row["clues"][0]}</Clue>
-                </div>
-                <div className="row-start-2">
-                    <Clue hidden={gameState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
-                </div>
-                <div className="row-start-2">
-                    <Clue hidden={gameState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
-                </div>
-                <div className="row-start-2">
-                    <Clue hidden={gameState.cluesHidden[3]}>{props.row["clues"][3]}</Clue>
-                </div>
+                    <div className="row-start-2">
+                        <Clue>{props.row["clues"][0]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[3]}>{props.row["clues"][3]}</Clue>
+                    </div>
 
-                <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                    <Answer type="answer" hidden={!admin && gameState.answerHidden[1]}>
-                        {props.row["answer"]}
-                    </Answer>
+                    <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
+                        <Answer type="answer" hidden={roundState.answerHidden[1]}>
+                            {props.row["answer"]}
+                        </Answer>
+                    </div>
                 </div>
+            );
+        } else {
+            return (
+                <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
+                    <div
+                        className={`justify-items-center items-center row-start-1 col-start-${roundState.timerIndex}`}
+                    >
+                        <Timer
+                            completed={roundState.time}
+                            max={max_time}
+                            color={roundState.timer_color}
+                            fill_color={roundState.timer_fill_color}
+                            hidden={roundState.answerHidden[2]}
+                            points={roundState.points}
+                        ></Timer>
+                    </div>
 
-                <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
-                    {admin ? (
-                        <ButtonCorrect clickBlock={correct} type="correct">
-                            {" "}
-                            Correct{" "}
-                        </ButtonCorrect>
-                    ) : (
-                        <ButtonBuzzer clickBlock={buzzerClick}>Buzzer</ButtonBuzzer>
-                    )}
-                </div>
+                    <div className="row-start-2">
+                        <Clue>{props.row["clues"][0]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[3]}>{props.row["clues"][3]}</Clue>
+                    </div>
 
-                <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
-                    {admin ? (
-                        <ButtonCorrect clickBlock={incorrect} type="incorrect">
-                            {" "}
-                            Incorrect
-                        </ButtonCorrect>
-                    ) : (
-                        <ButtonNext clickBlock={nextClick}>Next</ButtonNext>
-                    )}
+                    <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
+                        <Answer type="answer" hidden={!admin && roundState.answerHidden[1]}>
+                            {props.row["answer"]}
+                        </Answer>
+                    </div>
+
+                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
+                        {admin ? (
+                            <ButtonCorrect clickBlock={correct} type="correct">
+                                Correct
+                            </ButtonCorrect>
+                        ) : (
+                            <ButtonBuzzer clickBlock={buzzerClick}>Buzzer</ButtonBuzzer>
+                        )}
+                    </div>
+
+                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
+                        {admin ? (
+                            <ButtonCorrect clickBlock={incorrect} type="incorrect">
+                                Incorrect
+                            </ButtonCorrect>
+                        ) : (
+                            <ButtonNext clickBlock={nextClick}>Next</ButtonNext>
+                        )}
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     };
 
-    return <div>{renderSwitch(true)}</div>;
+    return <div>{renderSwitch(false, true)}</div>;
 }
 
 export default ConnectionRow;

@@ -1,5 +1,5 @@
 import React, { createRef, Component } from "react";
-import Rectangle from "./Rectangle";
+import WordWallClue from "./WordWallClue";
 import { v4 as uuidv4 } from "uuid";
 import { clearClickedList, checkForMatch, animate, randomize } from "../utilities/helpersWordWall";
 import Timer from "./Timer";
@@ -16,16 +16,19 @@ class WordWall extends Component {
     constructor(props) {
         super();
         this.max_time = 150;
-        this.time = 0;
         this.wordDictionary = props.data;
         this.idToIndex = new Map();
         this.refsArr = [];
         this.state = {
+            intervalId: 0,
             clicked: [],
             color_count: 0,
             solved: [],
             lives: 3,
             done: false,
+            timer_fill_color: "bg-dark-accent",
+            timer_color: "bg-light-shade",
+            time: 0
         };
         this.handleClickBlock = this.handleClickBlock.bind(this);
         this.solveBoard = this.solveBoard.bind(this);
@@ -38,7 +41,7 @@ class WordWall extends Component {
                 this.refsArr.push(createRef());
                 return {
                     word: word,
-                    color: "bg-oc-blue",
+                    color: "bg-light-shade",
                     id: uuidv4(),
                     group: index,
                     clicked: false,
@@ -51,11 +54,14 @@ class WordWall extends Component {
         for (let [index, block] of blocks.entries()) {
             this.idToIndex.set(block.id, index);
         }
-        this.setState({ solved: blocks });
+        var id = setInterval(()=>{this.setState({time: this.state.time + 1});}, 1000);
+        this.setState({ solved: blocks, intervalId: id});
     }
 
     componentDidUpdate() {
-        if (this.state.lives <= 0 && !this.state.done) {
+        if ((this.state.lives <= 0 || this.state.time === this.max_time) && !this.state.done)
+        {
+            clearInterval(this.state.intervalId);
             this.setState({ done: true }, this.solveBoard);
         }
     }
@@ -94,10 +100,12 @@ class WordWall extends Component {
         const areOfSameGroup = checkForMatch(clickedList);
         if (areOfSameGroup) {
             if (count === 2) {
+                this.props.addToScore(2);
                 this.solveBoard();
             } else {
                 this.matchRow(clickedList, solvedList, count);
                 count++;
+                this.props.addToScore(1);
             }
         } else {
             clearClickedList(clickedList, solvedList, this.idToIndex);
@@ -122,7 +130,7 @@ class WordWall extends Component {
             return word.id !== obj.id;
         });
         let unclickIndex = this.idToIndex.get(obj.id);
-        solvedList[unclickIndex].color = "bg-oc-blue";
+        solvedList[unclickIndex].color = "bg-light-shade";
         solvedList[unclickIndex].clicked = false;
         this.setState({ solved: solvedList, clicked: clickedList });
     }
@@ -173,6 +181,7 @@ class WordWall extends Component {
             solvedList.push(block);
             this.refsArr.push(nodeToRef.get(block.id));
         });
+        clearInterval(this.state.intervalId);
         this.setState({ solved: solvedList }, () => {
             animate(arr, eltBoundsBefore);
         });
@@ -185,17 +194,14 @@ class WordWall extends Component {
     buildBoard() {
         return this.state.solved.map((block, index) => {
             return (
-                <div className="col-span-1">
-                    <Rectangle
-                        ref={this.refsArr[index]}
-                        key={block.id}
-                        type="wall"
-                        {...block}
-                        clickBlock={this.handleClickBlock}
+                <WordWallClue
+                    ref={this.refsArr[index]}
+                    key={block.id}
+                    {...block}
+                    clickBlock={this.handleClickBlock}
                     >
-                        {block.word}
-                    </Rectangle>
-                </div>
+                    {block.word}
+                </WordWallClue>
             );
         });
     }
@@ -206,7 +212,7 @@ class WordWall extends Component {
                 <div className="grid grid-flow-row py-2 lg:py-10 gap-y-1 lg:gap-y-6 lg:gap-x-6 justify-center items-center">
                     <div className="flex row-start-1 col-span-4">
                         <div className="w-3/4">
-                            <Timer completed={this.time} max={this.max_time} type="wall" />
+                            <Timer completed={this.state.time} max={this.max_time} color={this.state.timer_color} fill_color={this.state.timer_fill_color} type="wall" />
                         </div>
                         {this.state.color_count >= 2 ? (
                             <div className="w-1/4">
