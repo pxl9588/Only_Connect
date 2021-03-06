@@ -28,7 +28,8 @@ class WordWall extends Component {
             done: false,
             timer_fill_color: "bg-dark-accent",
             timer_color: "bg-light-shade",
-            time: 0
+            time: 0,
+            points: 0
         };
         this.handleClickBlock = this.handleClickBlock.bind(this);
         this.solveBoard = this.solveBoard.bind(this);
@@ -100,12 +101,12 @@ class WordWall extends Component {
         const areOfSameGroup = checkForMatch(clickedList);
         if (areOfSameGroup) {
             if (count === 2) {
-                this.props.addToScore(2);
+                this.setState({points: this.state.points + 2});
                 this.solveBoard();
             } else {
                 this.matchRow(clickedList, solvedList, count);
+                this.setState({points: this.state.points + 1});
                 count++;
-                this.props.addToScore(1);
             }
         } else {
             clearClickedList(clickedList, solvedList, this.idToIndex);
@@ -187,7 +188,7 @@ class WordWall extends Component {
         });
 
         setTimeout(() => {
-            this.props.exit();
+            this.props.exit(this.state.points);
         }, 2000);
     }
 

@@ -19,7 +19,7 @@ function Game({ ...props }) {
         round: 9,  
         wallIndex: 0,
         clickedRow: false,
-        hidden: { 1: false, 2: false, 3: true, 4: false, 5: false, 6: false },
+        hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
         teamOneTurn: true,
         teamOne:
         {
@@ -46,18 +46,6 @@ function Game({ ...props }) {
     const missingVowels = Data.missingVowels;
 
     const wordWalls = [Data.wall.wall1, Data.wall.wall2];
-
-    const addToScore = (score) => {
-        if (gameState.teamOneTurn) {
-            setGameState({ ...gameState, teamOne:{ ...gameState.teamOne,  score: gameState.teamOne.score + score}});
-        } else {
-            setGameState({ ...gameState, teamTwo:{ ...gameState.teamTwo,  score: gameState.teamTwo.score + score}});
-        }
-    };
-
-    const switchTurn = () => {
-        setGameState({ ...gameState, teamOneTurn: !gameState.teamOneTurn });
-    };
 
     const startGame = () => {
         setGameState({ ...gameState, round: 0 });
@@ -87,13 +75,19 @@ function Game({ ...props }) {
         setGameState({ ...gameState, clickedRow: true, hidden: temp });
     };
 
-    //When a missing vowel category is finished
-    const missingVowelClick = () => {
-        if (gameState.wallIndex === 3) {
-            setGameState({ ...gameState, wallIndex: 0, round: gameState.round + 1 });
-        } else {
-            setGameState({ ...gameState, wallIndex: gameState.wallIndex + 1 });
-        }
+    /**
+     * When a missing vowel clue is solved
+     * @param  {int} teamOnePoints
+     * @param  {int} teamTwoPoints
+    */
+    const missingVowelExit = (teamOnePoints, teamTwoPoints) => {
+        var temp = {...gameState};
+
+        temp.round += 1;
+        temp.teamOne.score += teamOnePoints;
+        temp.teamTwo.score += teamTwoPoints;
+
+        setGameState(temp);
     };
     /**
      * When the Word Wall Connection Row exits
@@ -105,15 +99,15 @@ function Game({ ...props }) {
         if (gameState.wallIndex === 3)
         {
             tempGameState.wallIndex = 0;
-            tempGameState.wordWallIndex = gameState.wordWallIndex + 1;
+            tempGameState.wordWallIndex += 1;
             tempGameState.clickedRow = false;
-            tempGameState.round = gameState.round + 1;
+            tempGameState.round += 1;
             
             tempGameState.teamOneTurn = !gameState.teamOneTurn;
         }
         else
         {
-            tempGameState.wallIndex = gameState.wallIndex + 1;
+            tempGameState.wallIndex += 1;
         }
 
         if(gameState.teamOneTurn)
@@ -128,18 +122,33 @@ function Game({ ...props }) {
         setGameState(tempGameState);
     };
 
-    //When the word wall has been solved
-    const wallExit = () => {
-        if (gameState.wallIndex === 1) {
-            setGameState({
-                ...gameState,
-                wallIndex: 0,
-                clickedRow: false,
-                round: gameState.round + 1,
-            });
-        } else {
-            setGameState({ ...gameState, clickedRow: false, round: gameState.round + 1 });
+    /**
+     * When the Word Wall exits
+     * @param  {int} points Number of points to add
+    */
+    const wallExit = (points) => {
+        var temp = {...gameState};
+        temp.clickedRow = false;
+        temp.round += 1;
+        if (gameState.wallIndex === 1)
+        {
+            temp.wallIndex = 0;
         }
+        if(points === 4)
+        {
+            points = 6;
+        }
+
+        if(gameState.teamOneTurn)
+        {
+            temp.teamOne.score += points
+        }
+        else
+        {
+            temp.teamTwo.score += points
+        }
+
+        setGameState(temp);
     };
 
     /**
@@ -236,7 +245,6 @@ function Game({ ...props }) {
                             <WordWall
                                 data={wordWalls[gameState.wordWallIndex]}
                                 exit={wallExit}
-                                addToScore={addToScore}
                             >
                             </WordWall>
                         )}
@@ -264,7 +272,6 @@ function Game({ ...props }) {
                             <WordWall
                                 data={wordWalls[gameState.wordWallIndex]}
                                 exit={wallExit}
-                                addToScore={addToScore}
                             >
                             </WordWall>
                         )}
@@ -288,10 +295,8 @@ function Game({ ...props }) {
                 return (
                     <div>
                         <MissingVowels
-                            data={missingVowels[gameState.wallIndex]}
-                            onClick={missingVowelClick}
-                            switchTurn={switchTurn}
-                            addToScore={addToScore}
+                            data={missingVowels}
+                            exit={missingVowelExit}
                         />
                     </div>
                 );

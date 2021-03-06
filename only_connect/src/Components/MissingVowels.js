@@ -8,30 +8,54 @@ function MissingVowels(props)
 {
     const [roundState, setRoundState] = useState(
         {
-            index: -1,
+            clueIndex: -1,
+            categoryIndex: 0,
             displayClue: true,
+            teamOnePoints: 0,
+            teamTwoPoints: 0
         }
     );
 
     useEffect(()=>
-    {
-        setTimeout(() => {setRoundState({...roundState, index:roundState.index+1})}, 2000);
-    }, [props]);
-    const correct = (wasCorrect) =>
-    {
-        //First display the right answer
-        setRoundState({...roundState, displayClue: false});
+    { 
+        //Check round state and exit here dummy
+        setTimeout(() => {setRoundState({...roundState, clueIndex:0})}, 500);
+    }, [roundState.categoryIndex]);
 
-        if(roundState.index < 3)
+    const correct = (teamOneCorrect) =>
+    {
+        var temp = {...roundState};
+        if(teamOneCorrect)
         {
-            setTimeout(() => {setRoundState({...roundState, displayClue: true, index:roundState.index+1})}, 1500);
+            temp.teamOnePoints += 1;
+        }
+        else
+        {
+            temp.teamTwoPoints += 1;
+        }
+        temp.displayClue = false;
+
+        //First display the right answer
+        setRoundState(temp);
+
+        if(roundState.categoryIndex < 4)
+        {
+            if(roundState.clueIndex < 3)
+            {
+                //Show the next clue after the answer has been displayed for some time
+                setTimeout(() => {setRoundState({...roundState, displayClue: true, clueIndex:roundState.clueIndex+1})}, 500);
+            }
+            else
+            {
+                //Show the next category
+                setTimeout(() => {setRoundState({...roundState, displayClue: true, categoryIndex:roundState.categoryIndex+1, clueIndex: -1})}, 500);
+            }
         }
         else
         {
             setTimeout(() => {
-                setRoundState({...roundState, index:-1});
-                props.onClick();
-            }, 2000);
+                props.exit(roundState.teamOnePoints, roundState.teamTwoPoints);
+            }, 1500);
         }
     }
 
@@ -53,11 +77,11 @@ function MissingVowels(props)
         return (
             <div className="grid grid-rows-3 justify-items-center items-center py-14 lg:py-40 lg:gap-y-6">
                 <div className="w-auto col-span-4">
-                    <MissingVowelCategory>{props.data["category"]}</MissingVowelCategory>
+                    <MissingVowelCategory>{roundState.categoryIndex < 4 ? props.data[roundState.categoryIndex]["category"]: ""}</MissingVowelCategory>
                 </div>
                 
                 <div className="w-auto col-span-4">
-                    <Answer hidden={roundState.index === -1}>{roundState.index > -1 ? (roundState.displayClue ? props.data["clues"][roundState.index]["clue"] : props.data["clues"][roundState.index]["answer"]) : ""}</Answer>   
+                    <Answer hidden={roundState.clueIndex === -1}>{roundState.clueIndex > -1 ? (roundState.displayClue ? props.data[roundState.categoryIndex]["clues"][roundState.clueIndex]["clue"] : props.data[roundState.categoryIndex]["clues"][roundState.clueIndex]["answer"]) : ""}</Answer>   
                 </div>
                 {
                     admin ? 

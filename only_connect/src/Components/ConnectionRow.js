@@ -37,7 +37,6 @@ function ConnectionRow(props)
     useEffect(
         () =>
         {
-            console.log("useEffect");
             var id = null;
             //Max time reached, other team get's to answer
             if(roundState.time < max_time)
