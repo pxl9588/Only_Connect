@@ -4,7 +4,10 @@ function WallIcon(props)
 {
   const handleClick = () =>
   {
-    props.onClick(props.id);
+    if(props.onClick)
+    {
+      props.onClick(props.id);
+    }
   }
 
   return (

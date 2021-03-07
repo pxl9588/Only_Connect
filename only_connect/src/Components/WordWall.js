@@ -15,7 +15,7 @@ const colorDictionary = {
 class WordWall extends Component {
     constructor(props) {
         super();
-        this.max_time = 150;
+        this.max_time = 180;
         this.wordDictionary = props.data;
         this.idToIndex = new Map();
         this.refsArr = [];
@@ -26,8 +26,8 @@ class WordWall extends Component {
             solved: [],
             lives: 3,
             done: false,
-            timer_fill_color: "bg-dark-accent",
-            timer_color: "bg-light-shade",
+            timer_fill_color: "bg-dark-shade",
+            timer_color: "bg-dark-accent",
             time: 0,
             points: 0
         };
@@ -230,7 +230,7 @@ class WordWall extends Component {
                     </div>
                     <div className="row-start-3 col-span-4">
                         <button
-                            className="w-full bg-blue-700 hover:bg-blue-700 text-white font-bold border border-blue-700 rounded"
+                            className="w-full bg-dark-shade hover:bg-blue-700 text-white font-bold border border-blue-700 rounded"
                             onClick={this.solveBoard}
                         >
                             Solve

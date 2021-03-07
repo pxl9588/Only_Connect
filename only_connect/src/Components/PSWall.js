@@ -30,7 +30,7 @@ function PSWall(props)
                 <div className="grid grid-flow-col grid-rows-3 sm:grid-rows-2">
                     <WallIcon icon={props.hidden[1] ? frog_c : frog_bw} hidden={props.hidden[1]}  id="1" onClick={props.hidden[1]  ? null : handleClick}></WallIcon>
                     <WallIcon icon={props.hidden[4] ? bird_c : bird_bw} hidden={props.hidden[4]} id="4" onClick={props.hidden[4]  ? null : handleClick}></WallIcon>
-                    <WallIcon icon={props.hidden[2] ? pig_c : pig_bw} hidden={props.hidden[2]} id="4" onClick={props.hidden[4]  ? null : handleClick}></WallIcon>
+                    <WallIcon icon={props.hidden[2] ? pig_c : pig_bw} hidden={props.hidden[2]} id="2" onClick={props.hidden[2]  ? null : handleClick}></WallIcon>
                     <WallIcon icon={props.hidden[5] ? elephant_c : elephant_bw} hidden={props.hidden[5]} id="5" onClick={props.hidden[5]  ? null : handleClick}></WallIcon>
                     <WallIcon icon={props.hidden[3] ? koala_c : koala_bw} hidden={props.hidden[3]} id="3" onClick={props.hidden[3]  ? null : handleClick}></WallIcon>
                     <WallIcon icon={props.hidden[6] ? sloth_c : sloth_bw} hidden={props.hidden[6]} id="6" onClick={props.hidden[6]  ? null : handleClick}></WallIcon>

@@ -19,43 +19,53 @@ function MissingVowels(props)
     useEffect(()=>
     { 
         //Check round state and exit here dummy
-        setTimeout(() => {setRoundState({...roundState, clueIndex:0})}, 500);
+        setTimeout(() => {setRoundState({...roundState, clueIndex:0})}, 1000);
     }, [roundState.categoryIndex]);
 
     const correct = (teamOneCorrect) =>
     {
+        //First display the right answer
+        setRoundState({...roundState, displayClue:false});
+        
         var temp = {...roundState};
+        temp.displayClue = true;
         if(teamOneCorrect)
         {
-            temp.teamOnePoints += 1;
+            temp.teamOnePoints =  roundState.teamOnePoints + 1;
         }
         else
         {
-            temp.teamTwoPoints += 1;
+            temp.teamTwoPoints = roundState.teamTwoPoints + 1;
         }
-        temp.displayClue = false;
 
-        //First display the right answer
-        setRoundState(temp);
-
-        if(roundState.categoryIndex < 4)
+        if(roundState.categoryIndex < 3)
         {
             if(roundState.clueIndex < 3)
             {
+                temp.clueIndex = roundState.clueIndex + 1;
                 //Show the next clue after the answer has been displayed for some time
-                setTimeout(() => {setRoundState({...roundState, displayClue: true, clueIndex:roundState.clueIndex+1})}, 500);
+                setTimeout(() => {setRoundState(temp)}, 750);
             }
             else
             {
+                temp.clueIndex = -1;
+                temp.categoryIndex = roundState.categoryIndex + 1;
                 //Show the next category
-                setTimeout(() => {setRoundState({...roundState, displayClue: true, categoryIndex:roundState.categoryIndex+1, clueIndex: -1})}, 500);
+                setTimeout(() => {setRoundState(temp)}, 750);
             }
         }
         else
         {
-            setTimeout(() => {
-                props.exit(roundState.teamOnePoints, roundState.teamTwoPoints);
-            }, 1500);
+            if(roundState.clueIndex < 3)
+            {
+                temp.clueIndex = roundState.clueIndex + 1;
+                //Show the next clue after the answer has been displayed for some time
+                setTimeout(() => {setRoundState(temp)}, 750);
+            }
+            else
+            {
+                setTimeout(() => {props.exit(temp.teamOnePoints, temp.teamTwoPoints);}, 750);
+            }
         }
     }
 

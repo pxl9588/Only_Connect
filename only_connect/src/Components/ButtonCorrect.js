@@ -21,12 +21,6 @@ function ButtonCorrect(props){
     var rounded = "rounded-xl lg:rounded-2xl"
     var shadow = "shadow-3xl"
 
-    if(props.type === "incorrect")
-    {
-        color = "bg-dark-shade";
-        text_color = "text-light-shade";
-    }
-
     var text_style = `${text_size} ${text_align} ${text_color}`
     var style = `${width}
     ${height}

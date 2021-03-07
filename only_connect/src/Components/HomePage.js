@@ -1,8 +1,8 @@
 import React from "react";
 import OverrideButton from "./OverrideButton";
 import TextField from "@material-ui/core/TextField";
-import seal from '../images/black_and_white/seal.png'
-import whale from '../images/black_and_white/whale.png'
+import seal from '../images/colored/seal.png'
+import whale from '../images/colored/whale.png'
 
 
 export default function HomePage(props) {

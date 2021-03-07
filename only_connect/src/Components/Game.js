@@ -11,7 +11,7 @@ import HomePage from "./HomePage";
 import ScoreWall from "./ScoreWall";
 
 function Game({ ...props }) {
-    const [gameState, setGameState] = useState({
+    const newGame = {
         // 0: Connection
         // 2: Sequence
         // 4: WordWall
@@ -32,7 +32,9 @@ function Game({ ...props }) {
             name: ''
         },
         wordWallIndex: 0,
-    });
+    };
+
+    const [gameState, setGameState] = useState(newGame);
 
     const colorDictionary = {
         0: "bg-gradient-to-r from-red-500 via-red-400 to-red-500",
@@ -60,7 +62,7 @@ function Game({ ...props }) {
     // Click handles
     const gameOver = () =>
     {
-        setGameState({ ...gameState, clickedRow: false, round: -1 });
+        setGameState(newGame);
     }
 
     // Click handles
@@ -240,6 +242,9 @@ function Game({ ...props }) {
                             <WordWallIcons
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
+                                turn={gameState.teamOneTurn}
+                                teamOne={gameState.teamOne}
+                                teamTwo={gameState.teamTwo}
                             ></WordWallIcons>
                         ) : (
                             <WordWall
@@ -267,6 +272,9 @@ function Game({ ...props }) {
                             <WordWallIcons
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
+                                turn={gameState.teamOneTurn}
+                                teamOne={gameState.teamOne}
+                                teamTwo={gameState.teamTwo}
                             ></WordWallIcons>
                         ) : (
                             <WordWall

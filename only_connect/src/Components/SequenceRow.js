@@ -10,12 +10,12 @@ import Timer from "./Timer";
 function SequenceRow(props) {
 
     const final_number = 3;
-    const max_time = 40;
+    const max_time = 150;
     const [roundState, setRoundState] = useState(
         {
             time: 0,
-            timer_fill_color: "bg-blue-900",
-            timer_color: "bg-blue-700",
+            timer_fill_color: "bg-dark-shade",
+            timer_color: "bg-dark-accent",
             buzzed: 0,
             points: 5,
             count: 1,
@@ -84,7 +84,7 @@ function SequenceRow(props) {
     {
         if(roundState.buzzed === 1)
         {
-            // Answer was incorrect, display all clues, and switch turns
+            // Answer was incorrect, display all clues
             setRoundState({...roundState, buzzed: 2, cluesHidden:
                 {
                     1: false,
@@ -129,7 +129,7 @@ function SequenceRow(props) {
     };
         
     const buzzerClick = () => {
-        setRoundState({...roundState, timer_color: "bg-light-accent", timer_fill_color: "bg-light-accent", buzzed: 1, time:max_time+1});
+        setRoundState({...roundState, timer_color: "bg-green-500", timer_fill_color: "bg-green-500", buzzed: 1, time:max_time+1});
     };
     
     const nextClick = () => {
@@ -176,20 +176,20 @@ function SequenceRow(props) {
                     <Clue hidden={roundState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
                 </div>
                 <div className="row-start-2 col-span-1">
-                    <Clue hidden={!admin && roundState.cluesHidden[2]}>
-                        {(admin || !roundState.answerHidden[1]) ? props.row["clues"][3] : "?"}
+                    <Clue hidden={roundState.cluesHidden[2]}>
+                        {!roundState.answerHidden[1] ? props.row["clues"][3] : "?"}
                     </Clue>
                 </div>
 
                 <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                    <Answer type="answer" hidden={!admin && roundState.answerHidden[1]}>{props.row["answer"]}</Answer>
+                    <Answer type="answer" hidden={roundState.answerHidden[1]}>{props.row["answer"]}</Answer>
                 </div>
 
 
                 <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
                     {
                         admin ? 
-                        <ButtonCorrect clickBlock={correct} hidden={roundState.buzzed < 1} type="correct"> Correct </ButtonCorrect>
+                        <ButtonCorrect clickBlock={correct} hidden={roundState.buzzed < 1} type="correct">Correct</ButtonCorrect>
                         : 
                         <ButtonBuzzer clickBlock={buzzerClick} hidden={roundState.buzzed > 0}>Buzzer</ButtonBuzzer>
                     }
@@ -198,7 +198,7 @@ function SequenceRow(props) {
                 <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
                     {
                         admin ? 
-                        <ButtonCorrect clickBlock={incorrect} hidden={roundState.buzzed < 1} type="incorrect"> Incorrect</ButtonCorrect>
+                        <ButtonCorrect clickBlock={incorrect} hidden={roundState.buzzed < 1} type="incorrect">Incorrect</ButtonCorrect>
                         :
                         <ButtonNext clickBlock={nextClick} hidden={roundState.buzzed > 0}>Next</ButtonNext>
                     }
