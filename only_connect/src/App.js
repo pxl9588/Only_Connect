@@ -1,17 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import {BrowserRouter} from 'react-router-dom'
 import "./tailwind.css";
 import "./Components/PSWall";
 import Game from "./Components/Game";
 // import firebase from "firebase";
 import { firebase } from "./Components/firebaseConfig";
-import { id } from "./Components/HomePage";
 import { GameIDProvider } from "./context/GameID.context";
 var database = firebase.database();
+export const id =  'Default'
+
+export const SessionContext = createContext(null);
 
 function App() {
+    const URLParam = window.location.pathname != '/' ? window.location.pathname : 'Default'
     const [authUser,setAuthUser] = useState(null)
     const [user, setUser] = useState(null);
+    const [sessionId, setSessionId] = useState(URLParam);
+
     useEffect(() => {
       return firebase.auth().onAuthStateChanged((user) => {
         if (user) {
@@ -26,7 +31,7 @@ function App() {
             .auth()
             .signInAnonymously()
             .catch((error) => {
-              alert("Unable to connect to the server. Please try again later.");
+              alert("Unable to connect to the server");
             });
         }
       });
@@ -62,12 +67,11 @@ function App() {
 
     return (
       <BrowserRouter>
-      {/* <GameIDProvider> */}
+      <SessionContext.Provider value={{sessionId, setSessionId}}>
         <div className="App h-screen w-screen overflow-hidden">
             <Game></Game>
         </div>
-      {/* </GameIDProvider> */}
-       
+       </SessionContext.Provider>
       </BrowserRouter>
        
     );

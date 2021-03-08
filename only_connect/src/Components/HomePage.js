@@ -8,7 +8,10 @@ import { firebase } from "./firebaseConfig";
 import { v4 as uuidv4 } from "uuid";
 import Seal from '../images/black_and_white/seal.png'
 import Whale from '../images/black_and_white/whale.png'
-export const id = "Hello";
+import seal from '../images/colored/seal.png'
+import whale from '../images/colored/whale.png'
+import {id} from '../App'
+
 
 
 // var firebaseConfig = {
@@ -108,6 +111,7 @@ export default function HomePage(props) {
                                     className="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pr-10"
                                 />
                             </div>
+                           
                             <div
                                 style={{ left: `15%`, top: "2%", position: "relative" }}
                                 className="justify-content flex"
@@ -115,11 +119,24 @@ export default function HomePage(props) {
                                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     Set Team Name
                                 </button>
+                                
                             </div>
                         </form>
+                        
                     </div>
                 </div>
             </div>
+
+            <div className="mt-10 flex justify-center">
+            <form onClick={(evt) => {
+                props.selectTeam(evt.target.value)
+                console.log(evt.target.value)
+            }}>
+                <input style={{ left: `7vw`, position: "relative" }} type="radio" id="TeamOne" name="gender" value="TeamTwo"/>
+                <input style={{ left: `-12vw`, position: "relative" }} type="radio" id="TeamTwo" name="gender" value="TeamOne"/>
+            </form>
+            </div>
+           
             <div
                 style={{ left: `-2%`, position: "relative" }}
                 className="mt-20 flex justify-center"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 //import socketIOClient from "socket.io-client";
 import Clue from "./Clue";
 import Answer from "./Answer";
@@ -6,15 +6,42 @@ import ButtonNext from "./ButtonNext";
 import ButtonCorrect from "./ButtonCorrect";
 import ButtonBuzzer from "./ButtonBuzzer";
 import Timer from "./Timer";
+import RoundState from './hooks/RoundState'
+import {SessionContext} from '../App'
+import { firebase } from "./firebaseConfig";
+var database = firebase.database()
 
 function ConnectionRow(props) {
+    let {sessionId, setSessionId} = useContext(SessionContext)
     const final_number = 4;
     const max_time = 150;
-    const [roundState, setRoundState] = useState(
-        {
+    // const [roundState, setRoundState] = useState(
+    //     {
+    //         time: 0,
+    //         timer_fill_color: "bg-dark-shade",
+    //         timer_color: "bg-dark-accent",
+    //         buzzed: 0,
+    //         points: 5,
+    //         count: 1,
+    //         timerIndex: 1,
+    //         cluesHidden:
+    //         {
+    //             1: true,
+    //             2: true,
+    //             3: true
+    //         },
+    //         answerHidden:
+    //         {
+    //             1:true,
+    //             2:false
+    //         }
+    //     }
+    // );    
+
+    const {setRoundState, setRoundStateLocal, roundState} = RoundState([{
             time: 0,
-            timer_fill_color: "bg-dark-accent",
-            timer_color: "bg-light-shade",
+            timer_fill_color: "bg-dark-shade",
+            timer_color: "bg-dark-accent",
             buzzed: 0,
             points: 5,
             count: 1,
@@ -30,8 +57,21 @@ function ConnectionRow(props) {
                 1:true,
                 2:false
             }
-        }
-    );    
+    },'connectionRow'])
+
+    useEffect(() => {
+        const ref = database.ref(`${sessionId}/connectionRow`);
+        ref.on("value", (state) => {
+            const data = state.val();
+            if (data) {
+                console.log(data);
+                setRoundStateLocal(data);
+            }
+        });
+        return () => {
+            ref.off();
+        };
+    }, []);
 
     useEffect(
         () =>
@@ -107,7 +147,10 @@ function ConnectionRow(props) {
 
             setTimeout(() => {
                 // No points added, team doesn't matter we always switch turns
+
                 props.exit(0, true);
+                const ref = database.ref(`${sessionId}/connectionRow`);
+                database.remove(ref)
             }, 2000);
         }
     };
@@ -125,18 +168,14 @@ function ConnectionRow(props) {
 
             setTimeout(() => {
                 props.exit(roundState.points, teamOneTurn);
+                const ref = database.ref(`${sessionId}/connectionRow`).remove();
+                
             }, 2000);
         }
     };
 
     const buzzerClick = () => {
-        setRoundState({
-            ...roundState,
-            timer_color: "bg-light-accent",
-            timer_fill_color: "bg-light-accent",
-            buzzed: 1,
-            time: max_time + 1,
-        });
+        setRoundState({...roundState, timer_color: "bg-green-500", timer_fill_color: "bg-green-500", buzzed: 1, time:max_time+1});
     };
 
     const nextClick = () => {
@@ -222,9 +261,7 @@ function ConnectionRow(props) {
                     </div>
 
                     <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                        <Answer type="answer" hidden={!admin && roundState.answerHidden[1]}>
-                            {props.row["answer"]}
-                        </Answer>
+                        <Answer type="answer" hidden={roundState.answerHidden[1]}>{props.row["answer"]}</Answer>
                     </div>
     
                     <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20">
@@ -249,7 +286,7 @@ function ConnectionRow(props) {
         }
     };
 
-    return <div>{renderSwitch(true, false)}</div>;
+    return <div>{renderSwitch(props.selfTeam != props.turn, false)}</div>;
 }
 
 export default ConnectionRow;

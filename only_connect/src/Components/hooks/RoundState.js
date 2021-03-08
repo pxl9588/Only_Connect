@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { id } from "../../App";
 import { firebase } from "../firebaseConfig";
 import {SessionContext} from '../../App'
-
 var database = firebase.database();
 
 function writeUserData(game) {
@@ -11,14 +10,14 @@ function writeUserData(game) {
     });
 }
 
-export default function GameState(init) {
+export default function RoundState(init) {
     let {sessionId, setSessionId} = useContext(SessionContext)
-    const [gameState, setGameStateLocal] = useState(init);
+    const [roundState, setRoundStateLocal] = useState(init[0]);
     return {
-        gameState,
-        setGameState: (args) => {
-            database.ref(`${sessionId}/game`).set(args);
+        roundState,
+        setRoundState: (args) => {
+            database.ref(`${sessionId}/${init[1]}`).set(args);
         },
-        setGameStateLocal,
+        setRoundStateLocal,
     };
 }

@@ -4,6 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 import { clearClickedList, checkForMatch, animate, randomize } from "../utilities/helpersWordWall";
 import Timer from "./Timer";
 import Lives from "./Lives";
+import {firebase} from './firebaseConfig'
+import {SessionContext} from '../App'
+const database = firebase.database()
+
 
 const colorDictionary = {
     0: "bg-gradient-to-r from-red-500 via-red-400 to-red-500",
@@ -13,9 +17,10 @@ const colorDictionary = {
 };
 
 class WordWall extends Component {
+    
     constructor(props) {
         super();
-        this.max_time = 150;
+        this.max_time = 180;
         this.wordDictionary = props.data;
         this.idToIndex = new Map();
         this.refsArr = [];
@@ -26,16 +31,18 @@ class WordWall extends Component {
             solved: [],
             lives: 3,
             done: false,
-            timer_fill_color: "bg-dark-accent",
-            timer_color: "bg-light-shade",
+            timer_fill_color: "bg-dark-shade",
+            timer_color: "bg-dark-accent",
             time: 0,
             points: 0
         };
         this.handleClickBlock = this.handleClickBlock.bind(this);
         this.solveBoard = this.solveBoard.bind(this);
     }
-
+    //static contextType = SessionContext
     componentDidMount() {
+        
+        // ********* IMPORTANT BLOCK MOVED TO GAME COMPONENT SO THAT BOARD IS BUILD WITH SAME RANDOMIZATION
         let blocks = [];
         for (let [index, group] of this.wordDictionary.entries()) {
             let words = group["clues"].map((word) => {
@@ -52,20 +59,54 @@ class WordWall extends Component {
             blocks.push(...words);
         }
         blocks = randomize(blocks);
+        
         for (let [index, block] of blocks.entries()) {
             this.idToIndex.set(block.id, index);
         }
-        var id = setInterval(()=>{this.setState({time: this.state.time + 1});}, 1000);
+        // this.setState({ data, intervalId: id});
+        // const ref = database.ref(`${this.context}/WordWall`);
+        // ref.once("value", (state) => {
+        // const data = state.val();
+        // if (data) {
+        //     console.log(data);
+            
+        // }
+       
+        for (let [index, block] of blocks.entries()) {
+                this.idToIndex.set(block.id, index);
+            }
+            
+         var id = setInterval(()=>{this.setState({time: this.state.time + 1});}, 1000);
         this.setState({ solved: blocks, intervalId: id});
+        
     }
 
     componentDidUpdate() {
+        
         if ((this.state.lives <= 0 || this.state.time === this.max_time) && !this.state.done)
         {
             clearInterval(this.state.intervalId);
             this.setState({ done: true }, this.solveBoard);
         }
+        // const ref = database.ref(`${sessionId}/sequenceRow`);
+        // ref.on("value", (state) => {
+        // const data = state.val();
+        // if (data) {
+        //     console.log(data);
+        //     setRoundStateLocal(data);
+        // }
+        // });
+        // return () => {
+        //     ref.off();
+        // };
+
+        
     }
+
+
+    // setWordWallState(args){
+    //     database.ref(`${sessionId}/wordWall`).set(args);
+    // }
 
     handleClickBlock(obj) {
         if (this.state.clicked.length < 4) {
@@ -230,7 +271,7 @@ class WordWall extends Component {
                     </div>
                     <div className="row-start-3 col-span-4">
                         <button
-                            className="w-full bg-blue-700 hover:bg-blue-700 text-white font-bold border border-blue-700 rounded"
+                            className="w-full bg-dark-shade hover:bg-blue-700 text-white font-bold border border-blue-700 rounded"
                             onClick={this.solveBoard}
                         >
                             Solve

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PSWall from "./PSWall";
 import WordWall from "./WordWall";
 import WordConnectionRow from "./WordConnectionRow";
@@ -12,11 +12,15 @@ import ScoreWall from "./ScoreWall";
 import GameState from "./hooks/gameState";
 import firebase from "firebase";
 import CreateNewGame from './createNewGame'
-import { id } from "./HomePage";
+import { id } from '../App';
+import {SessionContext} from '../App'
+import {randomize} from '../utilities/helpersWordWall'
+import { v4 as uuidv4 } from "uuid";
 var database = firebase.database();
-
+// const URLParams = window.location.pathname
 function Game({ ...props }) {
-   
+    const [selfTeam, setSelfTeam] = useState(true)
+    let {sessionId, setSessionId} = useContext(SessionContext)
     // const [gameState, setGameState] = useState({
     //     // 0: Connection
     //     // 2: Sequence
@@ -39,7 +43,7 @@ function Game({ ...props }) {
     // });
 
     const { gameState, setGameState, setGameStateLocal } = GameState({
-        round: -1,
+        round: -2,
         wallIndex: 0,
         clickedRow: false,
         hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
@@ -53,10 +57,13 @@ function Game({ ...props }) {
             name: "",
         },
         wordWallIndex: 0,
-    });
+    })
+
+
+    //const [gameState, setGameState] = useState(newGame);
 
     useEffect(() => {
-        const ref = database.ref(id);
+        const ref = database.ref(`${sessionId}/game`);
         ref.on("value", (state) => {
             const data = state.val();
             if (data) {
@@ -81,6 +88,10 @@ function Game({ ...props }) {
     const missingVowels = Data.missingVowels;
 
     const wordWalls = [Data.wall.wall1, Data.wall.wall2];
+
+    const selectTeam = (team) => {
+        setSelfTeam(team == 'TeamOne')
+    }
 
     const addToScore = (score) => {
         if (gameState.teamOneTurn) {
@@ -113,17 +124,51 @@ function Game({ ...props }) {
     };
 
     // Click handles
-    const gameOver = () => {
-        setGameState({ ...gameState, clickedRow: false, round: -1 });
-    };
+    const gameOver = () =>
+    {
+        setGameState(/*newGame*/);
+    }
 
     // Click handles
     const scoreExit = () => {
         setGameState({ ...gameState, clickedRow: false, round: gameState.round + 1 });
     };
+    
+    const buildWordWall = () => {
+        let blocks = [];
+        for (let [index, group] of wordWalls[gameState.wordWallIndex].entries()) {
+            let words = group["clues"].map((word) => {
+                return {
+                    word: word,
+                    color: "bg-light-shade",
+                    id: uuidv4(),
+                    group: index,
+                    clicked: false,
+                    matched: false,
+                };
+            });
+            blocks.push(...words);
+        }
+        blocks = randomize(blocks);
+        const args = {
+            intervalId: 0,
+            clicked: [],
+            color_count: 0,
+            solved: blocks,
+            lives: 3,
+            done: false,
+            timer_fill_color: "bg-dark-shade",
+            timer_color: "bg-dark-accent",
+            time: 0,
+            points: 0
+        }
+        database.ref(`${sessionId}/WordWall`).set(args);
+    }
+
     const psWallHandle = (i) => {
         var temp = { ...gameState.hidden };
         temp[i] = true;
+        buildWordWall()
 
         setGameState({ ...gameState, clickedRow: true, hidden: temp });
     };
@@ -233,6 +278,7 @@ function Game({ ...props }) {
         setGameState(tempGameState);
     };
 
+    
     const renderSwitch = () => {
         switch (gameState.round) {
             case -2:
@@ -244,6 +290,7 @@ function Game({ ...props }) {
             case -1:
                 return (
                     <HomePage
+                        selectTeam={selectTeam}
                         gameState={gameState}
                         teamOne={gameState.teamOne.name}
                         teamTwo={gameState.teamTwo.name}
@@ -264,6 +311,7 @@ function Game({ ...props }) {
                             ></PSWall>
                         ) : (
                             <ConnectionRow
+                                selfTeam={selfTeam}
                                 exit={psRowExit}
                                 row={connections[gameState.wallIndex]}
                                 turn={gameState.teamOneTurn}
@@ -292,6 +340,7 @@ function Game({ ...props }) {
                             ></PSWall>
                         ) : (
                             <SequenceRow
+                                selfTeam = {selfTeam}
                                 exit={psRowExit}
                                 row={sequences[gameState.wallIndex]}
                                 turn={gameState.teamOneTurn}
@@ -315,6 +364,9 @@ function Game({ ...props }) {
                             <WordWallIcons
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
+                                turn={gameState.teamOneTurn}
+                                teamOne={gameState.teamOne}
+                                teamTwo={gameState.teamTwo}
                             ></WordWallIcons>
                         ) : (
                             <WordWall
@@ -342,6 +394,9 @@ function Game({ ...props }) {
                             <WordWallIcons
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
+                                turn={gameState.teamOneTurn}
+                                teamOne={gameState.teamOne}
+                                teamTwo={gameState.teamTwo}
                             ></WordWallIcons>
                         ) : (
                             <WordWall

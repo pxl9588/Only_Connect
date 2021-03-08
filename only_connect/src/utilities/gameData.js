@@ -1,114 +1,102 @@
 const GameData = {
     connections: [
         {
-            "clues": ["Michael Jordan", "Magic Johnson", "Derek Fisher", "Scottie Pippen"],
-            "answer": " NBA Players with 5+ Championships",
+            "clues": ["F: USA", "R: New Zealand", "S: United Kingdom", "H: Canada"],
+            "answer": "Popular Sport : Country",
         },
         {
-            "clues": ["Dash", "Good American", "POOSH", "SKIMS"],
-            "answer": "Kardashian Brands",
+            "clues": ["Mother", "Dash", "Head", "Shuffle"],
+            "answer": "_____ Board",
         },
         {
-            "clues": [
-                "Eva, Can I Stab Bats In A Cave",
-                "Dammit, I'm Mad",
-                "Do Geese See God",
-                "Racecar",
-            ],
-            "answer": "Palindromes",
+            "clues": ["Sunday Morning", "Californiacation", "Ex-Calling", "Hot Girl Bummer"],
+            "answer": "Artist with color in name",
         },
         {
-            "clues": ["Mag", "Hip", "Yup", "Pot"],
-            "answer": "______pie",
+            "clues": ["Allan : CT", "Sharon : Z", "Yuliya : T", "Danya : KB"],
+            "answer": "Pets and their owners",
         },
 
         {
-            "clues": ["Apples", "Dates", "Pomegranate", "Challah"],
-            "answer": "Symbolic Rosh Hashanah Foods",
+            "clues": ["5th Avenue", "59th Street", "8th Avenue", "110th Street"],
+            "answer": "Central Park perimeter streets",
         },
         {
-            "clues": ["Wombat", "Opoosum", "Koala", "Kangaroo"],
-            "answer": "Marsupials"
+            "clues": ["Bay Academy", "Midwood", "Baruch", "Fordham"],
+            "answer": "Schools Alex attended"
         }
     ],
     sequences:
         [
             {
-                "clues": ["Blue", "North", "Luna", "X Æ A-Xii"],
-                "answer": "Celebrity Babies in order of birth"
+                "clues": ["S", "X", "3", "Y"],
+                "answer": "Tesla Models"
             },
             {
-                "answer": "Order of sharks in Baby Shark",
-                "clues": ["Baby", "Mommy", "Daddy", "Grandma"]
+                "clues": ["Take", "Select", "Caption", "Post"],
+                "answer": "Posting on instagram"
             },
             {
-                "clues": ["Rachel", "Becca", "Hannah", "Clare"],
-                "answer": "The Bachelorettes from ‘17-’20"
+                "clues": ["Hillary", "Laura", "Michelle", "Melania"],
+                "answer": "First Ladies"
             },
             {
-                "clues": ["M = 1", "V = 2", "E = 3", "M = 4"],
-                "answer": "Planets"
+                "clues": ["Super Bowl", "NBA Championship", "Stanley Cup Finals", "World Series"],
+                "answer": "Sports Finals"
             },
             {
-                "clues": ["Zach", "Alex", "PJ", "Ang"],
-                "answer": "Big Rascals Birthday’s"
+                "clues": ["Max", "Ang", "Danya", "John"],
+                "answer": "Covid Positive"
             },
             {
-                "clues": ["United States", "China", "Canada", "Russia"],
-                "answer": "Size of Countries (Increasing)"
+                "clues": ["Cancun", "Montreal", "Connecticut", "Sarratoga Springs"],
+                "answer": "Places visited by the group"
             }
+            
         ],
     wall: {
         wall1: [
-            {
-                "clues": ["Fiji", "Mocha", "San Pellegrino", "Champagne"],
-                "answer": "Drinks named after cities"
-            },
-            {
-                "clues": ["T", "Cube", "Vanilla", "Prince"],
-                "answer": "Rappers named Ice ____"
-            },
-            {
-                "clues": ["Hazelnut", "Coconut", "Butter Pecan", "Caramel"],
-                "answer": "Dunkin Donuts Flavors"
-            },
-            {
-                "clues": ["Papua New Guinea", "Guam", "Australia", "Cook Islands"],
-                "answer": "Oceania islands"
-            }
+            {"answer": "Types of Sharks", "clues": ["Hammerhead", "Whale", "Sand", "Nurse"]},
+            {"answer": "_____-Man","clues": ["Ant", "Spider", "Iron", "Super"]},
+            {"answer": "Monopoly Pieces", "clues": ["Top Hat", "Battleship", "Thimble", "Boot"]},
+            {"answer": "Plagues of Egypt", "clues": ["Boil", "Locust", "Blood", "Frog"]}
         ],
         wall2: [
-            {"answer": 'Animal named bands', "clues": ['Eagles', 'Beatles', 'Monkees', 'Gorillaz']},
-            {"answer": 'Bird named sport teams', "clues": ['Pelicans', 'Seahawks', 'Falcons', 'Cardinals']},
-            {"answer": 'Birth stones', "clues": ['Sapphire', 'Ruby', 'Emerald', 'Amethyst']},
-            {"answer": 'Pokemon games', "clues": ['Crystal', 'Gold', 'Silver', 'Diamond']},
+            {"answer": 'Shades of Red', "clues": ['Blood', 'Maroon', 'Strawberry', 'Cherry']},
+            {"answer": 'Films that start with American', "clues": ['Sniper', 'Pie', 'Gangster', 'Beauty']},
+            {"answer": 'Types of birds', "clues": ['Eagle', 'Owl', 'Finch', 'Kiwi']},
+            {"answer": 'Clue characters', "clues": ['Plum', 'Scarlet', 'Peacock', 'Green']},
         ],
     },
     missingVowels: [
-        {'category': 'Chores', 'clues': [
-            {'clue': 'W SH NTH GD HS', 'answer': 'WASHING THE DISHES'},
-            {'clue': 'F LD NGL ND RY', 'answer': 'FOLDING LAUNDRY'},
-            {'clue': 'WPN GT HW NDW S', 'answer': 'WIPING THE WINDOWS'},
-            {'clue': 'HNG NGCL THS NTH CL ST', 'answer': 'HANGING CLOTHES IN THE CLOSET'}
+        {'category': 'Desserts',
+            'clues': [
+            {'clue': 'TR MS', 'answer': 'TIRAMISU'},
+            {'clue': 'BN NPD DNG', 'answer': 'BANANA PUDDING'},
+            {'clue': 'BR WNS ND', 'answer': 'BROWNIE SUNDAE'},
+            {'clue': 'CHC LTLV CK', 'answer': 'CHOCOLATE LAVA CAKE'}
         ]},
-        {'category': 'Clothing Brands', 'clues': [
-            {'clue': 'CL VNKL N', 'answer': 'CALVIN KLEIN'},
-            {'clue': 'ZR', 'answer': 'ZARA'},
-            {'clue': 'N DRRM R', 'answer': 'UNDER ARMOUR'},
-            {'clue': 'K NNT HC L', 'answer': 'KENNETH COLE'}
+        {'category': 'Famous Paintings',
+            'clues': [
+            {'clue': 'MN LS', 'answer': 'MONA LISA'},
+            {'clue': 'GR LW THPR LRRNG', 'answer': 'GIRL WITH A PEARL EARRING'},
+            {'clue': 'THL STSP PR', 'answer': 'THE LAST SUPPER'},
+            {'clue': 'ST RRN GHT', 'answer': 'STARRY NIGHT'},
         ]},
-        {'category': 'Mixed Drinks', 'clues': [
-            {'clue': 'W H TRS SN', 'answer': 'WHITE RUSSIAN'},
-            {'clue': 'MSC WML', 'answer': 'MOSCOW MULE'},
-            {'clue': 'D RKN DSTR M', 'answer': 'DARK AND STORMY'},
-            {'clue': 'MRT TSR', 'answer': 'AMARETTO SOUR'}
+        {'category': 'National Parks',
+            'clues': [
+            {'clue': 'GR NDC NN', 'answer': 'GRAND CANYON'},
+            {'clue': 'DT HV LLY', 'answer': 'DEATH VALLEY'},
+            {'clue': 'YSMT', 'answer': 'YOSEMITE'},
+            {'clue': 'YL LWS TN', 'answer': 'YELLOW STONE'}
         ]},
-        {'category': 'Cities in Israel', 'clues': [
-            {'clue': 'JR S LM', 'answer': 'JERUSALEM'},
-            {'clue': 'T LV V', 'answer': 'TEL AVIV'},
-            {'clue': 'HF', 'answer': 'HAIFA'},
-            {'clue': 'JF F', 'answer': 'JAFFA'}]
-        }
+        {'category': 'Shakespeare Plays',
+            'clues': [
+            {'clue': 'HMLT', 'answer': 'HAMLET'},
+            {'clue': ' MD SM MRNG HTS DRM', 'answer': 'A MIDSUMMER NIGHTS DREAM'},
+            {'clue': 'KN GLR', 'answer': 'KING LEAR'},
+            {'clue': 'MC HDBT NTH NG', 'answer': 'MUCH ADO ABOUT NOTHING'}
+        ]}
     ]
 };
 

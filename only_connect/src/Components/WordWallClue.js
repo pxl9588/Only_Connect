@@ -17,7 +17,7 @@ const WordWallClue = forwardRef(({ ...props }, ref) => {
 
     var text_align = "text-center"
     var text_size = "text-sm sm:text-md lg:text-4xl";
-    var text_font = "text-dark-shade";
+    var text_font = "text-black";
     var width = "w-20 sm:w-20 lg:w-52 cursor-pointer";
     var height = "h-16 sm:h-16 lg:h-40";
     //var color = "bg-gradient-to-b from-light-shade to-dark-accent";
