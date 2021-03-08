@@ -16,7 +16,7 @@ function Game({ ...props }) {
         // 2: Sequence
         // 4: WordWall
         // 9: Missing Vowel
-        round: 9,  
+        round: 4,  
         wallIndex: 0,
         clickedRow: false,
         hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
@@ -98,12 +98,40 @@ function Game({ ...props }) {
     */
     const wordRowExit = (points) => {
         var tempGameState = {...gameState};
+        if(gameState.teamOneTurn)
+        {
+            tempGameState.teamOne.score += points
+            console.log(tempGameState.teamOne.score);
+        }
+        else
+        {
+            tempGameState.teamTwo.score += points
+            console.log(tempGameState.teamTwo.score);
+        }
+
         if (gameState.wallIndex === 3)
         {
             tempGameState.wallIndex = 0;
             tempGameState.wordWallIndex += 1;
             tempGameState.clickedRow = false;
             tempGameState.round += 1;
+
+            if(tempGameState.teamOne.score === 9)
+            {
+                tempGameState.teamOne.score = 10;
+            }
+            else
+            {
+                tempGameState.teamOne.score = Math.floor(tempGameState.teamOne.score);
+            }
+            if(tempGameState.teamTwo.score === 9)
+            {
+                tempGameState.teamTwo.score = 10;
+            }
+            else
+            {
+                tempGameState.teamTwo.score = Math.floor(tempGameState.teamTwo.score);
+            }
             
             tempGameState.teamOneTurn = !gameState.teamOneTurn;
         }
@@ -112,14 +140,7 @@ function Game({ ...props }) {
             tempGameState.wallIndex += 1;
         }
 
-        if(gameState.teamOneTurn)
-        {
-            tempGameState.teamOne.score += points
-        }
-        else
-        {
-            tempGameState.teamTwo.score += points
-        }
+        
 
         setGameState(tempGameState);
     };

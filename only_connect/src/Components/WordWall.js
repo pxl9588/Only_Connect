@@ -101,8 +101,10 @@ class WordWall extends Component {
         const areOfSameGroup = checkForMatch(clickedList);
         if (areOfSameGroup) {
             if (count === 2) {
-                this.setState({points: this.state.points + 2});
+                //This is a trick to give two bonus points if full wall and connections are completed
+                this.setState({points: this.state.points + 2.2});
                 this.solveBoard();
+                return
             } else {
                 this.matchRow(clickedList, solvedList, count);
                 this.setState({points: this.state.points + 1});
