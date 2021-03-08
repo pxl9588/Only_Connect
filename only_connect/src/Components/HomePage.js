@@ -2,11 +2,14 @@ import { useState } from "react";
 import OverrideButton from "./OverrideButton";
 import TextField from "@material-ui/core/TextField";
 import ButtonCorrect from "./ButtonCorrect";
-import Whale from "../images/whale.png";
-import Seal from "../images/seal.png";
+// import Whale from "../images/colored/whale.png";
+// import Seal from "../images/colored/seal.png";
 import { firebase } from "./firebaseConfig";
 import { v4 as uuidv4 } from "uuid";
+import Seal from '../images/black_and_white/seal.png'
+import Whale from '../images/black_and_white/whale.png'
 export const id = "Hello";
+
 
 // var firebaseConfig = {
 //     apiKey: "AIzaSyBVW4nxJbj2K0sLhzMM8yLUardBYR6hIrs",

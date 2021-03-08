@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import {BrowserRouter} from 'react-router-dom'
 import "./tailwind.css";
 import "./Components/PSWall";
 import Game from "./Components/Game";
 // import firebase from "firebase";
 import { firebase } from "./Components/firebaseConfig";
 import { id } from "./Components/HomePage";
+import { GameIDProvider } from "./context/GameID.context";
 var database = firebase.database();
 
 function App() {
@@ -59,9 +61,15 @@ function App() {
   
 
     return (
+      <BrowserRouter>
+      {/* <GameIDProvider> */}
         <div className="App h-screen w-screen overflow-hidden">
             <Game></Game>
         </div>
+      {/* </GameIDProvider> */}
+       
+      </BrowserRouter>
+       
     );
 }
 

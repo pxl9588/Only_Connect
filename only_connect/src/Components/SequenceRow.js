@@ -55,7 +55,9 @@ function SequenceRow(props) {
                     2:false
                 },
                 timerIndex: 4,
-                points: 1});
+                points: 1,
+                time: max_time + 1
+            });
             }
             return () => clearInterval(id);
         },[roundState]);
@@ -187,18 +189,18 @@ function SequenceRow(props) {
                 <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
                     {
                         admin ? 
-                        <ButtonCorrect clickBlock={correct} type="correct"> Correct </ButtonCorrect>
+                        <ButtonCorrect clickBlock={correct} hidden={roundState.buzzed < 1} type="correct"> Correct </ButtonCorrect>
                         : 
-                        <ButtonBuzzer clickBlock={buzzerClick}>Buzzer</ButtonBuzzer>
+                        <ButtonBuzzer clickBlock={buzzerClick} hidden={roundState.buzzed > 0}>Buzzer</ButtonBuzzer>
                     }
                 </div>
 
                 <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
                     {
                         admin ? 
-                        <ButtonCorrect clickBlock={incorrect} type="incorrect"> Incorrect</ButtonCorrect>
+                        <ButtonCorrect clickBlock={incorrect} hidden={roundState.buzzed < 1} type="incorrect"> Incorrect</ButtonCorrect>
                         :
-                        <ButtonNext clickBlock={nextClick}>Next</ButtonNext>
+                        <ButtonNext clickBlock={nextClick} hidden={roundState.buzzed > 0}>Next</ButtonNext>
                     }
                 </div>
             </div>

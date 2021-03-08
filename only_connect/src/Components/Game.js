@@ -11,16 +11,18 @@ import HomePage from "./HomePage";
 import ScoreWall from "./ScoreWall";
 import GameState from "./hooks/gameState";
 import firebase from "firebase";
+import CreateNewGame from './createNewGame'
 import { id } from "./HomePage";
 var database = firebase.database();
 
 function Game({ ...props }) {
+   
     // const [gameState, setGameState] = useState({
     //     // 0: Connection
     //     // 2: Sequence
     //     // 4: WordWall
     //     // 9: Missing Vowel
-    //     round: -1,
+    //     round: -2,
     //     wallIndex: 0,
     //     clickedRow: false,
     //     hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
@@ -35,9 +37,7 @@ function Game({ ...props }) {
     //     },
     //     wordWallIndex: 0,
     // });
-    // setInterval(() => {
-    //     setGameState({ ...gameState, player1Turn: !gameState.player1Turn });
-    // }, 3000);
+
     const { gameState, setGameState, setGameStateLocal } = GameState({
         round: -1,
         wallIndex: 0,
@@ -128,13 +128,19 @@ function Game({ ...props }) {
         setGameState({ ...gameState, clickedRow: true, hidden: temp });
     };
 
-    //When a missing vowel category is finished
-    const missingVowelClick = () => {
-        if (gameState.wallIndex === 3) {
-            setGameState({ ...gameState, wallIndex: 0, round: gameState.round + 1 });
-        } else {
-            setGameState({ ...gameState, wallIndex: gameState.wallIndex + 1 });
-        }
+    /**
+     * When a missing vowel clue is solved
+     * @param  {int} teamOnePoints
+     * @param  {int} teamTwoPoints
+    */
+    const missingVowelExit = (teamOnePoints, teamTwoPoints) => {
+        var temp = {...gameState};
+
+        temp.round += 1;
+        temp.teamOne.score += teamOnePoints;
+        temp.teamTwo.score += teamTwoPoints;
+
+        setGameState(temp);
     };
     /**
      * When the Word Wall Connection Row exits
@@ -145,13 +151,15 @@ function Game({ ...props }) {
         var tempGameState = { ...gameState };
         if (gameState.wallIndex === 3) {
             tempGameState.wallIndex = 0;
-            tempGameState.wordWallIndex = gameState.wordWallIndex + 1;
+            tempGameState.wordWallIndex += 1;
             tempGameState.clickedRow = false;
-            tempGameState.round = gameState.round + 1;
-
+            tempGameState.round += 1;
+            
             tempGameState.teamOneTurn = !gameState.teamOneTurn;
-        } else {
-            tempGameState.wallIndex = gameState.wallIndex + 1;
+        }
+        else
+        {
+            tempGameState.wallIndex += 1;
         }
 
         if (gameState.teamOneTurn) {
@@ -163,18 +171,33 @@ function Game({ ...props }) {
         setGameState(tempGameState);
     };
 
-    //When the word wall has been solved
-    const wallExit = () => {
-        if (gameState.wallIndex === 1) {
-            setGameState({
-                ...gameState,
-                wallIndex: 0,
-                clickedRow: false,
-                round: gameState.round + 1,
-            });
-        } else {
-            setGameState({ ...gameState, clickedRow: false, round: gameState.round + 1 });
+    /**
+     * When the Word Wall exits
+     * @param  {int} points Number of points to add
+    */
+    const wallExit = (points) => {
+        var temp = {...gameState};
+        temp.clickedRow = false;
+        temp.round += 1;
+        if (gameState.wallIndex === 1)
+        {
+            temp.wallIndex = 0;
         }
+        if(points === 4)
+        {
+            points = 6;
+        }
+
+        if(gameState.teamOneTurn)
+        {
+            temp.teamOne.score += points
+        }
+        else
+        {
+            temp.teamTwo.score += points
+        }
+
+        setGameState(temp);
     };
 
     /**
@@ -212,6 +235,12 @@ function Game({ ...props }) {
 
     const renderSwitch = () => {
         switch (gameState.round) {
+            case -2:
+                return (
+                    <CreateNewGame>
+                        
+                    </CreateNewGame>
+                )
             case -1:
                 return (
                     <HomePage
@@ -291,8 +320,8 @@ function Game({ ...props }) {
                             <WordWall
                                 data={wordWalls[gameState.wordWallIndex]}
                                 exit={wallExit}
-                                addToScore={addToScore}
-                            ></WordWall>
+                            >
+                            </WordWall>
                         )}
                     </div>
                 );
@@ -318,8 +347,8 @@ function Game({ ...props }) {
                             <WordWall
                                 data={wordWalls[gameState.wordWallIndex]}
                                 exit={wallExit}
-                                addToScore={addToScore}
-                            ></WordWall>
+                            >
+                            </WordWall>
                         )}
                     </div>
                 );
@@ -347,10 +376,8 @@ function Game({ ...props }) {
                 return (
                     <div>
                         <MissingVowels
-                            data={missingVowels[gameState.wallIndex]}
-                            onClick={missingVowelClick}
-                            switchTurn={switchTurn}
-                            addToScore={addToScore}
+                            data={missingVowels}
+                            exit={missingVowelExit}
                         />
                     </div>
                 );
