@@ -5,8 +5,6 @@ import { useEffect } from 'react';
 
 function ScoreWall(props)
 { 
-    useEffect(()=>{console.log(props.play1Score);});
-
     return (
         <div onClick={props.exit} className="flex justify-center items-center h-screen -my-12 sm:-my-0">
             <div className="grid grid-flow-col grid-rows-1 lg:gap-x-48">

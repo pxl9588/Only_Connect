@@ -10,6 +10,7 @@ export default function Lives(props) {
                 className={`h-12 w-12 pointer-events-none`}
                 src={dot}
                 alt={dot}
+                key={i}
             ></img>,
         );
     }

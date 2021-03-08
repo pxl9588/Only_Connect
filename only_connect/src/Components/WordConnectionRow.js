@@ -18,7 +18,8 @@ function WordConnectionRow(props)
     {
         setHidden(false);
         setTimeout(() => {
-            props.exit(wasCorrect ? 1 : 0);
+            //This is a trick to give two bonus points if full wall and connections are completed
+            props.exit(wasCorrect ? 1.2 : 0);
         }, 2000);
     }
 
