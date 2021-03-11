@@ -8,7 +8,7 @@ import ButtonBuzzer from "./ButtonBuzzer";
 import Timer from "./Timer";
 import RoundState from './hooks/RoundState'
 import {firebase} from './firebaseConfig'
-import {SessionContext} from '../App'
+import {SessionContext} from '../context/SessionContext'
 const database = firebase.database()
 
 

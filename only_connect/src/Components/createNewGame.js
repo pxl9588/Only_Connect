@@ -3,7 +3,7 @@ import{ useHistory } from 'react-router-dom'
 import firebase from "firebase";
 import OverrideButton from "./OverrideButton";
 import Game from "./Game";
-import {SessionContext} from '../App'
+import {SessionContext} from '../context/SessionContext'
 const database = firebase.database()
 
 

@@ -5,7 +5,7 @@ import { clearClickedList, checkForMatch, animate, randomize } from "../utilitie
 import Timer from "./Timer";
 import Lives from "./Lives";
 import {firebase} from './firebaseConfig'
-import {SessionContext} from '../App'
+import {SessionContext} from '../context/SessionContext'
 const database = firebase.database()
 
 
@@ -18,9 +18,11 @@ const colorDictionary = {
 
 class WordWall extends Component {
     
+    static contextType = SessionContext;
+
     constructor(props) {
         super();
-        this.max_time = 180;
+        this.max_time = 150;
         this.wordDictionary = props.data;
         this.idToIndex = new Map();
         this.refsArr = [];
@@ -39,8 +41,11 @@ class WordWall extends Component {
         this.handleClickBlock = this.handleClickBlock.bind(this);
         this.solveBoard = this.solveBoard.bind(this);
     }
-    //static contextType = SessionContext
+    
     componentDidMount() {
+        console.log('hellooooo')
+        console.log(this.context.sessionID)
+        
         
         // ********* IMPORTANT BLOCK MOVED TO GAME COMPONENT SO THAT BOARD IS BUILD WITH SAME RANDOMIZATION
         let blocks = [];
@@ -59,49 +64,56 @@ class WordWall extends Component {
             blocks.push(...words);
         }
         blocks = randomize(blocks);
-        
+        var id = setInterval(()=>{this.setState({time: this.state.time + 1});}, 1000);
+
         for (let [index, block] of blocks.entries()) {
             this.idToIndex.set(block.id, index);
         }
-        // this.setState({ data, intervalId: id});
-        // const ref = database.ref(`${this.context}/WordWall`);
+        this.setState({ data, intervalId: id});
+        // const ref = database.ref(`${this.context.sessionId}/WordWall`);
         // ref.once("value", (state) => {
         // const data = state.val();
         // if (data) {
         //     console.log(data);
-            
+        //     for (let [index, block] of data.solved.entries()) {
+        //         this.idToIndex.set(block.id, index);
+        //     }
+        //     var id = setInterval(()=>{this.setState({time: this.state.time + 1});}, 1000);
+        //     this.setState({ solved: data.solved, intervalId: id});
         // }
-       
-        for (let [index, block] of blocks.entries()) {
-                this.idToIndex.set(block.id, index);
-            }
-            
-         var id = setInterval(()=>{this.setState({time: this.state.time + 1});}, 1000);
-        this.setState({ solved: blocks, intervalId: id});
+        // else{
+        //     alert('Cannot connect to server, please try again later')
+        // }
+    // })      
+        
         
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         
         if ((this.state.lives <= 0 || this.state.time === this.max_time) && !this.state.done)
         {
             clearInterval(this.state.intervalId);
             this.setState({ done: true }, this.solveBoard);
         }
-        // const ref = database.ref(`${sessionId}/sequenceRow`);
-        // ref.on("value", (state) => {
-        // const data = state.val();
-        // if (data) {
-        //     console.log(data);
-        //     setRoundStateLocal(data);
-        // }
-        // });
-        // return () => {
-        //     ref.off();
-        // };
+        // if (prevProps != this.props){
+        //     const ref = database.ref(`${this.context.sessionId}/WordWall`);
+        //     ref.on("value", (state) => {
+        //     const data = state.val();
+        //     if (data) {
+        //         if (data != prevState){
+        //             console.log(data);
+        //             // this.setState(data);
+        //         }
+                
+        //     }
+        //     });
+        //     return () => {
+        //         ref.off();
+        //     };
 
-        
-    }
+        }
+
 
 
     // setWordWallState(args){
