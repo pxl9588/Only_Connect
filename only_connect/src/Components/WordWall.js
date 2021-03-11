@@ -84,7 +84,6 @@ class WordWall extends Component {
         // else{
         //     alert('Cannot connect to server, please try again later')
         // }
-        //
     // })      
         
         
