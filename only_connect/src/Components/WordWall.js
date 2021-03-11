@@ -84,6 +84,7 @@ class WordWall extends Component {
         // else{
         //     alert('Cannot connect to server, please try again later')
         // }
+        //
     // })      
         
         
@@ -94,7 +95,7 @@ class WordWall extends Component {
         if ((this.state.lives <= 0 || this.state.time === this.max_time) && !this.state.done)
         {
             clearInterval(this.state.intervalId);
-            this.setState({ done: true }, this.solveBoard);
+            this.setState({ done: true }, this.solveBoard); 
         }
         // if (prevProps != this.props){
         //     const ref = database.ref(`${this.context.sessionId}/WordWall`);
