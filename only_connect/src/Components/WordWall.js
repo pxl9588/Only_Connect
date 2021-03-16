@@ -20,7 +20,7 @@ class WordWall extends Component {
     
     constructor(props) {
         super();
-        this.max_time = 180;
+        this.max_time = 150;
         this.wordDictionary = props.data;
         this.idToIndex = new Map();
         this.refsArr = [];
@@ -76,7 +76,7 @@ class WordWall extends Component {
                 this.idToIndex.set(block.id, index);
             }
             
-         var id = setInterval(()=>{this.setState({time: this.state.time + 1});}, 1000);
+         var id = setInterval(()=>{console.log(this.state.time); this.setState({time: this.state.time + 1});}, 1000);
         this.setState({ solved: blocks, intervalId: id});
         
     }

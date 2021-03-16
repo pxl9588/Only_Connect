@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 //import socketIOClient from "socket.io-client";
 import Clue from "./Clue";
 import Answer from "./Answer";
@@ -17,28 +17,7 @@ function SequenceRow(props) {
     const {sessionId, setSessionId} = useContext(SessionContext)
     const final_number = 3;
     const max_time = 150;
-    // const [roundState, setRoundState] = useState(
-    //     {
-    //         time: 0,
-    //         timer_fill_color: "bg-dark-shade",
-    //         timer_color: "bg-dark-accent",
-    //         buzzed: 0,
-    //         points: 5,
-    //         count: 1,
-    //         timerIndex: 1,
-    //         cluesHidden:
-    //         {
-    //             1: true,
-    //             2: true
-    //         },
-    //         answerHidden:
-    //         {
-    //             1:true,
-    //             2:false
-    //         }
-    //     }
-    // );
-
+    
     const {setRoundState, setRoundStateLocal, roundState} = RoundState([{
         time: 0,
         timer_fill_color: "bg-dark-shade",
@@ -145,9 +124,8 @@ useEffect(() => {
 
             setTimeout(() => {
                 // No points added, team doesn't matter we always switch turns
+                database.ref(`${sessionId}/sequenceRow`).remove();
                 props.exit(0, true);
-                const ref = database.ref(`${sessionId}/sequenceRow`)
-                ref.remove()
             }, 2000);
         }
     };
@@ -165,9 +143,8 @@ useEffect(() => {
             }
 
             setTimeout(() => {
+                database.ref(`${sessionId}/sequenceRow`).remove()
                 props.exit(roundState.points, teamOneTurn);
-                const ref = database.ref(`${sessionId}/sequenceRow`)
-                ref.remove()
             }, 2000);
         }        
     };

@@ -10,7 +10,7 @@
     "@testing-library/user-event": "^12.5.0",
     "autoprefixer": "^10.0.4",
     "express": "^4.17.1",
-    "firebase": "^8.2.9",
+    "firebase": "^8.2.10",
     "next": "^10.0.8",
     "postcss": "^8.2.1",
     "postcss-cli": "^8.3.0",

@@ -9,10 +9,9 @@ const database = firebase.database()
 
 export default function CreateNewGame(props){
     let history = useHistory()
-    let {sessionId, setSessionId} = useContext(SessionContext)
-    console.log(sessionId)
+    let {sessionId, setSessionId} = useContext(SessionContext);
     return (
-        <div className="mt-20 flex justify-center">
+        <div className="flex w-full h-screen items-center justify-center">
             <OverrideButton
             onClick = {(evt) => {
                 evt.preventDefault()
@@ -26,13 +25,27 @@ export default function CreateNewGame(props){
                         clickedRow: false,
                         hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
                         teamOneTurn: true,
+                        teamlessPlayers:
+                        {
+                            "":""
+                        },
                         teamOne: {
                             score: 0,
-                            name: "",
+                            name: "Team One",
+                            players:
+                            {
+                                "test1": "Steve",
+                                "test2": "Bob"
+                            }
                         },
                         teamTwo: {
                             score: 0,
-                            name: "",
+                            name: "Team Two",
+                            players:
+                            {
+                                "test1": "John",
+                                "test2": "Joe"
+                            }
                         },
                         wordWallIndex: 0,
                     }

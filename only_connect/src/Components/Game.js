@@ -16,11 +16,12 @@ import { id } from '../App';
 import {SessionContext} from '../App'
 import {randomize} from '../utilities/helpersWordWall'
 import { v4 as uuidv4 } from "uuid";
+
 var database = firebase.database();
 // const URLParams = window.location.pathname
 function Game({ ...props }) {
-    const [selfTeam, setSelfTeam] = useState(true)
-    let {sessionId, setSessionId} = useContext(SessionContext)
+    const [selfTeam, setSelfTeam] = useState(-1)
+    let {sessionId, setSessionId, authUser, setAuthUser} = useContext(SessionContext)
     // const [gameState, setGameState] = useState({
     //     // 0: Connection
     //     // 2: Sequence
@@ -42,19 +43,34 @@ function Game({ ...props }) {
     //     wordWallIndex: 0,
     // });
 
+    //TODO: Track capitains on each team, only they can set team name. A context that tracks the admin/capitains/spectators
     const { gameState, setGameState, setGameStateLocal } = GameState({
         round: -2,
         wallIndex: 0,
         clickedRow: false,
         hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
         teamOneTurn: true,
+        teamlessPlayers:
+        {
+            "":""
+        },
         teamOne: {
             score: 0,
-            name: "",
+            name: "Team One",
+            players:
+            {
+                "test": "Steve",
+                "test1": "Bob"
+            }
         },
         teamTwo: {
             score: 0,
-            name: "",
+            name: "Team Two",
+            players:
+            {
+                "test2": "John",
+                "test3": "Joe"
+            }
         },
         wordWallIndex: 0,
     })
@@ -67,7 +83,6 @@ function Game({ ...props }) {
         ref.on("value", (state) => {
             const data = state.val();
             if (data) {
-                console.log(data);
                 setGameStateLocal(data);
             }
         });
@@ -89,32 +104,47 @@ function Game({ ...props }) {
 
     const wordWalls = [Data.wall.wall1, Data.wall.wall2];
 
-    const selectTeam = (team) => {
-        setSelfTeam(team == 'TeamOne')
-    }
-
-    const addToScore = (score) => {
-        if (gameState.teamOneTurn) {
-            setGameState({
-                ...gameState,
-                teamOne: { ...gameState.teamOne, score: gameState.teamOne.score + score },
-            });
-        } else {
-            setGameState({
-                ...gameState,
-                teamTwo: { ...gameState.teamTwo, score: gameState.teamTwo.score + score },
-            });
-        }
-    };
-
-    const switchTurn = () => {
-        setGameState({ ...gameState, teamOneTurn: !gameState.teamOneTurn });
-    };
-
     const startGame = () => {
         setGameState({ ...gameState, round: 0 });
     };
 
+    const selectTeam = (i) =>
+    {
+        var tempState = {...gameState};
+        let sourceTeam = "";
+        let targetTeam = "";
+        var name = "";
+        if(i === 1)
+        {
+            sourceTeam = "teamTwo";
+            targetTeam = "teamOne";
+        }
+        else if(i === 0)
+        {
+            sourceTeam = "teamOne";
+            targetTeam = "teamTwo";
+        }
+
+        //If the uid exists in the source team, remove player and move to target
+        if(tempState[sourceTeam].players[authUser.uid])
+        {
+            name = tempState[sourceTeam].players[authUser.uid];
+            delete tempState[sourceTeam].players[authUser.uid];
+        }
+        else if(tempState.teamlessPlayers[authUser.uid])
+        {
+            name = tempState.teamlessPlayers[authUser.uid];
+            delete tempState.teamlessPlayers[authUser.uid];
+        }
+        else
+        {
+            name = "";    
+        }
+        tempState[targetTeam].players[authUser.uid] = name;
+        
+        setSelfTeam(i);
+        setGameState(tempState);
+    }
     const setTeamNames = (id, value) => {
         // evt.preventDefault();
         const newState = { ...gameState };
@@ -122,6 +152,25 @@ function Game({ ...props }) {
         // console.log(evt.target.id);
         setGameState({ ...newState });
     };
+
+    const setPlayerName = (name) =>
+    {
+        var tempState = {...gameState};
+        if(selfTeam === 1)
+        {
+            tempState.teamOne.players[authUser.uid] = name;
+        }
+        else if(selfTeam === 0)
+        {
+            tempState.teamTwo.players[authUser.uid] = name;
+        }
+        else
+        {
+            tempState.teamlessPlayers[authUser.uid] = name;
+        }
+
+        setGameState(tempState);
+    }
 
     // Click handles
     const gameOver = () =>
@@ -316,11 +365,12 @@ function Game({ ...props }) {
                 return (
                     <HomePage
                         selectTeam={selectTeam}
-                        gameState={gameState}
-                        teamOne={gameState.teamOne.name}
-                        teamTwo={gameState.teamTwo.name}
+                        currentTeam={selfTeam}
+                        teamOne={gameState.teamOne}
+                        teamTwo={gameState.teamTwo}
                         setName={setTeamNames}
                         startGame={startGame}
+                        setPlayerName={setPlayerName}
                     ></HomePage>
                 );
             case 0:

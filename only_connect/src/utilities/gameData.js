@@ -1,56 +1,56 @@
 const GameData = {
     connections: [
         {
-            "clues": ["F: USA", "R: New Zealand", "S: United Kingdom", "H: Canada"],
-            "answer": "Popular Sport : Country",
+            "clues": ["Liverpool", "Arsenal", "Chelsea", "Manchester City"],
+            "answer": "Premier League Footbal Clubs",
         },
         {
             "clues": ["Mother", "Dash", "Head", "Shuffle"],
             "answer": "_____ Board",
         },
         {
-            "clues": ["Sunday Morning", "Californiacation", "Ex-Calling", "Hot Girl Bummer"],
-            "answer": "Artist with color in name",
+            "clues": ["Ryan Giggs", "Louis van Gaal", "José Mourinho", "Ole Gunnar Solskjær"],
+            "answer": "Manchester United Managers",
         },
         {
-            "clues": ["Allan : CT", "Sharon : Z", "Yuliya : T", "Danya : KB"],
-            "answer": "Pets and their owners",
+            "clues": ["Just Fontaine", "Gerd Müller", "Ronaldo", "Miroslav Klose"],
+            "answer": "World Cup leading goal scorers",
         },
 
         {
-            "clues": ["5th Avenue", "59th Street", "8th Avenue", "110th Street"],
-            "answer": "Central Park perimeter streets",
+            "clues": ["M : 1", "V : 2", "E : 3", "M : 4"],
+            "answer": "Planets and their positions",
         },
         {
-            "clues": ["Bay Academy", "Midwood", "Baruch", "Fordham"],
-            "answer": "Schools Alex attended"
+            "clues": ["F : USA", "R : New Zealand", "S : United Kingdom", "H : Canada"],
+            "answer": "Countries and their popular sport"
         }
     ],
     sequences:
         [
             {
-                "clues": ["S", "X", "3", "Y"],
-                "answer": "Tesla Models"
+                "clues": ["Germany", "South Africa", "Brazil", "Russia"],
+                "answer": "World Cup Locations"
             },
             {
-                "clues": ["Take", "Select", "Caption", "Post"],
-                "answer": "Posting on instagram"
+                "clues": ["Mbappe", "Neymar Jr.", "Ronaldo", "Messi"],
+                "answer": "Highest Paid Football Players"
             },
             {
-                "clues": ["Hillary", "Laura", "Michelle", "Melania"],
-                "answer": "First Ladies"
+                "clues": ["Arsenal", "Manchester City", "Chelsea", "Manchester United"],
+                "answer": "Most Premier League championships"
             },
             {
-                "clues": ["Super Bowl", "NBA Championship", "Stanley Cup Finals", "World Series"],
-                "answer": "Sports Finals"
+                "clues": ["Chelsea", "Manchester City", "Manchester City", "Liverpool"],
+                "answer": "Recent Premier League Champions"
             },
             {
-                "clues": ["Max", "Ang", "Danya", "John"],
-                "answer": "Covid Positive"
+                "clues": ["France", "Netherlands", "Argentina", "Croatia"],
+                "answer": "World Cup Runner-ups"
             },
             {
-                "clues": ["Cancun", "Montreal", "Connecticut", "Sarratoga Springs"],
-                "answer": "Places visited by the group"
+                "clues": ["Keeper", "Defender", "Midfielder", "Forward"],
+                "answer": "Positions (Towards Center)"
             }
             
         ],

@@ -147,10 +147,9 @@ function ConnectionRow(props) {
 
             setTimeout(() => {
                 // No points added, team doesn't matter we always switch turns
-
+                const ref = database.ref(`${sessionId}/connectionRow`).remove();
                 props.exit(0, true);
-                const ref = database.ref(`${sessionId}/connectionRow`);
-                database.remove(ref)
+                
             }, 2000);
         }
     };
@@ -167,9 +166,8 @@ function ConnectionRow(props) {
             }
 
             setTimeout(() => {
-                props.exit(roundState.points, teamOneTurn);
                 const ref = database.ref(`${sessionId}/connectionRow`).remove();
-                
+                props.exit(roundState.points, teamOneTurn);                
             }, 2000);
         }
     };

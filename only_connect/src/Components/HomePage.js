@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OverrideButton from "./OverrideButton";
 import TextField from "@material-ui/core/TextField";
 import ButtonCorrect from "./ButtonCorrect";
@@ -10,8 +10,8 @@ import Seal from '../images/black_and_white/seal.png'
 import Whale from '../images/black_and_white/whale.png'
 import seal from '../images/colored/seal.png'
 import whale from '../images/colored/whale.png'
+import capitain from '../images/capitain.png'
 import {id} from '../App'
-
 
 
 // var firebaseConfig = {
@@ -40,108 +40,122 @@ import {id} from '../App'
 //       })
 
 export default function HomePage(props) {
-    const [teamOne, setTeamOne] = useState("");
-    const [teamTwo, setTeamTwo] = useState("");
+
+    const isAdmin = () =>
+    {
+        return false;
+    }
+
+    const isCapitain = () =>
+    {
+        return false;
+    }
 
     return (
-        <div className="bg-mt-20">
-            <h1 className=" text-5xl sm:text-7xl md:text-7xl lg:text-7xl xl:text-9xl text-center">
-                Sole Relation
-            </h1>
-            ;
-            <div className="mt-20 flex justify-center">
-                <div style={{ left: `-5%`, position: "relative" }}>
-                    <h2 className="text-3xl text-center">Team 1:</h2>
-                    <h2 className="text-5xl text-center">{props.teamOne}</h2>
-                    <img className="object-contain" src={Whale}></img>
-                    <div className="justify-center flex">
+        <div className="bg-mt-20 justify-center">
+            <div className="grid grid-flow-row justify-items-center lg:px-72">
+                <div className="row-start-2 justify-items-center items-center">
+                    <img className="m-auto w-20 lg:w-56" src={(props.currentTeam === 1) ? seal : Seal} onClick={() => {if(props.currentTeam != 1 && !isAdmin()){props.selectTeam(1)}}}></img>
+                    <h1 className="text-2xl lg:text-5xl text-center">{props.teamOne.name}</h1>
+                    {
+                        (isCapitain() && props.currentTeam === 1) ?
                         <form
                             onSubmit={(evt) => {
                                 evt.preventDefault();
-                                props.setName("teamOne", teamOne);
+                                props.setName("teamOne", evt.target[0].value);
                             }}
                             id="teamOne"
                         >
-                            <div className="relative flex w-full flex-wrap items-stretch mb-3">
-                                <input
-                                    type="text"
-                                    placeholder="Team One Name"
-                                    onChange={(e) => {
-                                        setTeamOne(e.target.value);
-                                    }}
-                                    className="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                />
-                            </div>
-                            <div
-                                style={{ left: "15%", top: "2%", position: "relative" }}
-                                className="justify-content flex"
-                            >
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                    Set Team Name
-                                </button>
-                            </div>
+                            <input
+                                className=""
+                                type="text"
+                                placeholder="Team One Name"
+                                className="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline pr-10"
+                            />
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Set Name
+                            </button>
                         </form>
+                        :
+                        ""
+                    }
+                    
+
+                    <div className="grid grid-cols-1">
+                        <div className="text-xl lg:text-3xl text-center">Players</div>
+                        {
+                            Object.keys(props.teamOne.players).map((name,i) =>
+                            (
+                                <div key={i} className="text-left text-lg lg:text-2xl">{props.teamOne.players[name]}</div>
+                            ))
+                        }
                     </div>
                 </div>
-                {/* <div
-                    className="w-28 h-28 flex bg-blue-500 hover:bg-blue-700" 
-                    
-                > </div> */}
-                <div style={{ left: `$5%`, position: "relative" }}>
-                    <h2 className="text-3xl text-center">Team2:</h2>
-                    <h2 className="text-5xl text-center">{props.teamTwo}</h2>
-                    <img className="object-contain" src={Seal}></img>
-                    <div className="flex justify-center ">
+                <div className="col-start-2">
+                    <h1 className=" text-5xl sm:text-7xl md:text-7xl lg:text-7xl xl:text-9xl">
+                        Sole Relation
+                    </h1>
+                </div>
+                <div className="row-start-3 col-start-2">
+                    {
+                        isAdmin() ? 
+                            <OverrideButton onClick={props.startGame}>Start Game</OverrideButton>
+                            :
+                            <form
+                                onSubmit={(evt) => {
+                                    evt.preventDefault();
+                                    props.setPlayerName(evt.target[0].value);
+                                }}
+                                id="playerName"
+                            >
+                                <h1>Click an icon to select team!</h1>
+                                <input
+                                    className=""
+                                    type="text"
+                                    placeholder="Player Name"
+                                    className="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline pr-10"
+                                />
+                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    Set Name
+                                </button>
+                            </form>
+                    }
+                </div>
+                <div className="col-start-3 row-start-2 justify-items-center items-center justify-center">
+                    <img className="m-auto w-20 lg:w-56" src={props.currentTeam === 0 ? whale : Whale} onClick={() => {if(props.currentTeam != 0 && !isAdmin()){props.selectTeam(0)}}}></img>
+                    <h1 className="text-2xl lg:text-5xl text-center">{props.teamTwo.name}</h1>
+                    {
+                        (isCapitain() && props.currentTeam === 0) ?
                         <form
-                            value={teamTwo}
-                            id="teamTwo"
                             onSubmit={(evt) => {
                                 evt.preventDefault();
-                                props.setName("teamTwo", teamTwo);
+                                props.setName("teamTwo", evt.target[0].value);
                             }}
+                            id="teamTwo"
                         >
-                            <div className="relative flex w-full flex-wrap items-stretch mb-3">
-                                <input
-                                    type="text"
-                                    placeholder="Team Two Name"
-                                    onChange={(e) => {
-                                        setTeamTwo(e.target.value);
-                                    }}
-                                    value={teamTwo}
-                                    className="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pr-10"
-                                />
-                            </div>
-                           
-                            <div
-                                style={{ left: `15%`, top: "2%", position: "relative" }}
-                                className="justify-content flex"
-                            >
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                    Set Team Name
-                                </button>
-                                
-                            </div>
+                            <input
+                                type="text"
+                                placeholder="Team Two Name"
+                                className="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline pr-10"
+                            />
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Set Name
+                            </button>
                         </form>
-                        
+                        :
+                        ""
+                    }
+                    <div className="grid grid-cols-1">
+                        <div className="text-xl lg:text-3xl text-center">Players</div>
+                        {
+                            Object.keys(props.teamTwo.players).map((name, i) =>
+                            (
+                                <div key={i} className="text-lg lg:text-2xl">{props.teamTwo.players[name]}</div>
+                            )
+                            )
+                        }
                     </div>
                 </div>
-            </div>
-
-            <div className="mt-10 flex justify-center">
-            <form onClick={(evt) => {
-                props.selectTeam(evt.target.value)
-                console.log(evt.target.value)
-            }}>
-                <input style={{ left: `7vw`, position: "relative" }} type="radio" id="TeamOne" name="gender" value="TeamTwo"/>
-                <input style={{ left: `-12vw`, position: "relative" }} type="radio" id="TeamTwo" name="gender" value="TeamOne"/>
-            </form>
-            </div>
-           
-            <div
-                style={{ left: `-2%`, position: "relative" }}
-                className="mt-20 flex justify-center"
-            >
-                <OverrideButton onClick={props.startGame}>Start Game</OverrideButton>
             </div>
         </div>
     );

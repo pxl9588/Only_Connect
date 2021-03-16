@@ -21,7 +21,6 @@ function App() {
       return firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           // User is signed in.
-          alert(`signed in as: ${user.uid}`)
           setAuthUser({ ...user });
         } else {
           // User is signed out.
@@ -67,7 +66,7 @@ function App() {
 
     return (
       <BrowserRouter>
-      <SessionContext.Provider value={{sessionId, setSessionId}}>
+      <SessionContext.Provider value={{sessionId, setSessionId, authUser,setAuthUser}}>
         <div className="App h-screen w-screen overflow-hidden">
             <Game></Game>
         </div>
