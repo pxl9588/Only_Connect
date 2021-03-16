@@ -13,7 +13,7 @@ import GameState from "./hooks/gameState";
 import firebase from "firebase";
 import CreateNewGame from './createNewGame'
 import { id } from '../App';
-import {SessionContext} from '../App'
+import {SessionContext} from '../context/SessionContext'
 import {randomize} from '../utilities/helpersWordWall'
 import { v4 as uuidv4 } from "uuid";
 
