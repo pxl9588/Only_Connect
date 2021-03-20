@@ -69,7 +69,7 @@ class WordWall extends Component {
         for (let [index, block] of blocks.entries()) {
             this.idToIndex.set(block.id, index);
         }
-        this.setState({ data, intervalId: id});
+        //this.setState({ data, intervalId: id});
         // const ref = database.ref(`${this.context.sessionId}/WordWall`);
         // ref.once("value", (state) => {
         // const data = state.val();

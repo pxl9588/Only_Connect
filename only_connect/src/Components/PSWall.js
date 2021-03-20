@@ -20,6 +20,7 @@ function PSWall(props)
 { 
     const handleClick = (i) =>
     {
+        //TODO: Check the userID to ensure only correct user can click
         props.onClick(i);
     };
 

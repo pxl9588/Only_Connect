@@ -13,7 +13,7 @@ import GameState from "./hooks/gameState";
 import firebase from "firebase";
 import CreateNewGame from './createNewGame'
 import { id } from '../App';
-import {SessionContext} from '../context/SessionContext'
+import {SessionContext} from '../App.js'
 import {randomize} from '../utilities/helpersWordWall'
 import { v4 as uuidv4 } from "uuid";
 
@@ -50,27 +50,16 @@ function Game({ ...props }) {
         clickedRow: false,
         hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
         teamOneTurn: true,
-        teamlessPlayers:
-        {
-            "":""
-        },
+        admin: "",
         teamOne: {
             score: 0,
             name: "Team One",
-            players:
-            {
-                "test": "Steve",
-                "test1": "Bob"
-            }
+            capitain: "",
         },
         teamTwo: {
             score: 0,
             name: "Team Two",
-            players:
-            {
-                "test2": "John",
-                "test3": "Joe"
-            }
+            capitain: "",
         },
         wordWallIndex: 0,
     })
@@ -83,6 +72,18 @@ function Game({ ...props }) {
         ref.on("value", (state) => {
             const data = state.val();
             if (data) {
+                if(!data.teamOne.players)
+                {
+                    data.teamOne.players = {};
+                }
+                if(!data.teamTwo.players)
+                {
+                    data.teamTwo.players = {};
+                }
+                if(!data.teamlessPlayers)
+                {
+                    data.teamlessPlayers = {};
+                }
                 setGameStateLocal(data);
             }
         });
@@ -131,15 +132,39 @@ function Game({ ...props }) {
             name = tempState[sourceTeam].players[authUser.uid];
             delete tempState[sourceTeam].players[authUser.uid];
         }
+        //The player entered their name first, then selected a team
         else if(tempState.teamlessPlayers[authUser.uid])
         {
             name = tempState.teamlessPlayers[authUser.uid];
             delete tempState.teamlessPlayers[authUser.uid];
         }
+        //The player selected a team before entering their name
         else
         {
             name = "";    
         }
+
+        //If there is no capitain, make this player the capitain
+        if(tempState[targetTeam].capitain == "")
+        {
+            console.log(`${targetTeam} does not have a capitain. Setting it to ${authUser.uid}`);
+            tempState[targetTeam].capitain = authUser.uid;
+        }
+        //If this player was the capitain on the source team, make a new player capitain
+        if(tempState[sourceTeam].capitain === authUser.uid)
+        {
+            var players = Object.keys(tempState[sourceTeam].players);
+            var capitain = "";
+            //Check if there are other available players to assign capitain to
+            if(players.length > 0)
+            {
+                capitain = players[0];
+            }
+            console.log(`This was ${sourceTeam}'s capitain . Setting new capitain to ${capitain}`);
+            tempState[sourceTeam].capitain = capitain;
+        }
+
+        //Put player on team
         tempState[targetTeam].players[authUser.uid] = name;
         
         setSelfTeam(i);
@@ -364,10 +389,12 @@ function Game({ ...props }) {
             case -1:
                 return (
                     <HomePage
+                        admin={gameState.admin}
                         selectTeam={selectTeam}
                         currentTeam={selfTeam}
                         teamOne={gameState.teamOne}
                         teamTwo={gameState.teamTwo}
+                        teamlessPlayers={gameState.teamlessPlayers}
                         setName={setTeamNames}
                         startGame={startGame}
                         setPlayerName={setPlayerName}

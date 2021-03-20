@@ -11,6 +11,7 @@ import {SessionContext} from '../context/SessionContext'
 import { firebase } from "./firebaseConfig";
 var database = firebase.database()
 
+//TODO: Timer get's own state?
 function ConnectionRow(props) {
     let {sessionId, setSessionId} = useContext(SessionContext)
     const final_number = 4;
