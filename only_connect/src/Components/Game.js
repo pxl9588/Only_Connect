@@ -13,7 +13,7 @@ import GameState from "./hooks/gameState";
 import firebase from "firebase";
 import CreateNewGame from './createNewGame'
 import { id } from '../App';
-import {SessionContext} from '../App.js'
+import {SessionContext} from '../App.js';
 import {randomize} from '../utilities/helpersWordWall'
 import { v4 as uuidv4 } from "uuid";
 
@@ -22,28 +22,7 @@ var database = firebase.database();
 function Game({ ...props }) {
     const [selfTeam, setSelfTeam] = useState(-1)
     let {sessionId, setSessionId, authUser, setAuthUser} = useContext(SessionContext)
-    // const [gameState, setGameState] = useState({
-    //     // 0: Connection
-    //     // 2: Sequence
-    //     // 4: WordWall
-    //     // 9: Missing Vowel
-    //     round: -2,
-    //     wallIndex: 0,
-    //     clickedRow: false,
-    //     hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
-    //     teamOneTurn: true,
-    //     teamOne: {
-    //         score: 0,
-    //         name: "",
-    //     },
-    //     teamTwo: {
-    //         score: 0,
-    //         name: "",
-    //     },
-    //     wordWallIndex: 0,
-    // });
 
-    //TODO: Track capitains on each team, only they can set team name. A context that tracks the admin/capitains/spectators
     const { gameState, setGameState, setGameStateLocal } = GameState({
         round: -2,
         wallIndex: 0,
@@ -147,7 +126,6 @@ function Game({ ...props }) {
         //If there is no capitain, make this player the capitain
         if(tempState[targetTeam].capitain == "")
         {
-            console.log(`${targetTeam} does not have a capitain. Setting it to ${authUser.uid}`);
             tempState[targetTeam].capitain = authUser.uid;
         }
         //If this player was the capitain on the source team, make a new player capitain
@@ -160,7 +138,6 @@ function Game({ ...props }) {
             {
                 capitain = players[0];
             }
-            console.log(`This was ${sourceTeam}'s capitain . Setting new capitain to ${capitain}`);
             tempState[sourceTeam].capitain = capitain;
         }
 

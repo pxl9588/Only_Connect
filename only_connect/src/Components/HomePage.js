@@ -107,26 +107,28 @@ export default function HomePage(props) {
                 </div>
             </div>
             :
-            <form
-                onSubmit={(evt) => {
-                    evt.preventDefault();
-                    props.setPlayerName(evt.target[0].value);
-                }}
-                id="playerName"
-            >
-                <h1>Click an icon to select team!</h1>
-                <div class="flex items-center">
-                <input
-                    className=""
-                    type="text"
-                    placeholder="Player Name"
-                    className="h-10 placeholder-gray-400 text-gray-700 relative bg-white rounded text-md shadow outline-none focus:outline-none focus:shadow-outline"
-                />
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-auto px-2 rounded">
-                Set Name
-                </button>
-                </div>
-            </form>
+            <div className="flex justify-center h-full items-center">
+                <form
+                    onSubmit={(evt) => {
+                        evt.preventDefault();
+                        props.setPlayerName(evt.target[0].value);
+                    }}
+                    id="playerName"
+                >
+                    <div>
+                        <h1 className="text-3xl text-center">Enter your name</h1>
+                    <input
+                        className=""
+                        type="text"
+                        placeholder="Player Name"
+                        className="px-2 h-10 placeholder-gray-400 text-gray-700 relative bg-white rounded text-md shadow outline-none focus:outline-none focus:shadow-outline"
+                    />
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-auto px-2 rounded">
+                    Set Name
+                    </button>
+                    </div>
+                </form>
+            </div>
             }
         </div>
     );

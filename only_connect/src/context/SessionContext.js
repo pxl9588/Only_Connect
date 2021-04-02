@@ -1,5 +1,6 @@
 import React, {useState, createContext} from 'react'
 import GameIDState from '../Components/hooks/GameIDState'
+
 export const SessionContext = createContext(null);
 
 export function SessionContextProvider(props){

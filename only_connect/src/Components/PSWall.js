@@ -18,6 +18,7 @@ import sloth_c from './../images/colored/sloth.png'
 
 function PSWall(props)
 { 
+    //TODO: Check the userID to ensure only correct user can click
     const handleClick = (i) =>
     {
         //TODO: Check the userID to ensure only correct user can click

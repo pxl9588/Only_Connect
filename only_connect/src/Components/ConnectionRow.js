@@ -13,31 +13,9 @@ var database = firebase.database()
 
 //TODO: Timer get's own state?
 function ConnectionRow(props) {
-    let {sessionId, setSessionId} = useContext(SessionContext)
+    let {sessionId, setSessionId, authUser, setAuthUser} = useContext(SessionContext)
     const final_number = 4;
-    const max_time = 150;
-    // const [roundState, setRoundState] = useState(
-    //     {
-    //         time: 0,
-    //         timer_fill_color: "bg-dark-shade",
-    //         timer_color: "bg-dark-accent",
-    //         buzzed: 0,
-    //         points: 5,
-    //         count: 1,
-    //         timerIndex: 1,
-    //         cluesHidden:
-    //         {
-    //             1: true,
-    //             2: true,
-    //             3: true
-    //         },
-    //         answerHidden:
-    //         {
-    //             1:true,
-    //             2:false
-    //         }
-    //     }
-    // );    
+    const max_time = 150;   
 
     const {setRoundState, setRoundStateLocal, roundState} = RoundState([{
             time: 0,

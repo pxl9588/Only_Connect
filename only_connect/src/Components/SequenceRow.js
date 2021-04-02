@@ -18,6 +18,7 @@ function SequenceRow(props) {
     const final_number = 3;
     const max_time = 150;
     
+    //TODO: Timer get's own State
     const {setRoundState, setRoundStateLocal, roundState} = RoundState([{
         time: 0,
         timer_fill_color: "bg-dark-shade",
