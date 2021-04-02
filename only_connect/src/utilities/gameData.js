@@ -1,102 +1,114 @@
 const GameData = {
     connections: [
         {
-            "clues": ["Liverpool", "Arsenal", "Chelsea", "Manchester City"],
-            "answer": "Premier League Footbal Clubs",
+            "clues": ["Michael Jordan", "Magic Johnson", "Derek Fisher", "Scottie Pippen"],
+            "answer": " NBA Players with 5+ Championships",
         },
         {
-            "clues": ["Mother", "Dash", "Head", "Shuffle"],
-            "answer": "_____ Board",
+            "clues": ["Dash", "Good American", "POOSH", "SKIMS"],
+            "answer": "Kardashian Brands",
         },
         {
-            "clues": ["Ryan Giggs", "Louis van Gaal", "José Mourinho", "Ole Gunnar Solskjær"],
-            "answer": "Manchester United Managers",
+            "clues": [
+                "Eva, Can I Stab Bats In A Cave",
+                "Dammit, I'm Mad",
+                "Do Geese See God",
+                "Racecar",
+            ],
+            "answer": "Palindromes",
         },
         {
-            "clues": ["Just Fontaine", "Gerd Müller", "Ronaldo", "Miroslav Klose"],
-            "answer": "World Cup leading goal scorers",
+            "clues": ["Mag", "Hip", "Yup", "Pot"],
+            "answer": "______pie",
         },
 
         {
-            "clues": ["M : 1", "V : 2", "E : 3", "M : 4"],
-            "answer": "Planets and their positions",
+            "clues": ["Apples", "Dates", "Pomegranate", "Challah"],
+            "answer": "Symbolic Rosh Hashanah Foods",
         },
         {
-            "clues": ["F : USA", "R : New Zealand", "S : United Kingdom", "H : Canada"],
-            "answer": "Countries and their popular sport"
+            "clues": ["Wombat", "Opoosum", "Koala", "Kangaroo"],
+            "answer": "Marsupials"
         }
     ],
     sequences:
         [
             {
-                "clues": ["Germany", "South Africa", "Brazil", "Russia"],
-                "answer": "World Cup Locations"
+                "clues": ["Blue", "North", "Luna", "X Æ A-Xii"],
+                "answer": "Celebrity Babies in order of birth"
             },
             {
-                "clues": ["Mbappe", "Neymar Jr.", "Ronaldo", "Messi"],
-                "answer": "Highest Paid Football Players"
+                "answer": "Order of sharks in Baby Shark",
+                "clues": ["Baby", "Mommy", "Daddy", "Grandma"]
             },
             {
-                "clues": ["Arsenal", "Manchester City", "Chelsea", "Manchester United"],
-                "answer": "Most Premier League championships"
+                "clues": ["Rachel", "Becca", "Hannah", "Clare"],
+                "answer": "The Bachelorettes from ‘17-’20"
             },
             {
-                "clues": ["Chelsea", "Manchester City", "Manchester City", "Liverpool"],
-                "answer": "Recent Premier League Champions"
+                "clues": ["M = 1", "V = 2", "E = 3", "M = 4"],
+                "answer": "Planets"
             },
             {
-                "clues": ["France", "Netherlands", "Argentina", "Croatia"],
-                "answer": "World Cup Runner-ups"
+                "clues": ["Zach", "Alex", "PJ", "Ang"],
+                "answer": "Big Rascals Birthday’s"
             },
             {
-                "clues": ["Keeper", "Defender", "Midfielder", "Forward"],
-                "answer": "Positions (Towards Center)"
+                "clues": ["United States", "China", "Canada", "Russia"],
+                "answer": "Size of Countries (Increasing)"
             }
-            
         ],
     wall: {
         wall1: [
-            {"answer": "Types of Sharks", "clues": ["Hammerhead", "Whale", "Sand", "Nurse"]},
-            {"answer": "_____-Man","clues": ["Ant", "Spider", "Iron", "Super"]},
-            {"answer": "Monopoly Pieces", "clues": ["Top Hat", "Battleship", "Thimble", "Boot"]},
-            {"answer": "Plagues of Egypt", "clues": ["Boil", "Locust", "Blood", "Frog"]}
+            {
+                "clues": ["Fiji", "Mocha", "San Pellegrino", "Champagne"],
+                "answer": "Drinks named after cities"
+            },
+            {
+                "clues": ["T", "Cube", "Vanilla", "Prince"],
+                "answer": "Rappers named Ice ____"
+            },
+            {
+                "clues": ["Hazelnut", "Coconut", "Butter Pecan", "Caramel"],
+                "answer": "Dunkin Donuts Flavors"
+            },
+            {
+                "clues": ["Papua New Guinea", "Guam", "Australia", "Cook Islands"],
+                "answer": "Oceania islands"
+            }
         ],
         wall2: [
-            {"answer": 'Shades of Red', "clues": ['Blood', 'Maroon', 'Strawberry', 'Cherry']},
-            {"answer": 'Films that start with American', "clues": ['Sniper', 'Pie', 'Gangster', 'Beauty']},
-            {"answer": 'Types of birds', "clues": ['Eagle', 'Owl', 'Finch', 'Kiwi']},
-            {"answer": 'Clue characters', "clues": ['Plum', 'Scarlet', 'Peacock', 'Green']},
+            {"answer": 'Animal named bands', "clues": ['Eagles', 'Beatles', 'Monkees', 'Gorillaz']},
+            {"answer": 'Bird named sport teams', "clues": ['Pelicans', 'Seahawks', 'Falcons', 'Cardinals']},
+            {"answer": 'Birth stones', "clues": ['Sapphire', 'Ruby', 'Emerald', 'Amethyst']},
+            {"answer": 'Pokemon games', "clues": ['Crystal', 'Gold', 'Silver', 'Diamond']},
         ],
     },
     missingVowels: [
-        {'category': 'Desserts',
-            'clues': [
-            {'clue': 'TR MS', 'answer': 'TIRAMISU'},
-            {'clue': 'BN NPD DNG', 'answer': 'BANANA PUDDING'},
-            {'clue': 'BR WNS ND', 'answer': 'BROWNIE SUNDAE'},
-            {'clue': 'CHC LTLV CK', 'answer': 'CHOCOLATE LAVA CAKE'}
+        {'category': 'Chores', 'clues': [
+            {'clue': 'W SH NTH GD HS', 'answer': 'WASHING THE DISHES'},
+            {'clue': 'F LD NGL ND RY', 'answer': 'FOLDING LAUNDRY'},
+            {'clue': 'WPN GT HW NDW S', 'answer': 'WIPING THE WINDOWS'},
+            {'clue': 'HNG NGCL THS NTH CL ST', 'answer': 'HANGING CLOTHES IN THE CLOSET'}
         ]},
-        {'category': 'Famous Paintings',
-            'clues': [
-            {'clue': 'MN LS', 'answer': 'MONA LISA'},
-            {'clue': 'GR LW THPR LRRNG', 'answer': 'GIRL WITH A PEARL EARRING'},
-            {'clue': 'THL STSP PR', 'answer': 'THE LAST SUPPER'},
-            {'clue': 'ST RRN GHT', 'answer': 'STARRY NIGHT'},
+        {'category': 'Clothing Brands', 'clues': [
+            {'clue': 'CL VNKL N', 'answer': 'CALVIN KLEIN'},
+            {'clue': 'ZR', 'answer': 'ZARA'},
+            {'clue': 'N DRRM R', 'answer': 'UNDER ARMOUR'},
+            {'clue': 'K NNT HC L', 'answer': 'KENNETH COLE'}
         ]},
-        {'category': 'National Parks',
-            'clues': [
-            {'clue': 'GR NDC NN', 'answer': 'GRAND CANYON'},
-            {'clue': 'DT HV LLY', 'answer': 'DEATH VALLEY'},
-            {'clue': 'YSMT', 'answer': 'YOSEMITE'},
-            {'clue': 'YL LWS TN', 'answer': 'YELLOW STONE'}
+        {'category': 'Mixed Drinks', 'clues': [
+            {'clue': 'W H TRS SN', 'answer': 'WHITE RUSSIAN'},
+            {'clue': 'MSC WML', 'answer': 'MOSCOW MULE'},
+            {'clue': 'D RKN DSTR M', 'answer': 'DARK AND STORMY'},
+            {'clue': 'MRT TSR', 'answer': 'AMARETTO SOUR'}
         ]},
-        {'category': 'Shakespeare Plays',
-            'clues': [
-            {'clue': 'HMLT', 'answer': 'HAMLET'},
-            {'clue': ' MD SM MRNG HTS DRM', 'answer': 'A MIDSUMMER NIGHTS DREAM'},
-            {'clue': 'KN GLR', 'answer': 'KING LEAR'},
-            {'clue': 'MC HDBT NTH NG', 'answer': 'MUCH ADO ABOUT NOTHING'}
-        ]}
+        {'category': 'Cities in Israel', 'clues': [
+            {'clue': 'JR S LM', 'answer': 'JERUSALEM'},
+            {'clue': 'T LV V', 'answer': 'TEL AVIV'},
+            {'clue': 'HF', 'answer': 'HAIFA'},
+            {'clue': 'JF F', 'answer': 'JAFFA'}]
+        }
     ]
 };
 
