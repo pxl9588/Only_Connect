@@ -1,11 +1,12 @@
 import React, { createRef, Component } from "react";
+import {SessionContext} from '../context/SessionContext.js';
 import WordWallClue from "./WordWallClue";
 import { v4 as uuidv4 } from "uuid";
 import { clearClickedList, checkForMatch, animate, randomize } from "../utilities/helpersWordWall";
 import Timer from "./Timer";
 import Lives from "./Lives";
 import {firebase} from './firebaseConfig'
-import {SessionContext} from '../context/SessionContext'
+
 const database = firebase.database()
 
 
@@ -40,10 +41,10 @@ class WordWall extends Component {
         };
         this.handleClickBlock = this.handleClickBlock.bind(this);
         this.solveBoard = this.solveBoard.bind(this);
+        this.isPlayer = this.isPlayer.bind(this);
     }
     
     componentDidMount() {
-        console.log('hellooooo')
         console.log(this.context.sessionID)
         
         
@@ -69,22 +70,22 @@ class WordWall extends Component {
         for (let [index, block] of blocks.entries()) {
             this.idToIndex.set(block.id, index);
         }
-        //this.setState({ data, intervalId: id});
-        // const ref = database.ref(`${this.context.sessionId}/WordWall`);
-        // ref.once("value", (state) => {
-        // const data = state.val();
-        // if (data) {
-        //     console.log(data);
-        //     for (let [index, block] of data.solved.entries()) {
-        //         this.idToIndex.set(block.id, index);
-        //     }
-        //     var id = setInterval(()=>{this.setState({time: this.state.time + 1});}, 1000);
-        //     this.setState({ solved: data.solved, intervalId: id});
-        // }
-        // else{
-        //     alert('Cannot connect to server, please try again later')
-        // }
-    // })      
+        this.setState({ solved: blocks, intervalId: id});
+        const ref = database.ref(`${this.context.sessionId}/WordWall`);
+        ref.once("value", (state) => {
+        const data = state.val();
+        if (data) {
+            console.log(data);
+            for (let [index, block] of data.solved.entries()) {
+                this.idToIndex.set(block.id, index);
+            }
+            var id = setInterval(()=>{this.setState({time: this.state.time + 1});}, 1000);
+            this.setState({ solved: data.solved, intervalId: id});
+        }
+        else{
+            alert('Cannot connect to server, please try again later')
+        }
+     })      
         
         
     }
@@ -120,7 +121,16 @@ class WordWall extends Component {
     //     database.ref(`${sessionId}/wordWall`).set(args);
     // }
 
+    isPlayer = () =>
+    {
+        return this.props.turn === this.props.selfTeam;
+    }
+
     handleClickBlock(obj) {
+        if(!this.isPlayer())
+        {
+            return;
+        }
         if (this.state.clicked.length < 4) {
             if (obj.clicked) {
                 this.unClickBlock(obj);

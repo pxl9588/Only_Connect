@@ -7,15 +7,24 @@ import ButtonCorrect from "./ButtonCorrect";
 import ButtonBuzzer from "./ButtonBuzzer";
 import Timer from "./Timer";
 import RoundState from './hooks/RoundState'
-import {SessionContext} from '../context/SessionContext'
+import {SessionContext} from '../context/SessionContext.js';
 import { firebase } from "./firebaseConfig";
 var database = firebase.database()
 
 //TODO: Timer get's own state?
 function ConnectionRow(props) {
-    let {sessionId, setSessionId, authUser, setAuthUser} = useContext(SessionContext)
+    let {sessionId, authUser} = useContext(SessionContext)
     const final_number = 4;
     const max_time = 150;   
+    
+    const isAdmin = () =>
+    {
+        return authUser.uid === props.admin;
+    }
+    const isSpectator = () =>
+    {
+        return props.selfTeam != props.turn
+    }
 
     const {setRoundState, setRoundStateLocal, roundState} = RoundState([{
             time: 0,
@@ -43,7 +52,6 @@ function ConnectionRow(props) {
         ref.on("value", (state) => {
             const data = state.val();
             if (data) {
-                console.log(data);
                 setRoundStateLocal(data);
             }
         });
@@ -172,7 +180,8 @@ function ConnectionRow(props) {
     };
 
     const renderSwitch = (admin, spectator) => {
-        if (spectator) {
+        if (spectator && !admin)
+        {
             return (
                 <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
                     <div
@@ -208,7 +217,9 @@ function ConnectionRow(props) {
                     </div>
                 </div>
             );
-        } else {
+        }
+        else
+        {
             return (
                 <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
                     <div
@@ -263,7 +274,8 @@ function ConnectionRow(props) {
         }
     };
 
-    return <div>{renderSwitch(props.selfTeam != props.turn, false)}</div>;
+    
+    return <div>{renderSwitch(isAdmin(), isSpectator())}</div>;
 }
 
 export default ConnectionRow;

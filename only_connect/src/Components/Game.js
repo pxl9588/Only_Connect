@@ -13,7 +13,7 @@ import GameState from "./hooks/gameState";
 import firebase from "firebase";
 import CreateNewGame from './createNewGame'
 import { id } from '../App';
-import {SessionContext} from '../App.js';
+import {SessionContext} from '../context/SessionContext.js';
 import {randomize} from '../utilities/helpersWordWall'
 import { v4 as uuidv4 } from "uuid";
 
@@ -28,7 +28,7 @@ function Game({ ...props }) {
         wallIndex: 0,
         clickedRow: false,
         hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
-        teamOneTurn: true,
+        turn: 1,
         admin: "",
         teamOne: {
             score: 0,
@@ -43,6 +43,10 @@ function Game({ ...props }) {
         wordWallIndex: 0,
     })
 
+    const isAdmin = () =>
+    {
+        return authUser.uid === gameState.admin;
+    }
 
     //const [gameState, setGameState] = useState(newGame);
 
@@ -182,7 +186,10 @@ function Game({ ...props }) {
 
     // Click handles
     const scoreExit = () => {
-        setGameState({ ...gameState, clickedRow: false, round: gameState.round + 1 });
+        if(isAdmin())
+        {
+            setGameState({ ...gameState, clickedRow: false, round: gameState.round + 1 });
+        }
     };
     
     const buildWordWall = () => {
@@ -245,7 +252,7 @@ function Game({ ...props }) {
      */
     const wordRowExit = (points) => {
         var tempGameState = {...gameState};
-        if(gameState.teamOneTurn)
+        if(gameState.turn === 1)
         {
             tempGameState.teamOne.score += points
             console.log(tempGameState.teamOne.score);
@@ -280,7 +287,14 @@ function Game({ ...props }) {
                 tempGameState.teamTwo.score = Math.floor(tempGameState.teamTwo.score);
             }
             
-            tempGameState.teamOneTurn = !gameState.teamOneTurn;
+            if(tempGameState.turn === 1)
+            {
+                tempGameState.turn = 0;
+            }
+            else
+            {
+                tempGameState.turn = 1;
+            }
         }
         else
         {
@@ -309,7 +323,7 @@ function Game({ ...props }) {
             points = 6;
         }
 
-        if(gameState.teamOneTurn)
+        if(gameState.turn === 1)
         {
             temp.teamOne.score += points
         }
@@ -328,7 +342,14 @@ function Game({ ...props }) {
      */
     const psRowExit = (points, team) => {
         var tempGameState = { ...gameState };
-        tempGameState.teamOneTurn = !gameState.teamOneTurn;
+        if(tempGameState.turn === 1)
+        {
+            tempGameState.turn = 0;
+        }
+        else
+        {
+            tempGameState.turn = 1;
+        }
         tempGameState.clickedRow = false;
 
         if (team) {
@@ -384,16 +405,16 @@ function Game({ ...props }) {
                             <PSWall
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
-                                turn={gameState.teamOneTurn}
-                                teamOne={gameState.teamOne}
-                                teamTwo={gameState.teamTwo}
+                                turn={gameState.turn}
+                                selfTeam={selfTeam}
                             ></PSWall>
                         ) : (
                             <ConnectionRow
                                 selfTeam={selfTeam}
                                 exit={psRowExit}
                                 row={connections[gameState.wallIndex]}
-                                turn={gameState.teamOneTurn}
+                                turn={gameState.turn}
+                                admin={gameState.admin}
                             ></ConnectionRow>
                         )}
                     </div>
@@ -413,16 +434,16 @@ function Game({ ...props }) {
                             <PSWall
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
-                                turn={gameState.teamOneTurn}
-                                teamOne={gameState.teamOne}
-                                teamTwo={gameState.teamTwo}
+                                turn={gameState.turn}
+                                selfTeam={selfTeam}
                             ></PSWall>
                         ) : (
                             <SequenceRow
                                 selfTeam = {selfTeam}
                                 exit={psRowExit}
                                 row={sequences[gameState.wallIndex]}
-                                turn={gameState.teamOneTurn}
+                                turn={gameState.turn}
+                                admin={gameState.admin}
                             ></SequenceRow>
                         )}
                     </div>
@@ -443,13 +464,14 @@ function Game({ ...props }) {
                             <WordWallIcons
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
-                                turn={gameState.teamOneTurn}
-                                teamOne={gameState.teamOne}
-                                teamTwo={gameState.teamTwo}
+                                turn={gameState.turn}
+                                selfTeam={selfTeam}
                             ></WordWallIcons>
                         ) : (
                             <WordWall
                                 data={wordWalls[gameState.wordWallIndex]}
+                                turn={gameState.turn}
+                                selfTeam={selfTeam}
                                 exit={wallExit}
                             >
                             </WordWall>
@@ -463,6 +485,7 @@ function Game({ ...props }) {
                             exit={wordRowExit}
                             color={colorDictionary[gameState.wallIndex]}
                             row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}
+                            admin={gameState.admin}
                         ></WordConnectionRow>
                     </div>
                 );
@@ -473,9 +496,8 @@ function Game({ ...props }) {
                             <WordWallIcons
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
-                                turn={gameState.teamOneTurn}
-                                teamOne={gameState.teamOne}
-                                teamTwo={gameState.teamTwo}
+                                turn={gameState.turn}
+                                selfTeam={selfTeam}
                             ></WordWallIcons>
                         ) : (
                             <WordWall

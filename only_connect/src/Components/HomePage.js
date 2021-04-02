@@ -10,7 +10,7 @@ import Seal from '../images/black_and_white/seal.png'
 import Whale from '../images/black_and_white/whale.png'
 import seal from '../images/colored/seal.png'
 import whale from '../images/colored/whale.png'
-import {SessionContext} from '../App.js'
+import {SessionContext} from '../context/SessionContext.js';
 import capitain from '../images/capitain.png'
 import {id} from '../App'
 

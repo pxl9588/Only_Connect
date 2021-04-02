@@ -1,17 +1,18 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import{ useHistory } from 'react-router-dom'
 import firebase from "firebase";
 import OverrideButton from "./OverrideButton";
 import Game from "./Game";
-import {SessionContext} from '../App.js';
+import {SessionContext} from '../context/SessionContext.js';
 const database = firebase.database()
 
 
 export default function CreateNewGame(props){
     let history = useHistory()
-    let {setSessionId, authUser} = useContext(SessionContext);
+    const {setSessionId, authUser} = useContext(SessionContext);
     const [teamOne, setTeamOne] = useState("Team One");
     const [teamTwo, setTeamTwo] = useState("Team Two");
+
     return (
         <div className="w-full h-screen items-center justify-center grid grid-rows-3 lg:grid-cols-3 justify-items-center">
             <form
@@ -20,7 +21,7 @@ export default function CreateNewGame(props){
                     setTeamOne(evt.target[0].value);
                 }}
             >
-                <div class="items-center">
+                <div className="items-center">
                     <div className="text-4xl text-center">{teamOne}</div>
                     <input
                         className=""
@@ -36,7 +37,7 @@ export default function CreateNewGame(props){
             <button
             className = "bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-auto px-2 rounded"
             onClick = {(evt) => {
-                evt.preventDefault()
+                evt.preventDefault();
                 const gamesRef = database.ref('games')
                 const newGameRef = gamesRef.push();
                 newGameRef.set({
@@ -45,7 +46,7 @@ export default function CreateNewGame(props){
                         wallIndex: 0,
                         clickedRow: false,
                         hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
-                        teamOneTurn: true,
+                        turn: 1,
                         admin: authUser.uid,
                         teamOne: {
                             score: 0,

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import WallIcon from './WallIcon'
 
 //TODO: Attribute Freepik for icons, don't want a law suit. But WHere do we put this, Credits?
@@ -15,14 +15,16 @@ import koala_bw from './../images/black_and_white/koala.png'
 import koala_c from './../images/colored/koala.png'
 import sloth_bw from './../images/black_and_white/sloth.png'
 import sloth_c from './../images/colored/sloth.png'
+import { SessionContext } from '../context/SessionContext'
 
 function PSWall(props)
 { 
-    //TODO: Check the userID to ensure only correct user can click
     const handleClick = (i) =>
     {
-        //TODO: Check the userID to ensure only correct user can click
-        props.onClick(i);
+        if(props.selfTeam === props.turn)
+        {
+            props.onClick(i);
+        }
     };
 
     return (

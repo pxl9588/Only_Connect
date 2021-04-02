@@ -8,15 +8,24 @@ import ButtonBuzzer from "./ButtonBuzzer";
 import Timer from "./Timer";
 import RoundState from './hooks/RoundState'
 import {firebase} from './firebaseConfig'
-import {SessionContext} from '../context/SessionContext'
+import {SessionContext} from '../context/SessionContext.js';
 const database = firebase.database()
 
 //TODO: Timer get's own state?
 function SequenceRow(props) {
 
-    const {sessionId, setSessionId} = useContext(SessionContext)
+    const {sessionId, authUser} = useContext(SessionContext)
     const final_number = 3;
     const max_time = 150;
+
+    const isAdmin = () =>
+    {
+        return authUser.uid === props.admin;
+    }
+    const isSpectator = () =>
+    {
+        return props.selfTeam != props.turn
+    }
     
     //TODO: Timer get's own State
     const {setRoundState, setRoundStateLocal, roundState} = RoundState([{
@@ -44,7 +53,6 @@ useEffect(() => {
     ref.on("value", (state) => {
         const data = state.val();
         if (data) {
-            console.log(data);
             setRoundStateLocal(data);
         }
     });
@@ -172,64 +180,106 @@ useEffect(() => {
         }
     };
 
-    const renderSwitch = (admin) => {
-        return (
-            <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
-                <div
-                    className={`justify-items-center items-center row-start-1 col-start-${roundState.timerIndex}`}
-                >
-                    <Timer
-                        completed={roundState.time}
-                        max={max_time}
-                        color={roundState.timer_color}
-                        fill_color={roundState.timer_fill_color}
-                        hidden={roundState.answerHidden[2]}
-                        points={roundState.points}
-                    ></Timer>
-                </div>
+    const renderSwitch = (admin, spectator) => {
+        if (spectator && !admin)
+        {
+            return (
+                <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
+                    <div
+                        className={`justify-items-center items-center row-start-1 col-start-${roundState.timerIndex}`}
+                    >
+                        <Timer
+                            completed={roundState.time}
+                            max={max_time}
+                            color={roundState.timer_color}
+                            fill_color={roundState.timer_fill_color}
+                            hidden={roundState.answerHidden[2]}
+                            points={roundState.points}
+                        ></Timer>
+                    </div>
 
-                <div className="row-start-2 col-span-1">
-                    <Clue>{props.row["clues"][0]}</Clue>
-                </div>
-                <div className="row-start-2 col-span-1">
-                    <Clue hidden={roundState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
-                </div>
-                <div className="row-start-2 col-span-1">
-                    <Clue hidden={roundState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
-                </div>
-                <div className="row-start-2 col-span-1">
-                    <Clue hidden={roundState.cluesHidden[2]}>
-                        {!roundState.answerHidden[1] ? props.row["clues"][3] : "?"}
-                    </Clue>
-                </div>
+                    <div className="row-start-2">
+                        <Clue>{props.row["clues"][0]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[2]}>
+                            {!roundState.answerHidden[1] ? props.row["clues"][3] : "?"}
+                        </Clue>
+                    </div>
 
-                <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                    <Answer type="answer" hidden={roundState.answerHidden[1]}>{props.row["answer"]}</Answer>
+                    <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
+                        <Answer type="answer" hidden={roundState.answerHidden[1]}>
+                            {props.row["answer"]}
+                        </Answer>
+                    </div>
                 </div>
+            );
+        }
+        else
+        {
+            return (
+                <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
+                    <div
+                        className={`justify-items-center items-center row-start-1 col-start-${roundState.timerIndex}`}
+                    >
+                        <Timer
+                            completed={roundState.time}
+                            max={max_time}
+                            color={roundState.timer_color}
+                            fill_color={roundState.timer_fill_color}
+                            hidden={roundState.answerHidden[2]}
+                            points={roundState.points}
+                        ></Timer>
+                    </div>
 
+                    <div className="row-start-2">
+                        <Clue>{props.row["clues"][0]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[1]}>{props.row["clues"][1]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[2]}>{props.row["clues"][2]}</Clue>
+                    </div>
+                    <div className="row-start-2">
+                        <Clue hidden={roundState.cluesHidden[2]}>
+                            {!roundState.answerHidden[1] ? props.row["clues"][3] : "?"}
+                        </Clue>
+                    </div>
 
-                <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
-                    {
-                        admin ? 
-                        <ButtonCorrect clickBlock={correct} hidden={roundState.buzzed < 1} type="correct">Correct</ButtonCorrect>
-                        : 
-                        <ButtonBuzzer clickBlock={buzzerClick} hidden={roundState.buzzed > 0}>Buzzer</ButtonBuzzer>
-                    }
+                    <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
+                        <Answer type="answer" hidden={roundState.answerHidden[1]}>{props.row["answer"]}</Answer>
+                    </div>
+    
+                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20">
+                        {
+                            admin ? 
+                            <ButtonCorrect clickBlock={correct} hidden={roundState.buzzed < 1} type="correct">Correct</ButtonCorrect>
+                            : 
+                            <ButtonBuzzer clickBlock={buzzerClick} hidden={roundState.buzzed > 0}>Buzzer</ButtonBuzzer>
+                        }
+                    </div>
+    
+                    <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20">
+                        {
+                            admin ? 
+                            <ButtonCorrect clickBlock={incorrect} hidden={roundState.buzzed < 1} type="incorrect">Incorrect</ButtonCorrect>
+                            :
+                            <ButtonNext clickBlock={nextClick} hidden={roundState.buzzed > 0}>Next</ButtonNext>
+                        }
+                    </div>
                 </div>
-
-                <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20 cursor-pointer">
-                    {
-                        admin ? 
-                        <ButtonCorrect clickBlock={incorrect} hidden={roundState.buzzed < 1} type="incorrect">Incorrect</ButtonCorrect>
-                        :
-                        <ButtonNext clickBlock={nextClick} hidden={roundState.buzzed > 0}>Next</ButtonNext>
-                    }
-                </div>
-            </div>
-        );
+            );
+        }
     };
 
-    return <div>{renderSwitch(props.selfTeam != props.turn)}</div>;
+    return <div>{renderSwitch(isAdmin(),isSpectator())}</div>;
 }
 
 export default SequenceRow;

@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { id } from "../../App";
 import { firebase } from "../firebaseConfig";
-import {SessionContext} from '../../App.js'
+import {SessionContext} from '../../context/SessionContext.js';
 
 var database = firebase.database();
 

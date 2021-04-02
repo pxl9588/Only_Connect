@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './tailwind.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {SessionContextProvider} from './context/SessionContext.js';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <SessionContextProvider>
+      <App />
+    </SessionContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

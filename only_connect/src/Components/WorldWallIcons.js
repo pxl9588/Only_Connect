@@ -9,7 +9,10 @@ function WordWallIcons(props)
 { 
     const handleClick = (i) =>
     {
-        props.onClick(i);
+        if(props.selfTeam === props.turn)
+        {
+            props.onClick(i);
+        }
     };
 
     return (

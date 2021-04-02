@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 //import socketIOClient from "socket.io-client";
 import Clue from './Clue';
 import Answer from './Answer';
 import ButtonCorrect from './ButtonCorrect';
+import {SessionContext} from '../context/SessionContext.js';
 
 function WordConnectionRow(props)
 {
+    let {authUser} = useContext(SessionContext)
+    const isAdmin = () =>
+    {
+        return authUser.uid === props.admin;
+    }
     const [hidden, setHidden] = useState(true);
 
     useEffect(() =>
@@ -65,7 +71,7 @@ function WordConnectionRow(props)
         );   
     }
 
-    return <div>{renderView(true)}</div>;
+    return <div>{renderView(isAdmin())}</div>;
 }
 
 export default WordConnectionRow

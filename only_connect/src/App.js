@@ -5,17 +5,14 @@ import "./Components/PSWall";
 import Game from "./Components/Game";
 // import firebase from "firebase";
 import { firebase } from "./Components/firebaseConfig";
-//import { SessionContext, SessionContextProvider } from "./context/SessionContext";
+import { SessionContext, SessionContextProvider } from "./context/SessionContext";
 var database = firebase.database();
 export const id =  'Default'
-
-export const SessionContext = createContext(null);
 
 function App() {
     const URLParam = window.location.pathname != '/' ? window.location.pathname : 'Default'
     const [user, setUser] = useState(null);
-    const [sessionId, setSessionId] = useState(URLParam);
-    const [authUser, setAuthUser] = useState(null);
+    let {authUser,setAuthUser} = useContext(SessionContext)
 
     useEffect(() => {
       return firebase.auth().onAuthStateChanged((user) => {
@@ -41,6 +38,7 @@ function App() {
         setUser(null);
         return;
       }
+
       const userRef = firebase.database().ref(`/users/${authUser.uid}`);
       function update(snapshot) {
         if (snapshot.child("name").exists()) {
@@ -66,11 +64,9 @@ function App() {
 
     return (
       <BrowserRouter>
-      <SessionContext.Provider value ={{sessionId, setSessionId, authUser, setAuthUser}}>
         <div className="App h-screen w-screen overflow-hidden">
             <Game></Game>
         </div>
-      </SessionContext.Provider>
       </BrowserRouter>
        
     );
