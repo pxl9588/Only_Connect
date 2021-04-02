@@ -21,6 +21,12 @@ function PSWall(props)
 { 
     const handleClick = (i) =>
     {
+        const debug = false;
+        if(debug)
+        {
+            console.log(props.selfTeam);
+            console.log(props.turn);
+        }
         if(props.selfTeam === props.turn)
         {
             props.onClick(i);

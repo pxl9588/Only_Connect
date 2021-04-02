@@ -406,6 +406,8 @@ function Game({ ...props }) {
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
                                 turn={gameState.turn}
+                                teamOne={gameState.teamOne}
+                                teamTwo={gameState.teamTwo}
                                 selfTeam={selfTeam}
                             ></PSWall>
                         ) : (
@@ -435,6 +437,8 @@ function Game({ ...props }) {
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
                                 turn={gameState.turn}
+                                teamOne={gameState.teamOne}
+                                teamTwo={gameState.teamTwo}
                                 selfTeam={selfTeam}
                             ></PSWall>
                         ) : (
@@ -465,6 +469,8 @@ function Game({ ...props }) {
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
                                 turn={gameState.turn}
+                                teamOne={gameState.teamOne}
+                                teamTwo={gameState.teamTwo}
                                 selfTeam={selfTeam}
                             ></WordWallIcons>
                         ) : (
@@ -497,6 +503,8 @@ function Game({ ...props }) {
                                 onClick={psWallHandle}
                                 hidden={gameState.hidden}
                                 turn={gameState.turn}
+                                teamOne={gameState.teamOne}
+                                teamTwo={gameState.teamTwo}
                                 selfTeam={selfTeam}
                             ></WordWallIcons>
                         ) : (
