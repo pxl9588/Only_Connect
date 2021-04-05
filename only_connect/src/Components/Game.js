@@ -529,6 +529,7 @@ function Game({ ...props }) {
                             exit={wordRowExit}
                             color={colorDictionary[gameState.wallIndex]}
                             row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}
+                            admin={gameState.admin}
                         ></WordConnectionRow>
                     </div>
                 );
@@ -548,6 +549,7 @@ function Game({ ...props }) {
                         <MissingVowels
                             data={missingVowels}
                             exit={missingVowelExit}
+                            admin={gameState.admin}
                         />
                     </div>
                 );

@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import MissingVowelCategory from './MissingVowelCategory';
 import Answer from './Answer';
 import ButtonCorrect from "./ButtonCorrect";
+import {SessionContext} from '../context/SessionContext.js';
 //import ButtonNext from './ButtonNext';
 
 function MissingVowels(props)
 {
+
+    let {authUser} = useContext(SessionContext)
+    const isAdmin = () =>
+    {
+        return authUser.uid === props.admin;
+    }
+
     const [roundState, setRoundState] = useState(
         {
             clueIndex: -1,
@@ -108,7 +116,7 @@ function MissingVowels(props)
         );
     }
 
-    return<div>{renderView(true)}</div>
+    return<div>{renderView(isAdmin())}</div>
 }
 
 export default MissingVowels
