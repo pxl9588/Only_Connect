@@ -175,7 +175,7 @@ function Game({ ...props }) {
     // Click handles
     const gameOver = () =>
     {
-        setGameState(/*newGame*/);
+        setGameStateLocal({...gameState, round: -3});
     }
 
     // Click handles
