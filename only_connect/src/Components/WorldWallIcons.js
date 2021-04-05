@@ -9,7 +9,7 @@ function WordWallIcons(props)
 { 
     const handleClick = (i) =>
     {
-        const debug = true;
+        const debug = false;
         if(debug)
         {
             console.log(props.selfTeam);

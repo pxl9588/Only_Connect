@@ -43,6 +43,8 @@ import {id} from '../App'
 export default function HomePage(props) {
 
     let {authUser} = useContext(SessionContext)
+    const [loading, setLoading] = useState(true);
+
     const isAdmin = () =>
     {
         return authUser.uid === props.admin;
@@ -53,6 +55,21 @@ export default function HomePage(props) {
         return authUser.uid in props.teamlessPlayers || authUser.uid in props.teamOne.players || authUser.uid in props.teamTwo.players;
     }
 
+    useEffect(()=>
+    {
+        if(authUser)
+        {
+            setLoading(false);
+        }
+
+    }, [authUser]);
+
+    if(loading)
+    {
+        return <div></div>
+    }
+    else
+    {
     return (
         <div className="h-screen justify-center">
             {
@@ -132,5 +149,6 @@ export default function HomePage(props) {
             }
         </div>
     );
+        }
 }
 // writeUserData(props.gameState)
