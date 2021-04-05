@@ -3,26 +3,41 @@ import MissingVowelCategory from './MissingVowelCategory';
 import Answer from './Answer';
 import ButtonCorrect from "./ButtonCorrect";
 import {SessionContext} from '../context/SessionContext.js';
+import { firebase } from "./firebaseConfig";
+import RoundState from './hooks/RoundState'
+var database = firebase.database()
 //import ButtonNext from './ButtonNext';
 
 function MissingVowels(props)
 {
 
-    let {authUser} = useContext(SessionContext)
+    let {authUser, sessionId} = useContext(SessionContext)
     const isAdmin = () =>
     {
         return authUser.uid === props.admin;
     }
 
-    const [roundState, setRoundState] = useState(
-        {
-            clueIndex: -1,
-            categoryIndex: 0,
-            displayClue: true,
-            teamOnePoints: 0,
-            teamTwoPoints: 0
-        }
-    );
+    const {setRoundState, setRoundStateLocal, roundState} = RoundState([{
+        clueIndex: -1,
+        categoryIndex: 0,
+        displayClue: true,
+        teamOnePoints: 0,
+        teamTwoPoints: 0
+        },'missingVowels']);
+
+
+    useEffect(() => {
+        const ref = database.ref(`${sessionId}/missingVowels`);
+        ref.on("value", (state) => {
+            const data = state.val();
+            if (data) {
+                setRoundStateLocal(data);
+            }
+        });
+        return () => {
+            ref.off();
+        };
+    }, [sessionId, setRoundStateLocal]);
 
     useEffect(()=>
     { 

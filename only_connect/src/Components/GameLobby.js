@@ -32,7 +32,7 @@ import Loader from './Loader.js';
 //         console.log(data)
 //       })
 
-export default function TeamSelect(props) {
+export default function GameLobby(props) {
 
     let {authUser} = useContext(SessionContext)
     const [loading, setLoading] = useState(true);
@@ -83,6 +83,8 @@ export default function TeamSelect(props) {
         {
             localStorage.clear();
         }
+
+        return ret;
     }
 
     useEffect(()=>

@@ -7,7 +7,7 @@ import SequenceRow from "./SequenceRow";
 import MissingVowels from "./MissingVowels";
 import WordWallIcons from "./WorldWallIcons";
 import Data from "./../utilities/gameData";
-import TeamSelect from "./TeamSelect";
+import GameLobby from "./GameLobby";
 import ScoreWall from "./ScoreWall";
 import GameState from "./hooks/gameState";
 import firebase from "firebase";
@@ -392,7 +392,7 @@ function Game({ ...props }) {
                 )
             case -1:
                 return (
-                    <TeamSelect
+                    <GameLobby
                         admin={gameState.admin}
                         selectTeam={selectTeam}
                         currentTeam={selfTeam}
@@ -402,7 +402,7 @@ function Game({ ...props }) {
                         setName={setTeamNames}
                         startGame={startGame}
                         setPlayerName={setPlayerName}
-                    ></TeamSelect>
+                    ></GameLobby>
                 );
             case 0:
                 return (

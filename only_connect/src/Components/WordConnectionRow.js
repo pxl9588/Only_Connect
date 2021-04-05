@@ -4,25 +4,44 @@ import Clue from './Clue';
 import Answer from './Answer';
 import ButtonCorrect from './ButtonCorrect';
 import {SessionContext} from '../context/SessionContext.js';
+import { firebase } from "./firebaseConfig";
+import RoundState from './hooks/RoundState'
+var database = firebase.database()
 
 function WordConnectionRow(props)
 {
-    let {authUser} = useContext(SessionContext)
+    let {authUser, sessionId} = useContext(SessionContext)
     const isAdmin = () =>
     {
         return authUser.uid === props.admin;
     }
-    const [hidden, setHidden] = useState(true);
+
+    const {setRoundState, setRoundStateLocal, roundState} = RoundState([{
+        hidden: true
+        },'wordConnectionRow']);
+
+    useEffect(() => {
+        const ref = database.ref(`${sessionId}/wordConnectionRow`);
+        ref.on("value", (state) => {
+            const data = state.val();
+            if (data) {
+                setRoundStateLocal(data);
+            }
+        });
+        return () => {
+            ref.off();
+        };
+    }, [sessionId, setRoundStateLocal]);
 
     useEffect(() =>
         {
-            setHidden(true);
+            setRoundState({hidden: true});
         }, [props]);
 
 
     const correct = (wasCorrect) =>
     {
-        setHidden(false);
+        setRoundState({hidden: false});
         setTimeout(() => {
             //This is a trick to give two bonus points if full wall and connections are completed
             props.exit(wasCorrect ? 1.2 : 0);
@@ -48,13 +67,13 @@ function WordConnectionRow(props)
                     </div>
     
                     <div className="row-start-3 col-span-4 w-full sm:px-3 md:px-6 lg:-px-12 xl:px-24">
-                        <Answer type="answer" hidden={hidden}>{props.row["answer"]}</Answer>
+                        <Answer type="answer" hidden={roundState.hidden}>{props.row["answer"]}</Answer>
                     </div>
     
                     {
                         admin ? 
                         <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20">
-                            <ButtonCorrect hidden={!hidden} clickBlock={() => {correct(true)}} type="correct"> Correct </ButtonCorrect>
+                            <ButtonCorrect hidden={!roundState.hidden} clickBlock={() => {correct(true)}} type="correct"> Correct </ButtonCorrect>
                         </div>
                         :
                         <div></div>
@@ -62,7 +81,7 @@ function WordConnectionRow(props)
                     {
                         admin ? 
                         <div className="row-start-4 col-span-2 justify-items-center px-4 lg:px-20">
-                            <ButtonCorrect hidden={!hidden} clickBlock={() => {correct(false)}} type="incorrect"> Incorrect </ButtonCorrect>
+                            <ButtonCorrect hidden={!roundState.hidden} clickBlock={() => {correct(false)}} type="incorrect"> Incorrect </ButtonCorrect>
                         </div>
                         :
                         <div></div>
