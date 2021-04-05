@@ -11,6 +11,7 @@ import Whale from '../images/black_and_white/whale.png'
 import seal from '../images/colored/seal.png'
 import whale from '../images/colored/whale.png'
 import {SessionContext} from '../context/SessionContext.js';
+import Loader from './Loader.js';
 import capitain from '../images/capitain.png'
 import {id} from '../App'
 
@@ -52,7 +53,39 @@ export default function HomePage(props) {
 
     const playerExists = () =>
     {
-        return authUser.uid in props.teamlessPlayers || authUser.uid in props.teamOne.players || authUser.uid in props.teamTwo.players;
+        if(authUser.uid in props.teamlessPlayers)
+        {
+            if(props.teamlessPlayers[authUser.uid] == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true
+            }
+        }
+        if(authUser.uid in props.teamOne.players)
+        {
+            if(props.teamOne.players[authUser.uid] == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true
+            }
+        }
+        if(authUser.uid in props.teamTwo.players)
+        {
+            if(props.teamTwo.players[authUser.uid] == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true
+            }
+        }
     }
 
     useEffect(()=>
@@ -66,55 +99,52 @@ export default function HomePage(props) {
 
     if(loading)
     {
-        return <div></div>
+        return  <Loader/>
     }
     else
     {
     return (
-        <div className="h-screen justify-center">
+        <div className="flex h-screen justify-center">
             {
                 isAdmin() || playerExists()  ? 
-            <div className="grid grid-flow-row justify-items-center lg:px-84">
+            <div className="grid grid-flow-row justify-items-center -mx-48 lg:px-84">
                 <div className="row-start-2 justify-items-center items-center">
-                    <img className="m-auto w-20 lg:w-56" src={(props.currentTeam === 1) ? seal : Seal} onClick={() => {if(props.currentTeam != 1 && !isAdmin()){props.selectTeam(1)}}}></img>
-                    <h1 className="text-2xl lg:text-5xl text-center">{props.teamOne.name}</h1>               
+                    <img className="w-20 sm:w-32 md:w-36 lg:w-56 -py-12" src={(props.currentTeam === 1) ? seal : Seal} onClick={() => {if(props.currentTeam != 1 && !isAdmin()){props.selectTeam(1)}}}></img>
+                    <h1 className="text-2xl sm:text-3xl lg:text-5xl text-center">{props.teamOne.name}</h1>               
 
                     <div className="grid grid-cols-1">
-                        <div className="text-xl lg:text-3xl text-center">Players</div>
                         {
                             props.teamOne.players ?
                                 Object.keys(props.teamOne.players).map((name,i) =>
                             (
-                                <div key={i} className="text-left text-lg lg:text-2xl">{props.teamOne.players[name]}</div>
+                                <div key={i} className="text-left text-lg sm:text-xl lg:text-2xl">{props.teamOne.players[name]}</div>
                             ))
                             :
                             ""
                         }
                     </div>
                 </div>
-                <div className="col-start-1 lg:col-start-2">
-                    <h1 className=" text-2xl sm:text-3xl md:text-4xl lg:text-7xl xl:text-9xl">
-                        Sole Relation
-                    </h1>
+                <div className="row-start-1 col-start-1 lg:col-start-2 text-2xl sm:text-3xl md:text-4xl lg:text-7xl xl:text-9xl text-center -mb-36">
+                    Sole Relation
                 </div>
                 <div className="row-start-4 col-start-1 lg:row-start-3 lg:col-start-2">
                     {
                         isAdmin() ? 
-                            <OverrideButton onClick={props.startGame}>Start Game</OverrideButton>
+                        <button className = "bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-auto px-2 rounded"
+                        onClick={props.startGame}>Start Game</button>
                             :
                             ""
                     }
                 </div>
                 <div className="row-start-3 col-start-1 lg:col-start-3 lg:row-start-2 justify-items-center items-center justify-center">
-                    <img className="m-auto w-20 lg:w-56" src={props.currentTeam === 0 ? whale : Whale} onClick={() => {if(props.currentTeam != 0 && !isAdmin()){props.selectTeam(0)}}}></img>
-                    <h1 className="text-2xl lg:text-5xl text-center">{props.teamTwo.name}</h1>
+                    <img className="m-auto w-20 sm:w-32 lg:w-56" src={props.currentTeam === 0 ? whale : Whale} onClick={() => {if(props.currentTeam != 0 && !isAdmin()){props.selectTeam(0)}}}></img>
+                    <h1 className="text-2xl sm:text-3xl lg:text-5xl text-center">{props.teamTwo.name}</h1>
                     <div className="grid grid-cols-1">
-                        <div className="text-xl lg:text-3xl text-center">Players</div>
                         {
                             props.teamTwo.players ? 
                             Object.keys(props.teamTwo.players).map((name, i) =>
                             (
-                                <div key={i} className="text-lg lg:text-2xl">{props.teamTwo.players[name]}</div>
+                                <div key={i} className="text-lg sm:text-xl lg:text-2xl">{props.teamTwo.players[name]}</div>
                             )
                             )
                             :

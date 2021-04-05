@@ -14,13 +14,14 @@ import firebase from "firebase";
 import CreateNewGame from './createNewGame'
 import { id } from '../App';
 import {SessionContext} from '../context/SessionContext.js';
+import {useLocalStorageState} from "../utilities/localStorage";
 import {randomize} from '../utilities/helpersWordWall'
 import { v4 as uuidv4 } from "uuid";
 
 var database = firebase.database();
 // const URLParams = window.location.pathname
 function Game({ ...props }) {
-    const [selfTeam, setSelfTeam] = useState(-1)
+    const [selfTeam, setSelfTeam] = useLocalStorageState('selfTeam', -1);
     let {sessionId, setSessionId, authUser, setAuthUser} = useContext(SessionContext)
 
     const { gameState, setGameState, setGameStateLocal } = GameState({
@@ -162,18 +163,7 @@ function Game({ ...props }) {
     const setPlayerName = (name) =>
     {
         var tempState = {...gameState};
-        if(selfTeam === 1)
-        {
-            tempState.teamOne.players[authUser.uid] = name;
-        }
-        else if(selfTeam === 0)
-        {
-            tempState.teamTwo.players[authUser.uid] = name;
-        }
-        else
-        {
-            tempState.teamlessPlayers[authUser.uid] = name;
-        }
+        tempState.teamlessPlayers[authUser.uid] = name;
 
         setGameState(tempState);
     }

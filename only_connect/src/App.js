@@ -5,14 +5,15 @@ import "./Components/PSWall";
 import Game from "./Components/Game";
 // import firebase from "firebase";
 import { firebase } from "./Components/firebaseConfig";
-import { SessionContext, SessionContextProvider } from "./context/SessionContext";
+import { SessionContext } from "./context/SessionContext";
+
 var database = firebase.database();
 export const id =  'Default'
 
 function App() {
     const URLParam = window.location.pathname != '/' ? window.location.pathname : 'Default'
     const [user, setUser] = useState(null);
-    let {authUser,setAuthUser} = useContext(SessionContext)
+    let {authUser,setAuthUser} = useContext(SessionContext);
 
     useEffect(() => {
       return firebase.auth().onAuthStateChanged((user) => {
