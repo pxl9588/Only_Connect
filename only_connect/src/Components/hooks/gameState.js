@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { id } from "../../App";
+//import { id } from "../../App";
 import { firebase } from "../firebaseConfig";
 import {SessionContext} from '../../context/SessionContext.js';
 
@@ -12,7 +12,7 @@ var database = firebase.database();
 }*/
 
 export default function GameState(init) {
-    let {sessionId, setSessionId} = useContext(SessionContext)
+    let {sessionId} = useContext(SessionContext)
     const [gameState, setGameStateLocal] = useState(init);
     return {
         gameState,

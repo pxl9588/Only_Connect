@@ -24,7 +24,7 @@ function SequenceRow(props) {
     }
     const isSpectator = () =>
     {
-        return props.selfTeam != props.turn
+        return props.selfTeam !== props.turn
     }
     
     //TODO: Timer get's own State
@@ -59,7 +59,7 @@ useEffect(() => {
     return () => {
         ref.off();
     };
-}, []);
+}, [sessionId, setRoundStateLocal]);
 
     useEffect(
         () =>
@@ -88,7 +88,7 @@ useEffect(() => {
             });
             }
             return () => clearInterval(id);
-        },[roundState]);
+        },[roundState, setRoundState]);
 
         const displayEnd = () => {
             setRoundState(

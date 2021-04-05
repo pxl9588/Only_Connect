@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 //import socketIOClient from "socket.io-client";
 import Clue from "./Clue";
 import Answer from "./Answer";
@@ -23,7 +23,7 @@ function ConnectionRow(props) {
     }
     const isSpectator = () =>
     {
-        return props.selfTeam != props.turn
+        return props.selfTeam !== props.turn
     }
 
     const {setRoundState, setRoundStateLocal, roundState} = RoundState([{
@@ -58,7 +58,7 @@ function ConnectionRow(props) {
         return () => {
             ref.off();
         };
-    }, []);
+    }, [sessionId, setRoundStateLocal]);
 
     useEffect(
         () =>
@@ -94,7 +94,7 @@ function ConnectionRow(props) {
             });
             }
             return () => clearInterval(id);
-        },[roundState]);
+        },[roundState, setRoundState]);
 
     const displayEnd = () => {
         setRoundState({
@@ -134,7 +134,7 @@ function ConnectionRow(props) {
 
             setTimeout(() => {
                 // No points added, team doesn't matter we always switch turns
-                const ref = database.ref(`${sessionId}/connectionRow`).remove();
+                database.ref(`${sessionId}/connectionRow`).remove();
                 props.exit(0, true);
                 
             }, 2000);
@@ -153,7 +153,7 @@ function ConnectionRow(props) {
             }
 
             setTimeout(() => {
-                const ref = database.ref(`${sessionId}/connectionRow`).remove();
+                database.ref(`${sessionId}/connectionRow`).remove();
                 props.exit(roundState.points, teamOneTurn);                
             }, 2000);
         }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import PSWall from "./PSWall";
 import WordWall from "./WordWall";
 import WordConnectionRow from "./WordConnectionRow";
@@ -7,25 +7,25 @@ import SequenceRow from "./SequenceRow";
 import MissingVowels from "./MissingVowels";
 import WordWallIcons from "./WorldWallIcons";
 import Data from "./../utilities/gameData";
-import HomePage from "./HomePage";
+import TeamSelect from "./TeamSelect";
 import ScoreWall from "./ScoreWall";
 import GameState from "./hooks/gameState";
 import firebase from "firebase";
 import CreateNewGame from './createNewGame'
-import { id } from '../App';
 import {SessionContext} from '../context/SessionContext.js';
 import {useLocalStorageState} from "../utilities/localStorage";
 import {randomize} from '../utilities/helpersWordWall'
 import { v4 as uuidv4 } from "uuid";
+import HomePage from "./HomePage";
 
 var database = firebase.database();
 // const URLParams = window.location.pathname
 function Game({ ...props }) {
     const [selfTeam, setSelfTeam] = useLocalStorageState('selfTeam', -1);
-    let {sessionId, setSessionId, authUser, setAuthUser} = useContext(SessionContext)
+    let {sessionId, authUser} = useContext(SessionContext)
 
     const { gameState, setGameState, setGameStateLocal } = GameState({
-        round: -2,
+        round: -3,
         wallIndex: 0,
         clickedRow: false,
         hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
@@ -52,6 +52,10 @@ function Game({ ...props }) {
     //const [gameState, setGameState] = useState(newGame);
 
     useEffect(() => {
+        if(sessionId === "Default")
+        {
+            return;
+        }
         const ref = database.ref(`${sessionId}/game`);
         ref.on("value", (state) => {
             const data = state.val();
@@ -74,7 +78,7 @@ function Game({ ...props }) {
         return () => {
             ref.off();
         };
-    }, []);
+    }, [sessionId, setGameStateLocal]);
 
     const colorDictionary = {
         0: "bg-gradient-to-r from-red-500 via-red-400 to-red-500",
@@ -129,7 +133,7 @@ function Game({ ...props }) {
         }
 
         //If there is no capitain, make this player the capitain
-        if(tempState[targetTeam].capitain == "")
+        if(tempState[targetTeam].capitain === "")
         {
             tempState[targetTeam].capitain = authUser.uid;
         }
@@ -211,6 +215,16 @@ function Game({ ...props }) {
             points: 0
         }
         database.ref(`${sessionId}/WordWall`).set(args);
+    }
+
+    const newGameHandle = () =>
+    {
+        setGameStateLocal({ ...gameState, round: -2});
+    }
+    
+    const createGameHandle = () =>
+    {
+
     }
 
     const psWallHandle = (i) => {
@@ -368,15 +382,17 @@ function Game({ ...props }) {
     
     const renderSwitch = () => {
         switch (gameState.round) {
+            case -3:
+                return(
+                    <HomePage newGameClick={newGameHandle} createGameClick={createGameHandle}/>
+                )
             case -2:
                 return (
-                    <CreateNewGame>
-                        
-                    </CreateNewGame>
+                    <CreateNewGame/>
                 )
             case -1:
                 return (
-                    <HomePage
+                    <TeamSelect
                         admin={gameState.admin}
                         selectTeam={selectTeam}
                         currentTeam={selfTeam}
@@ -386,7 +402,7 @@ function Game({ ...props }) {
                         setName={setTeamNames}
                         startGame={startGame}
                         setPlayerName={setPlayerName}
-                    ></HomePage>
+                    ></TeamSelect>
                 );
             case 0:
                 return (

@@ -1,7 +1,6 @@
 import seal from '../images/colored/seal.png'
 import whale from '../images/colored/whale.png'
 import Score from "./Score";
-import { useEffect } from 'react';
 
 function ScoreWall(props)
 { 

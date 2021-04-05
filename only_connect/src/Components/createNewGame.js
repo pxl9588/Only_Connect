@@ -1,8 +1,7 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import{ useHistory } from 'react-router-dom'
 import firebase from "firebase";
-import OverrideButton from "./OverrideButton";
-import Game from "./Game";
+//import OverrideButton from "./OverrideButton";
 import {SessionContext} from '../context/SessionContext.js';
 const database = firebase.database()
 
@@ -24,7 +23,6 @@ export default function CreateNewGame(props){
                 <div className="items-center">
                     <div className="text-4xl text-center">{teamOne}</div>
                     <input
-                        className=""
                         type="text"
                         placeholder="Team One Name"
                         className="w-36 md:w-auto px-2 py-2 placeholder-gray-400 text-gray-700 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline"
@@ -37,6 +35,7 @@ export default function CreateNewGame(props){
             <button
             className = "bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-auto px-2 rounded"
             onClick = {(evt) => {
+                localStorage.clear();
                 evt.preventDefault();
                 const gamesRef = database.ref('games')
                 const newGameRef = gamesRef.push();
@@ -78,7 +77,6 @@ export default function CreateNewGame(props){
                 <div className="items-center">
                 <div className="text-4xl text-center">{teamTwo}</div>
                 <input
-                    className=""
                     type="text"
                     placeholder="Team Two Name"
                     className="w-36 md:w-auto px-2 py-2 placeholder-gray-400 text-gray-700 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline"

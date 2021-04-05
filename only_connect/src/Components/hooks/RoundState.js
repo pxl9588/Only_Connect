@@ -11,7 +11,7 @@ var database = firebase.database();
 }*/
 
 export default function RoundState(init) {
-    let {sessionId, setSessionId} = useContext(SessionContext)
+    let {sessionId} = useContext(SessionContext)
     const [roundState, setRoundStateLocal] = useState(init[0]);
     return {
         roundState,

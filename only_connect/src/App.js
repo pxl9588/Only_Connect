@@ -1,9 +1,8 @@
-import { useEffect, useState, createContext, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import {BrowserRouter} from 'react-router-dom'
 import "./tailwind.css";
 import "./Components/PSWall";
 import Game from "./Components/Game";
-// import firebase from "firebase";
 import { firebase } from "./Components/firebaseConfig";
 import { SessionContext } from "./context/SessionContext";
 
@@ -11,7 +10,6 @@ var database = firebase.database();
 export const id =  'Default'
 
 function App() {
-    const URLParam = window.location.pathname != '/' ? window.location.pathname : 'Default'
     const [user, setUser] = useState(null);
     let {authUser,setAuthUser} = useContext(SessionContext);
 
@@ -32,7 +30,7 @@ function App() {
             });
         }
       });
-    },[])
+    },[setAuthUser])
 
     useEffect(() => {
       if (!authUser) {
@@ -60,7 +58,7 @@ function App() {
       return () => {
         userRef.off("value", update);
       };
-    }, [authUser]);
+    }, [authUser, setAuthUser]);
   
 
     return (
