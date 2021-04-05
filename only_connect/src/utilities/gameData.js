@@ -1,88 +1,94 @@
 const GameData = {
     connections: [
         {
-            "clues": ["Michael Jordan", "Magic Johnson", "Derek Fisher", "Scottie Pippen"],
-            "answer": " NBA Players with 5+ Championships",
+            "answer": "Family Vacations",
+            "clues": ["San Francisco", "Hawaii", "Florida", "Vermont"]  
         },
         {
-            "clues": ["Dash", "Good American", "POOSH", "SKIMS"],
-            "answer": "Kardashian Brands",
+            "answer": "Sports boys have participated in",
+            "clues": ["Martial Arts", "Tennis", "Swimming", "Lacrosse"]
         },
         {
-            "clues": [
-                "Eva, Can I Stab Bats In A Cave",
-                "Dammit, I'm Mad",
-                "Do Geese See God",
-                "Racecar",
-            ],
-            "answer": "Palindromes",
+            "answer": "Former USSR Countries",
+            "clues": ["Kazakhstan", "Belarus", "Georgia", "Kyrgyzstan"]
         },
         {
-            "clues": ["Mag", "Hip", "Yup", "Pot"],
-            "answer": "______pie",
-        },
-
-        {
-            "clues": ["Apples", "Dates", "Pomegranate", "Challah"],
-            "answer": "Symbolic Rosh Hashanah Foods",
+            "answer": "US State Capitals",
+            "clues": ["Hartford", "Albany", "Montpelier", "Denver"]
         },
         {
-            "clues": ["Wombat", "Opoosum", "Koala", "Kangaroo"],
-            "answer": "Marsupials"
+            "answer": "Family Cars",
+            "clues": ["", "Mercedes", "Jeep", "BMW"]
+        },
+        {
+            "answer": "Schools Yuliya attended",
+            "clues": ["Bambi", "Brooklyn Tech", "Hunter", "NYU"]
         }
     ],
     sequences:
         [
             {
-                "clues": ["Blue", "North", "Luna", "X Æ A-Xii"],
-                "answer": "Celebrity Babies in order of birth"
+                "answer": "Year of the _____",
+                "clues": ["'18 - Dog", "'19 - Pig", "'20 - Rat", "'21 - Ox"]  
             },
             {
-                "answer": "Order of sharks in Baby Shark",
+                "answer": "Family Members in Baby Shark",
                 "clues": ["Baby", "Mommy", "Daddy", "Grandma"]
             },
             {
-                "clues": ["Rachel", "Becca", "Hannah", "Clare"],
-                "answer": "The Bachelorettes from ‘17-’20"
+                "answer": "Family Birthdays",
+                "clues": ["Anton", "Ira", "Daniel", "Dima"]
             },
             {
-                "clues": ["M = 1", "V = 2", "E = 3", "M = 4"],
-                "answer": "Planets"
+                "answer": "Planets",
+                "clues": ["Earth", "Mars", "Jupiter", "Saturn"]
             },
             {
-                "clues": ["Zach", "Alex", "PJ", "Ang"],
-                "answer": "Big Rascals Birthday’s"
+                "answer": "Colors of the Rainbow",
+                "clues": ["Red", "Orange", "Yellow", "Green"]
             },
             {
-                "clues": ["United States", "China", "Canada", "Russia"],
-                "answer": "Size of Countries (Increasing)"
+                "answer": "Places of Residence",
+                "clues": ["Mogilov", "Brooklyn", "Staten Island", "Weston"]
             }
         ],
     wall: {
         wall1: [
             {
-                "clues": ["Fiji", "Mocha", "San Pellegrino", "Champagne"],
-                "answer": "Drinks named after cities"
+                "answer": 'Fruits',
+                "clues": ['Apple', 'Banana', 'Orange', 'Pear']
             },
             {
-                "clues": ["T", "Cube", "Vanilla", "Prince"],
-                "answer": "Rappers named Ice ____"
+                "answer": 'Mario Characters',
+                "clues": ['Boo', 'Peach', 'Bowser', 'Donkey Kong']
             },
             {
-                "clues": ["Hazelnut", "Coconut", "Butter Pecan", "Caramel"],
-                "answer": "Dunkin Donuts Flavors"
+                "answer": 'Electronics',
+                "clues": ['Microsoft', 'Dell', 'Asus', 'HP']
             },
             {
-                "clues": ["Papua New Guinea", "Guam", "Australia", "Cook Islands"],
-                "answer": "Oceania islands"
+                "answer": 'Colors',
+                "clues": ['Rose', 'Salmon', 'Magenta', 'Ruby']
             }
         ],
         wall2: [
-            {"answer": 'Animal named bands', "clues": ['Eagles', 'Beatles', 'Monkees', 'Gorillaz']},
-            {"answer": 'Bird named sport teams', "clues": ['Pelicans', 'Seahawks', 'Falcons', 'Cardinals']},
-            {"answer": 'Birth stones', "clues": ['Sapphire', 'Ruby', 'Emerald', 'Amethyst']},
-            {"answer": 'Pokemon games', "clues": ['Crystal', 'Gold', 'Silver', 'Diamond']},
-        ],
+            {
+                "answer": 'Types of Oil',
+                "clues": ['Motor', 'Canola', 'Vegetable', 'Olive']
+            },
+            {
+                "answer": 'Types of Plants',
+                "clues": ['Ash', 'Elm', 'Palm', 'Birch']
+            },
+            {
+                "answer": 'Weather',
+                "clues": ['Foggy', 'Rainy', 'Sunny', 'Snowy']
+            },
+            {
+                "answer": 'Pokemon Characters',
+                "clues": ['Brock', 'Pikachu', 'Misty', 'Team Rocket']
+            }
+        ]
     },
     missingVowels: [
         {'category': 'Chores', 'clues': [
@@ -91,24 +97,24 @@ const GameData = {
             {'clue': 'WPN GT HW NDW S', 'answer': 'WIPING THE WINDOWS'},
             {'clue': 'HNG NGCL THS NTH CL ST', 'answer': 'HANGING CLOTHES IN THE CLOSET'}
         ]},
-        {'category': 'Clothing Brands', 'clues': [
-            {'clue': 'CL VNKL N', 'answer': 'CALVIN KLEIN'},
-            {'clue': 'ZR', 'answer': 'ZARA'},
-            {'clue': 'N DRRM R', 'answer': 'UNDER ARMOUR'},
-            {'clue': 'K NNT HC L', 'answer': 'KENNETH COLE'}
+        {'category': 'Sports', 'clues': [
+            {'clue': 'SCCR', 'answer': 'SOCCER'},
+            {'clue': 'LCRSS', 'answer': 'LACROSSE'},
+            {'clue': 'SWM MNG', 'answer': 'SWIMMING'},
+            {'clue': 'FT BLL', 'answer': 'FOOTBALL'}
         ]},
-        {'category': 'Mixed Drinks', 'clues': [
-            {'clue': 'W H TRS SN', 'answer': 'WHITE RUSSIAN'},
-            {'clue': 'MSC WML', 'answer': 'MOSCOW MULE'},
-            {'clue': 'D RKN DSTR M', 'answer': 'DARK AND STORMY'},
-            {'clue': 'MRT TSR', 'answer': 'AMARETTO SOUR'}
+        {'category': 'Sodas', 'clues': [
+            {'clue': 'CK', 'answer': 'COKE'},
+            {'clue': 'SP RT', 'answer': 'SPRITE'},
+            {'clue': 'MN TN DW', 'answer': 'MOUNTAIN DEW'},
+            {'clue': 'PP S', 'answer': 'PEPSI'}
         ]},
-        {'category': 'Cities in Israel', 'clues': [
-            {'clue': 'JR S LM', 'answer': 'JERUSALEM'},
-            {'clue': 'T LV V', 'answer': 'TEL AVIV'},
-            {'clue': 'HF', 'answer': 'HAIFA'},
-            {'clue': 'JF F', 'answer': 'JAFFA'}]
-        }
+        {'category': 'Ski Resorts', 'clues': [
+            {'clue': 'STW', 'answer': 'STOWE'},
+            {'clue': 'KM', 'answer': 'OKEMO'},
+            {'clue': 'VL', 'answer': 'VAIL'},
+            {'clue': 'MNT SNW', 'answer': 'MOUNT SNOW'}
+        ]}
     ]
 };
 

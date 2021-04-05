@@ -4,7 +4,7 @@ import sys
 vowels = ['A', 'E', 'I', 'O', 'U', 'Y']
 
 
-words = ['HAMLET', 'A MIDSUMMER NIGHTS DREAM', 'KING LEAR', 'MUCH ADO ABOUT NOTHING']
+words = ['SOCCER', 'LACROSSE', 'SWIMMING', 'FOOTBALL']
 
 for word in words:
     res = ""
