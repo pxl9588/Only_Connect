@@ -63,7 +63,6 @@ export default function CreateNewGame(props){
                 });
                 setSessionId(`/games/${newGameRef.key}`)
                 history.push(`/games/${newGameRef.key}`)
-                window.location.pathname = `/games/${newGameRef.key}`
                 
             }}
             >Create New Game
