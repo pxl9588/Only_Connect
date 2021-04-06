@@ -17,6 +17,7 @@ import {useLocalStorageState} from "../utilities/localStorage";
 import {randomize} from '../utilities/helpersWordWall'
 import { v4 as uuidv4 } from "uuid";
 import HomePage from "./HomePage";
+import CreateGame from "./CreateGame";
 
 var database = firebase.database();
 // const URLParams = window.location.pathname
@@ -41,7 +42,7 @@ function Game({ ...props }) {
             name: "Team Two",
             capitain: "",
         },
-        wordWallIndex: 0,
+        wordWallIndex: 0
     })
 
     const isAdmin = () =>
@@ -87,7 +88,7 @@ function Game({ ...props }) {
         3: "bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500",
     };
 
-    const connections = Data.connections;
+    //const connections = gameState.gameData.connections;
     const sequences = Data.sequences;
     const missingVowels = Data.missingVowels;
 
@@ -224,7 +225,7 @@ function Game({ ...props }) {
     
     const createGameHandle = () =>
     {
-
+        setGameStateLocal({ ...gameState, round: -4});
     }
 
     const psWallHandle = (i) => {
@@ -382,6 +383,10 @@ function Game({ ...props }) {
     
     const renderSwitch = () => {
         switch (gameState.round) {
+            case -4:
+                return (
+                    <CreateGame></CreateGame>
+                )
             case -3:
                 return(
                     <HomePage newGameClick={newGameHandle} createGameClick={createGameHandle}/>
@@ -420,7 +425,7 @@ function Game({ ...props }) {
                             <ConnectionRow
                                 selfTeam={selfTeam}
                                 exit={psRowExit}
-                                row={connections[gameState.wallIndex]}
+                                row={gameState.gameData.connections[gameState.wallIndex]}
                                 turn={gameState.turn}
                                 admin={gameState.admin}
                             ></ConnectionRow>

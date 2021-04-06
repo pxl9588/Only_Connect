@@ -1,5 +1,5 @@
 const GameData = {
-    connections: [
+    "connections": [
         {
             "answer": "Family Vacations",
             "clues": ["San Francisco", "Hawaii", "Florida", "Vermont"]  
@@ -18,14 +18,14 @@ const GameData = {
         },
         {
             "answer": "Family Cars",
-            "clues": ["", "Mercedes", "Jeep", "BMW"]
+            "clues": ["Mazda", "Mercedes", "Jeep", "BMW"]
         },
         {
             "answer": "Schools Yuliya attended",
             "clues": ["Bambi", "Brooklyn Tech", "Hunter", "NYU"]
         }
     ],
-    sequences:
+    "sequences":
         [
             {
                 "answer": "Year of the _____",
@@ -52,8 +52,8 @@ const GameData = {
                 "clues": ["Mogilov", "Brooklyn", "Staten Island", "Weston"]
             }
         ],
-    wall: {
-        wall1: [
+    "wall": {
+        "wall1": [
             {
                 "answer": 'Fruits',
                 "clues": ['Apple', 'Banana', 'Orange', 'Pear']
@@ -71,7 +71,7 @@ const GameData = {
                 "clues": ['Rose', 'Salmon', 'Magenta', 'Ruby']
             }
         ],
-        wall2: [
+        "wall2": [
             {
                 "answer": 'Types of Oil',
                 "clues": ['Motor', 'Canola', 'Vegetable', 'Olive']
@@ -90,18 +90,20 @@ const GameData = {
             }
         ]
     },
-    missingVowels: [
-        {'category': 'Chores', 'clues': [
-            {'clue': 'W SH NTH GD HS', 'answer': 'WASHING THE DISHES'},
-            {'clue': 'F LD NGL ND RY', 'answer': 'FOLDING LAUNDRY'},
-            {'clue': 'WPN GT HW NDW S', 'answer': 'WIPING THE WINDOWS'},
-            {'clue': 'HNG NGCL THS NTH CL ST', 'answer': 'HANGING CLOTHES IN THE CLOSET'}
+    "missingVowels": [
+        {   'category': 'Chores',
+            'clues': [
+                {'clue': 'W SH NTH GD HS', 'answer': 'WASHING THE DISHES'},
+                {'clue': 'F LD NGL ND RY', 'answer': 'FOLDING LAUNDRY'},
+                {'clue': 'WPN GT HW NDW S', 'answer': 'WIPING THE WINDOWS'},
+                {'clue': 'HNG NGCL THS NTH CL ST', 'answer': 'HANGING CLOTHES IN THE CLOSET'}
         ]},
-        {'category': 'Sports', 'clues': [
-            {'clue': 'SCCR', 'answer': 'SOCCER'},
-            {'clue': 'LCRSS', 'answer': 'LACROSSE'},
-            {'clue': 'SWM MNG', 'answer': 'SWIMMING'},
-            {'clue': 'FT BLL', 'answer': 'FOOTBALL'}
+        {   'category': 'Sports',
+            'clues': [
+                {'clue': 'SCCR', 'answer': 'SOCCER'},
+                {'clue': 'LCRSS', 'answer': 'LACROSSE'},
+                {'clue': 'SWM MNG', 'answer': 'SWIMMING'},
+                {'clue': 'FT BLL', 'answer': 'FOOTBALL'}
         ]},
         {'category': 'Sodas', 'clues': [
             {'clue': 'CK', 'answer': 'COKE'},

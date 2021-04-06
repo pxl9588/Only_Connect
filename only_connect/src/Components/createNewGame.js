@@ -11,6 +11,24 @@ export default function CreateNewGame(props){
     const {setSessionId, authUser} = useContext(SessionContext);
     const [teamOne, setTeamOne] = useState("Team One");
     const [teamTwo, setTeamTwo] = useState("Team Two");
+    const [file, setFiles] = useState("");
+    const [gameData, setGameData] = useState({});
+
+    // Handles file upload event and updates state
+    const handleUpload = (e) => {
+        const fileReader = new FileReader();
+        fileReader.readAsText(e.target.files[0], "UTF-8");
+        fileReader.onload = e => {
+            try
+            {
+                setGameData(JSON.parse(e.target.result));
+            }
+            catch
+            {
+                alert("Error in Game File");
+            }
+        };
+      };
 
     return (
         <div className="w-full h-screen items-center justify-center grid grid-rows-3 lg:grid-cols-3 justify-items-center">
@@ -32,41 +50,47 @@ export default function CreateNewGame(props){
                     </button>
                 </div>
             </form>
-            <button
-            className = "bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-auto px-2 rounded"
-            onClick = {(evt) => {
-                localStorage.clear();
-                evt.preventDefault();
-                const gamesRef = database.ref('games')
-                const newGameRef = gamesRef.push();
-                newGameRef.set({
-                    game:{
-                        round: -1,
-                        wallIndex: 0,
-                        clickedRow: false,
-                        hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
-                        turn: 1,
-                        admin: authUser.uid,
-                        teamOne: {
-                            score: 0,
-                            name: teamOne,
-                            capitain: "",
-                        },
-                        teamTwo: {
-                            score: 0,
-                            name: teamTwo,
-                            capitain: "",
-                        },
-                        wordWallIndex: 0,
-                    }
+            <div>
+                <label>Import Game File</label>
+                <input type="file" onChange={handleUpload}/>
+                <button
+                className = "m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-auto px-2 rounded"
+                onClick = {(evt) => {
+                    localStorage.clear();
+                    evt.preventDefault();
+                    const gamesRef = database.ref('games')
+                    const newGameRef = gamesRef.push();
+                    newGameRef.set({
+                        game:{
+                            round: -1,
+                            wallIndex: 0,
+                            clickedRow: false,
+                            hidden: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
+                            turn: 1,
+                            admin: authUser.uid,
+                            teamOne: {
+                                score: 0,
+                                name: teamOne,
+                                capitain: "",
+                            },
+                            teamTwo: {
+                                score: 0,
+                                name: teamTwo,
+                                capitain: "",
+                            },
+                            wordWallIndex: 0,
+                            gameData: gameData
+                        }
+                        
+                    });
+                    setSessionId(`/games/${newGameRef.key}`)
+                    history.push(`/games/${newGameRef.key}`)
                     
-                });
-                setSessionId(`/games/${newGameRef.key}`)
-                history.push(`/games/${newGameRef.key}`)
-                
-            }}
-            >Create New Game
-            </button>
+                }}
+                >Create New Game
+                </button>
+            </div>
+            
             <form
                 onSubmit={(evt) => {
                     evt.preventDefault();
