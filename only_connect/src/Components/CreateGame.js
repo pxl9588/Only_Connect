@@ -19,13 +19,19 @@ function CreateGame(props)
         ]
     };
 
+    const newInputVal = ["","","","","","","","",""];
+
     const [mvData, setMVData] = useState(newMVData);
     const [data, setData] = useState(newData);
+    const [inputVal, setInputVal] = useState(newInputVal);
     const [gameData, setGameData] = useState({connections: [], sequences: [], wall: {wall1:[], wall2:[]}, missingVowels:[]});
 
     const collectData = (i,e) =>
     {
         var val = e.target.value;
+        var tempInputVal = [...inputVal];
+        tempInputVal[i] = val;
+        setInputVal(tempInputVal);
         //Everything else
         if(page < 15)
         {
@@ -71,11 +77,12 @@ function CreateGame(props)
         var inputs = []
         for(var i = 0; i < 5; i++)
         {
-            inputs.push(<div className="m-10" key={i}>
+            inputs.push(<div className={`${page > 15 ? "grid grid-cols-1 sm:flex" : ""} sm:m-10`} key={i}>
                 {i < 4 ? "Clue #"+(i+1) : page > 15 ? "Category" : "Answer"}
                 <input
                 type="text"
                 key={i}
+                value={inputVal[i]}
                 onInput={collectData.bind(this, i)}
                 placeholder={i < 4 ? "Clue #"+(i+1) : page > 15 ? "Category" : "Answer"}
                 className="mx-4 px-2 h-10 placeholder-gray-400 text-gray-700 relative bg-white rounded text-md shadow outline-none focus:outline-none focus:shadow-outline"></input>
@@ -83,6 +90,7 @@ function CreateGame(props)
                     (page > 15 && i !== 4) ? <input
                     type="text"
                     key={5+i}
+                    value={inputVal[5+i]}
                     onInput={collectData.bind(this, 5+i)}
                     placeholder={i < 4 ? "Clue Missing Vowel #"+(i+1) : ""}
                     className="mx-4 px-2 h-10 placeholder-gray-400 text-gray-700 relative bg-white rounded text-md shadow outline-none focus:outline-none focus:shadow-outline"></input> : ""
@@ -138,6 +146,7 @@ function CreateGame(props)
         {
             return;
         }
+        setInputVal(newInputVal);
         setPage(page + 1);
     }
 
@@ -183,8 +192,8 @@ function CreateGame(props)
     }
 
     return (
-        <div className="h-screen justify-center">
-            <div className="grid grid-rows-1 gap-y-4 justify-center justify-items-center">
+        <div className="flex h-full justify-center">
+            <div className="grid grid-cols-1 sm:gap-y-4 justify-center justify-items-center">
                 {
                     generateHeader(page)
                 }
@@ -192,12 +201,10 @@ function CreateGame(props)
                     generateInputs()
                 }
                 
-                <div>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-40 px-2 rounded m-4"
                     onClick={submit}>
                         Submit
                     </button>
-                </div>
             </div>
         </div>
         );
