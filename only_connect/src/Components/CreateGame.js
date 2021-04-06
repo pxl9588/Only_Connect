@@ -77,7 +77,7 @@ function CreateGame(props)
         var inputs = []
         for(var i = 0; i < 5; i++)
         {
-            inputs.push(<div className={`${page > 15 ? "grid grid-cols-1 sm:flex" : ""} sm:m-10`} key={i}>
+            inputs.push(<div className={`${page > 15 ? "grid grid-cols-1 md:flex" : "my-5"}  sm:m-10`} key={i}>
                 {i < 4 ? "Clue #"+(i+1) : page > 15 ? "Category" : "Answer"}
                 <input
                 type="text"
@@ -138,7 +138,6 @@ function CreateGame(props)
             setMVData(newMVData);
             if(page === 19)
             {
-                console.log("downloading");
                 downloadFile();
             }
         }
@@ -169,23 +168,27 @@ function CreateGame(props)
         var content = ""
         if(i < 4)
         {
-            content = `Connection Row #${i+1}`
+            content = `Connection Row #${i+1}`;
         }
         else if(i < 8)
         {
-            content = `Sequence Row #${(i%4)+1}`
+            content = `Sequence Row #${(i%4)+1}`;
         }
         else if(i < 12)
         {
-            content = `Word Wall 1 #${(i%4)+1}`
+            content = `Word Wall 1 #${(i%4)+1}`;
         }
         else if(i < 16)
         {
-            content = `Word Wall 2 #${(i%4)+1}`
+            content = `Word Wall 2 #${(i%4)+1}`;
         }
-        else if(i < 19)
+        else if(i < 20)
         {
-            content = `Missing Vowels #${(i%4)+1}`
+            content = `Missing Vowels #${(i%4)+1}`;
+        }
+        else
+        {
+            content = "Your game is being downloaded";
         }
         
         return(<div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{content}</div>);
@@ -198,13 +201,17 @@ function CreateGame(props)
                     generateHeader(page)
                 }
                 {
-                    generateInputs()
+                    page < 20 ?
+                    generateInputs() : ""
                 }
-                
+                {
+                    page < 20 ?
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-40 px-2 rounded m-4"
                     onClick={submit}>
                         Submit
                     </button>
+                    : ""
+                }
             </div>
         </div>
         );
