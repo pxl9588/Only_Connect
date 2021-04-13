@@ -30,8 +30,6 @@ function CreateGame(props)
     {
         var val = e.target.value;
         var tempInputVal = [...inputVal];
-        tempInputVal[i] = val;
-        setInputVal(tempInputVal);
         //Everything else
         if(page < 16)
         {
@@ -65,18 +63,24 @@ function CreateGame(props)
                     index = i - 5;
                     key = "answer";
                 }
+                else
+                {
+                    tempInputVal[5+i] = val.replace(/[aeiou]/ig,'');
+                }
 
                 tempMV["clues"][index][key] = val;
             }
             setMVData(tempMV);
         }
+        tempInputVal[i] = val;
+        setInputVal(tempInputVal);
     }
     const generateInputs = () =>
     {
         var inputs = []
         for(var i = 0; i < 5; i++)
         {
-            inputs.push(<div className={`${page > 15 ? "grid grid-cols-1 md:flex" : "my-5"}  sm:m-10`} key={i}>
+            inputs.push(<div className={`${page > 15 ? "grid grid-cols-1 md:flex" : "my-5"}  md:m-5`} key={i}>
                 {i < 4 ? "Clue #"+(i+1) : page > 15 ? "Category" : "Answer"}
                 <input
                 type="text"
