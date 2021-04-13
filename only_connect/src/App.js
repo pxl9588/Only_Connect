@@ -20,7 +20,6 @@ function App() {
           setAuthUser({ ...user });
         } else {
           // User is signed out.
-          console.log('not signed in')
           setAuthUser(null);
           firebase
             .auth()

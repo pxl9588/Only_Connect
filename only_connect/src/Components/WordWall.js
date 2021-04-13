@@ -45,9 +45,6 @@ class WordWall extends Component {
     }
     
     componentDidMount() {
-        console.log(this.context.sessionID)
-        
-        
         // ********* IMPORTANT BLOCK MOVED TO GAME COMPONENT SO THAT BOARD IS BUILD WITH SAME RANDOMIZATION
         let blocks = [];
         for (let [index, group] of this.wordDictionary.entries()) {
@@ -75,7 +72,6 @@ class WordWall extends Component {
         ref.once("value", (state) => {
         const data = state.val();
         if (data) {
-            console.log(data);
             for (let [index, block] of data.solved.entries()) {
                 this.idToIndex.set(block.id, index);
             }
@@ -97,29 +93,7 @@ class WordWall extends Component {
             clearInterval(this.state.intervalId);
             this.setState({ done: true }, this.solveBoard); 
         }
-        // if (prevProps != this.props){
-        //     const ref = database.ref(`${this.context.sessionId}/WordWall`);
-        //     ref.on("value", (state) => {
-        //     const data = state.val();
-        //     if (data) {
-        //         if (data != prevState){
-        //             console.log(data);
-        //             // this.setState(data);
-        //         }
-                
-        //     }
-        //     });
-        //     return () => {
-        //         ref.off();
-        //     };
-
-        }
-
-
-
-    // setWordWallState(args){
-    //     database.ref(`${sessionId}/wordWall`).set(args);
-    // }
+    }
 
     isPlayer = () =>
     {

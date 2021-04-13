@@ -6,32 +6,6 @@ import whale from '../images/colored/whale.png'
 import {SessionContext} from '../context/SessionContext.js';
 import Loader from './Loader.js';
 
-
-// var firebaseConfig = {
-//     apiKey: "AIzaSyBVW4nxJbj2K0sLhzMM8yLUardBYR6hIrs",
-//     authDomain: "ocbackend.firebaseapp.com",
-//     databaseURL: "https://ocbackend-default-rtdb.firebaseio.com",
-//     projectId: "ocbackend",
-//     storageBucket: "ocbackend.appspot.com",
-//     messagingSenderId: "614462186004",
-//     appId: "1:614462186004:web:e2a77517a15b91006a3d01",
-//     measurementId: "G-2MB7M8V461"
-//   };
-//   // Initialize Firebase
-//   firebase.initializeApp(firebaseConfig);
-//   var database = firebase.database();
-
-//   function writeUserData(game) {
-//     database.ref(id).set({
-//       ...game
-//     });
-//   }
-
-//     database.ref(id).on('value',(state) => {
-//         const data = state.val()
-//         console.log(data)
-//       })
-
 export default function GameLobby(props) {
 
     let {authUser} = useContext(SessionContext)

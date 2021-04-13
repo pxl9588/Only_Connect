@@ -11,7 +11,6 @@ export default function CreateNewGame(props){
     const {setSessionId, authUser} = useContext(SessionContext);
     const [teamOne, setTeamOne] = useState("Team One");
     const [teamTwo, setTeamTwo] = useState("Team Two");
-    const [file, setFiles] = useState("");
     const [gameData, setGameData] = useState({});
 
     // Handles file upload event and updates state

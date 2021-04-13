@@ -33,7 +33,7 @@ function CreateGame(props)
         tempInputVal[i] = val;
         setInputVal(tempInputVal);
         //Everything else
-        if(page < 15)
+        if(page < 16)
         {
             if(i === 4)
             {
@@ -70,7 +70,6 @@ function CreateGame(props)
             }
             setMVData(tempMV);
         }
-        console.log(data);
     }
     const generateInputs = () =>
     {
@@ -126,7 +125,6 @@ function CreateGame(props)
         }
         else if(page < 16)
         {
-            
             tempGameData.wall.wall2.push(data);
             setGameData(tempGameData);
             setData(newData);

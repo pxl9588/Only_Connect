@@ -161,7 +161,7 @@ function Game({ ...props }) {
         // evt.preventDefault();
         const newState = { ...gameState };
         newState[id].name = value;
-        // console.log(evt.target.id);
+
         setGameState({ ...newState });
     };
 
@@ -260,12 +260,10 @@ function Game({ ...props }) {
         if(gameState.turn === 1)
         {
             tempGameState.teamOne.score += points
-            console.log(tempGameState.teamOne.score);
         }
         else
         {
             tempGameState.teamTwo.score += points
-            console.log(tempGameState.teamTwo.score);
         }
 
         if (gameState.wallIndex === 3)
