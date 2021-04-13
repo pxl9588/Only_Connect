@@ -11,7 +11,7 @@ export default function CreateNewGame(props){
     const {setSessionId, authUser} = useContext(SessionContext);
     const [teamOne, setTeamOne] = useState("Team One");
     const [teamTwo, setTeamTwo] = useState("Team Two");
-    const [gameData, setGameData] = useState({});
+    const [gameData, setGameData] = useState(null);
 
     // Handles file upload event and updates state
     const handleUpload = (e) => {
@@ -55,6 +55,12 @@ export default function CreateNewGame(props){
                 <button
                 className = "m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-auto px-2 rounded"
                 onClick = {(evt) => {
+                    console.log(gameData)
+                    if(gameData === null)
+                    {
+                        alert('You must upload a game file!');
+                        return;
+                    }
                     localStorage.clear();
                     evt.preventDefault();
                     const gamesRef = database.ref('games')
