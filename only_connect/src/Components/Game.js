@@ -6,7 +6,6 @@ import ConnectionRow from "./ConnectionRow";
 import SequenceRow from "./SequenceRow";
 import MissingVowels from "./MissingVowels";
 import WordWallIcons from "./WorldWallIcons";
-import Data from "./../utilities/gameData";
 import GameLobby from "./GameLobby";
 import ScoreWall from "./ScoreWall";
 import GameState from "./hooks/gameState";
@@ -23,7 +22,7 @@ var database = firebase.database();
 // const URLParams = window.location.pathname
 function Game({ ...props }) {
     const [selfTeam, setSelfTeam] = useLocalStorageState('selfTeam', -1);
-    let {sessionId, authUser} = useContext(SessionContext)
+    let {sessionId, authUser} = useContext(SessionContext);
 
     const { gameState, setGameState, setGameStateLocal } = GameState({
         round: -3,
@@ -42,7 +41,8 @@ function Game({ ...props }) {
             name: "Team Two",
             capitain: "",
         },
-        wordWallIndex: 0
+        wordWallIndex: 0,
+        gameData: {}
     })
 
     const isAdmin = () =>
@@ -74,6 +74,7 @@ function Game({ ...props }) {
                     data.teamlessPlayers = {};
                 }
                 setGameStateLocal(data);
+                
             }
         });
         return () => {
@@ -87,12 +88,6 @@ function Game({ ...props }) {
         2: "bg-gradient-to-r from-green-500 via-green-400 to-green-500",
         3: "bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500",
     };
-
-    //const connections = gameState.gameData.connections;
-    const sequences = Data.sequences;
-    const missingVowels = Data.missingVowels;
-
-    const wordWalls = [Data.wall.wall1, Data.wall.wall2];
 
     const startGame = () => {
         setGameState({ ...gameState, round: 0 });
@@ -189,7 +184,16 @@ function Game({ ...props }) {
     
     const buildWordWall = () => {
         let blocks = [];
-        for (let [index, group] of wordWalls[gameState.wordWallIndex].entries()) {
+        var target = ""
+        if(gameState.wordWallIndex === 0)
+        {
+            target = "wall1";
+        }
+        else
+        {
+            target = "wall2";
+        }
+        for (let [index, group] of gameState.gameData.wall[target].entries()) {
             let words = group["clues"].map((word) => {
                 return {
                     word: word,
@@ -231,7 +235,10 @@ function Game({ ...props }) {
     const psWallHandle = (i) => {
         var temp = { ...gameState.hidden };
         temp[i] = true;
-        buildWordWall()
+        if(gameState.round === 4 || gameState.round === 6)
+        {
+            buildWordWall();
+        }
 
         setGameState({ ...gameState, clickedRow: true, hidden: temp });
     };
@@ -454,7 +461,7 @@ function Game({ ...props }) {
                             <SequenceRow
                                 selfTeam = {selfTeam}
                                 exit={psRowExit}
-                                row={sequences[gameState.wallIndex]}
+                                row={gameState.gameData.sequences[gameState.wallIndex]}
                                 turn={gameState.turn}
                                 admin={gameState.admin}
                             ></SequenceRow>
@@ -484,7 +491,7 @@ function Game({ ...props }) {
                             ></WordWallIcons>
                         ) : (
                             <WordWall
-                                data={wordWalls[gameState.wordWallIndex]}
+                                data={gameState.gameData.wall.wall1}
                                 turn={gameState.turn}
                                 selfTeam={selfTeam}
                                 exit={wallExit}
@@ -499,7 +506,7 @@ function Game({ ...props }) {
                         <WordConnectionRow
                             exit={wordRowExit}
                             color={colorDictionary[gameState.wallIndex]}
-                            row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}
+                            row={gameState.gameData.wall.wall1[gameState.wallIndex]}
                             admin={gameState.admin}
                         ></WordConnectionRow>
                     </div>
@@ -518,7 +525,7 @@ function Game({ ...props }) {
                             ></WordWallIcons>
                         ) : (
                             <WordWall
-                                data={wordWalls[gameState.wordWallIndex]}
+                                data={gameState.gameData.wall.wall2}
                                 exit={wallExit}
                             >
                             </WordWall>
@@ -531,7 +538,7 @@ function Game({ ...props }) {
                         <WordConnectionRow
                             exit={wordRowExit}
                             color={colorDictionary[gameState.wallIndex]}
-                            row={wordWalls[gameState.wordWallIndex][gameState.wallIndex]}
+                            row={gameState.gameData.wall.wall2[gameState.wallIndex]}
                             admin={gameState.admin}
                         ></WordConnectionRow>
                     </div>
@@ -550,7 +557,7 @@ function Game({ ...props }) {
                 return (
                     <div>
                         <MissingVowels
-                            data={missingVowels}
+                            data={gameState.gameData.missingVowels}
                             exit={missingVowelExit}
                             admin={gameState.admin}
                         />
