@@ -18,47 +18,7 @@ export default function GameLobby(props) {
 
     const playerExists = () =>
     {
-        var ret = false;
-        if(authUser.uid in props.teamlessPlayers)
-        {
-            if(props.teamlessPlayers[authUser.uid] === "")
-            {
-                ret = false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        if(authUser.uid in props.teamOne.players)
-        {
-            if(props.teamOne.players[authUser.uid] === "")
-            {
-                ret = false;
-            }
-            else
-            {
-                return true
-            }
-        }
-        if(authUser.uid in props.teamTwo.players)
-        {
-            if(props.teamTwo.players[authUser.uid] === "")
-            {
-                ret = false;
-            }
-            else
-            {
-                return true
-            }
-        }
-
-        if(!ret)
-        {
-            localStorage.clear();
-        }
-
-        return ret;
+        return authUser.uid in props.teamlessPlayers || authUser.uid in props.teamOne.players || authUser.uid in props.teamTwo.players;
     }
 
     useEffect(()=>

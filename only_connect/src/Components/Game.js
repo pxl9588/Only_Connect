@@ -17,10 +17,11 @@ import {randomize} from '../utilities/helpersWordWall'
 import { v4 as uuidv4 } from "uuid";
 import HomePage from "./HomePage";
 import CreateGame from "./CreateGame";
+import Loader from "./Loader";
 
 var database = firebase.database();
 // const URLParams = window.location.pathname
-function Game({ ...props }) {
+function Game() {
     const [selfTeam, setSelfTeam] = useLocalStorageState('selfTeam', -1);
     let {sessionId, authUser} = useContext(SessionContext);
 
@@ -50,8 +51,6 @@ function Game({ ...props }) {
         return authUser.uid === gameState.admin;
     }
 
-    //const [gameState, setGameState] = useState(newGame);
-
     useEffect(() => {
         if(sessionId === "Default")
         {
@@ -73,8 +72,7 @@ function Game({ ...props }) {
                 {
                     data.teamlessPlayers = {};
                 }
-                setGameStateLocal(data);
-                
+                setGameStateLocal(data);              
             }
         });
         return () => {
@@ -164,7 +162,7 @@ function Game({ ...props }) {
     {
         var tempState = {...gameState};
         tempState.teamlessPlayers[authUser.uid] = name;
-
+        setSelfTeam(-1);
         setGameState(tempState);
     }
 
@@ -390,12 +388,17 @@ function Game({ ...props }) {
         switch (gameState.round) {
             case -4:
                 return (
-                    <CreateGame></CreateGame>
+                    <CreateGame/>
                 )
             case -3:
-                return(
-                    <HomePage newGameClick={newGameHandle} createGameClick={createGameHandle}/>
-                )
+                if(window.location.pathname !== '/')
+                {
+                    return(<Loader/>);
+                }
+                else
+                {
+                    return(<HomePage newGameClick={newGameHandle} createGameClick={createGameHandle}/>);
+                }                    
             case -2:
                 return (
                     <CreateNewGame/>

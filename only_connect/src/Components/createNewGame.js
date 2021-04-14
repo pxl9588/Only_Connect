@@ -55,7 +55,6 @@ export default function CreateNewGame(props){
                 <button
                 className = "m-4 bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-auto px-2 rounded"
                 onClick = {(evt) => {
-                    console.log(gameData)
                     if(gameData === null)
                     {
                         alert('You must upload a game file!');
@@ -64,7 +63,17 @@ export default function CreateNewGame(props){
                     localStorage.clear();
                     evt.preventDefault();
                     const gamesRef = database.ref('games')
-                    const newGameRef = gamesRef.push();
+                    var newGameRef = null;
+                    if (process.env.NODE_ENV === 'development')
+                    {
+                        console.log("In testing");
+                        newGameRef = gamesRef.child("test")
+                    }
+                    else
+                    {
+                        newGameRef = gamesRef.push();
+                    }
+
                     newGameRef.set({
                         game:{
                             round: -1,

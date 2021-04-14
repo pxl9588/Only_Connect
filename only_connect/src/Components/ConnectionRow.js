@@ -183,7 +183,7 @@ function ConnectionRow(props) {
         if (spectator && !admin)
         {
             return (
-                <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
+                <div className="grid justify-items-center items-center py-2 sm:py-2 md:py-10 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
                     <div
                         className={`justify-items-center items-center row-start-1 col-start-${roundState.timerIndex}`}
                     >
@@ -221,7 +221,7 @@ function ConnectionRow(props) {
         else
         {
             return (
-                <div className="grid justify-items-center items-center py-2 sm:py-2 lg:py-24 gap-y-2 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
+                <div className="grid justify-items-center items-center py-2 sm:py-2 md:py-10 lg:py-24 gap-y-4 sm:gap-y-4 lg:gap-y-12 xl:gap-y-24">
                     <div
                         className={`justify-items-center items-center row-start-1 col-start-${roundState.timerIndex}`}
                     >
