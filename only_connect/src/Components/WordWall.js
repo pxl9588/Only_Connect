@@ -267,14 +267,6 @@ class WordWall extends Component {
                             {this.buildBoard()}
                         </div>
                     </div>
-                    <div className="row-start-3 col-span-4">
-                        <button
-                            className="w-full bg-dark-shade hover:bg-blue-700 text-white font-bold border border-blue-700 rounded"
-                            onClick={this.solveBoard}
-                        >
-                            Solve
-                        </button>
-                    </div>
                 </div>
             </div>
         );
