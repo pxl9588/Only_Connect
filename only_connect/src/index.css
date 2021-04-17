@@ -40,6 +40,12 @@ body {
     text-align: center;
 } 
 
+.default_button:hover
+{
+    background-color: #f5924c;
+    cursor: pointer;
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
