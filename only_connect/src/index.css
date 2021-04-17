@@ -67,18 +67,20 @@ code {
 {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    text-align: center;
 }
 
 .create_game_answer_container
 {
     align-self: center;
-    height: calc(20px + 14 * (100vw / 1024)); 
 }
 
 .create_game_answer
 {
+    display: grid;
+    grid-row: 1fr 1fr;
     align-self: center;
-    height: calc(20px + 14 * (100vw / 1024)); 
+    height: calc(20px + 14 * (100vw / 1024));
 }
 
 .default_title

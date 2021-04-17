@@ -81,7 +81,7 @@ function CreateGame(props)
         for(var i = 0; i < 5; i++)
         {
             inputs.push(
-            <div className={`${page > 15 ? "grid grid-cols-1 md:flex" : ""} create_game_clue_container`} key={i}>
+            <div className={`create_game_clue_container`} key={i}>
                 <p className="create_game_clue default_text">{i < 4 ? "Clue #"+(i+1) : page > 15 ? "Category" : "Answer"}</p>
                 <div className="create_game_answer_container">
                     <input
