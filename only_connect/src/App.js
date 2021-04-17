@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import {BrowserRouter} from 'react-router-dom'
-import "./tailwind.css";
+import "./index.css";
 import "./Components/PSWall";
 import Game from "./Components/Game";
 import { firebase } from "./Components/firebaseConfig";

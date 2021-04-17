@@ -80,25 +80,29 @@ function CreateGame(props)
         var inputs = []
         for(var i = 0; i < 5; i++)
         {
-            inputs.push(<div className={`${page > 15 ? "grid grid-cols-1 md:flex" : "my-5"}  md:m-5`} key={i}>
-                {i < 4 ? "Clue #"+(i+1) : page > 15 ? "Category" : "Answer"}
-                <input
-                type="text"
-                key={i}
-                value={inputVal[i]}
-                onInput={collectData.bind(this, i)}
-                placeholder={i < 4 ? "Clue #"+(i+1) : page > 15 ? "Category" : "Answer"}
-                className="mx-4 px-2 h-10 placeholder-gray-400 text-gray-700 relative bg-white rounded text-md shadow outline-none focus:outline-none focus:shadow-outline"></input>
-                {
-                    (page > 15 && i !== 4) ? <input
-                    type="text"
-                    key={5+i}
-                    value={inputVal[5+i]}
-                    onInput={collectData.bind(this, 5+i)}
-                    placeholder={i < 4 ? "Clue Missing Vowel #"+(i+1) : ""}
-                    className="mx-4 px-2 h-10 placeholder-gray-400 text-gray-700 relative bg-white rounded text-md shadow outline-none focus:outline-none focus:shadow-outline"></input> : ""
-                }
+            inputs.push(
+            <div className={`${page > 15 ? "grid grid-cols-1 md:flex" : ""} create_game_clue_container`} key={i}>
+                <p className="create_game_clue default_text">{i < 4 ? "Clue #"+(i+1) : page > 15 ? "Category" : "Answer"}</p>
+                <div className="create_game_answer_container">
+                    <input
+                        type="text"
+                        key={i}
+                        value={inputVal[i]}
+                        onInput={collectData.bind(this, i)}
+                        placeholder={i < 4 ? "Clue #"+(i+1) : page > 15 ? "Category" : "Answer"}
+                        className="create_game_answer">
+                    </input>
+                    {
+                        (page > 15 && i !== 4) ? <input
+                        type="text"
+                        key={5+i}
+                        value={inputVal[5+i]}
+                        onInput={collectData.bind(this, 5+i)}
+                        placeholder={i < 4 ? "Clue Missing Vowel #"+(i+1) : ""}
+                        className="create_game_answer"></input> : ""
+                    }
                 </div>
+            </div>
             );
         }
 
@@ -193,28 +197,26 @@ function CreateGame(props)
             content = "Your game is being downloaded";
         }
         
-        return(<div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{content}</div>);
+        return(<div className="default_title">{content}</div>);
     }
 
     return (
-        <div className="flex h-full justify-center">
-            <div className="grid grid-cols-1 sm:gap-y-4 justify-center justify-items-center">
-                {
-                    generateHeader(page)
-                }
-                {
-                    page < 20 ?
-                    generateInputs() : ""
-                }
-                {
-                    page < 20 ?
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-40 px-2 rounded m-4"
-                    onClick={submit}>
-                        Submit
-                    </button>
-                    : ""
-                }
-            </div>
+        <div className="create_game_container">
+            {
+                generateHeader(page)
+            }
+            {
+                page < 20 ?
+                generateInputs() : ""
+            }
+            {
+                page < 20 ?
+                <button className="default_button default_text"
+                onClick={submit}>
+                    Submit
+                </button>
+                : ""
+            }
         </div>
         );
 }

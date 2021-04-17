@@ -1,17 +1,44 @@
-@tailwind base;
-@tailwind components;
 @import url("https://fonts.googleapis.com/css2?family=Raleway&family=Rubik&display=swap");
-
 @import url("https://fonts.googleapis.com/css2?family=Raleway&family=Rubik&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway&family=Sarala&display=swap");
 
 body {
     margin: 0;
-    font-family: "Rubik", "sans-serif";
+    font-family: "Sarala", "sans-serif";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow: hidden;
     background-color: #d5dcff;
 }
+
+.home_page_container
+{
+    display: grid;
+    place-items: center;
+    align-items: center;
+    height: 100vw;
+    grid-template-rows: 100px 200px;
+}
+.home_page_button_container
+{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 40px;
+}
+.default_button
+{
+    background: #F4B485;
+    border: 1px solid #2B344F;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 11px;   
+    font-family: Sarala;
+    font-style: normal;
+    font-weight: normal;
+    display: grid;
+    align-items: center;
+    text-align: center;
+} 
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -21,4 +48,65 @@ code {
     touch-action: manipulation;
 }
 
-@tailwind utilities;
+.create_game_container
+{
+    display: grid;
+    place-items: center;
+    grid-template-rows: repeat(7, calc(75px + 10 * (100vw / 1024)));
+}
+
+.create_game_title
+{
+    font-family: "Sarala";
+    font-style: normal;
+    font-weight: normal;
+    font-size: calc(24px + 40 * (100vw / 1024));
+}
+
+.create_game_clue_container
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.create_game_answer_container
+{
+    align-self: center;
+    height: calc(20px + 14 * (100vw / 1024)); 
+}
+
+.create_game_answer
+{
+    align-self: center;
+    height: calc(20px + 14 * (100vw / 1024)); 
+}
+
+.default_title
+{
+    font-family: "Sarala";
+    font-style: normal;
+    font-weight: normal;
+    color: #2B344F;
+    font-size: calc(24px + 40 * (100vw / 1024));
+}
+
+.default_text
+{
+    font-size: calc(20px + 12 * (100vw / 1024));   
+    color: #2B344F;
+}
+
+@media screen and (min-width: 1024px) {
+    .default_title
+    {
+        font-size: 64px;
+    }
+    .default_text
+    {
+        font-size: 32px;
+    }
+    .create_game_answer
+    {
+        height: 34px;
+    }
+}
