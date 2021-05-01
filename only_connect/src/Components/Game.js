@@ -563,6 +563,7 @@ function Game() {
                             data={gameState.gameData.missingVowels}
                             exit={missingVowelExit}
                             admin={gameState.admin}
+                            team={selfTeam}
                         />
                     </div>
                 );

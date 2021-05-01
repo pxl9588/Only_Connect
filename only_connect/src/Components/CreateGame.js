@@ -24,7 +24,184 @@ function CreateGame(props)
     const [mvData, setMVData] = useState(newMVData);
     const [data, setData] = useState(newData);
     const [inputVal, setInputVal] = useState(newInputVal);
-    const [gameData, setGameData] = useState({connections: [], sequences: [], wall: {wall1:[], wall2:[]}, missingVowels:[]});
+    const [gameData, setGameData] = useState({
+        "connections": [
+            {
+                "answer": "",
+                "clues": []
+            },
+            {
+                "answer": "",
+                "clues": []
+            },
+            {
+                "answer": "",
+                "clues": []
+            },
+            {
+                "answer": "",
+                "clues": []
+            },
+            {
+                "answer": "",
+                "clues": []
+            },
+            {
+                "answer": "",
+                "clues": []
+            }
+        ],
+        "sequences": [
+            {
+                "answer": "",
+                "clues": []
+            },
+            {
+                "answer": "",
+                "clues": []
+            },
+            {
+                "answer": "",
+                "clues": []
+            },
+            {
+                "answer": "",
+                "clues": []
+            },
+            {
+                "answer": "",
+                "clues": []
+            },
+            {
+                "answer": "",
+                "clues": []
+            }
+        ],
+        "wall": {
+            "wall1": [
+                {
+                    "answer": "",
+                    "clues": []
+                },
+                {
+                    "answer": "",
+                    "clues": []
+                },
+                {
+                    "answer": "",
+                    "clues": []
+                },
+                {
+                    "answer": "",
+                    "clues": []
+                }
+            ],
+            "wall2": [
+                {
+                    "answer": "",
+                    "clues": []
+                },
+                {
+                    "answer": "",
+                    "clues": []
+                },
+                {
+                    "answer": "",
+                    "clues": []
+                },
+                {
+                    "answer": "",
+                    "clues": []
+                }
+            ]
+        },
+        "missingVowels": [
+            {
+                "category": "Sports Equipment",
+                "clues": [
+                    {
+                        "clue": "Bsbll Bt",
+                        "answer": "Baseball Bat"
+                    },
+                    {
+                        "clue": "Rgby Bll",
+                        "answer": "Rugby Ball"
+                    },
+                    {
+                        "clue": "Tnns Rckt",
+                        "answer": "Tennis Racket"
+                    },
+                    {
+                        "clue": "Sccr Shn Grds",
+                        "answer": "Soccer Shin Guards"
+                    }
+                ]
+            },
+            {
+                "category": "",
+                "clues": [
+                    {
+                        "clue": "",
+                        "answer": ""
+                    },
+                    {
+                        "clue": "",
+                        "answer": ""
+                    },
+                    {
+                        "clue": "",
+                        "answer": ""
+                    },
+                    {
+                        "clue": "",
+                        "answer": ""
+                    }
+                ]
+            },
+            {
+                "category": "",
+                "clues": [
+                    {
+                        "clue": "",
+                        "answer": ""
+                    },
+                    {
+                        "clue": "",
+                        "answer": ""
+                    },
+                    {
+                        "clue": "",
+                        "answer": ""
+                    },
+                    {
+                        "clue": "",
+                        "answer": ""
+                    }
+                ]
+            },
+            {
+                "category": "",
+                "clues": [
+                    {
+                        "clue": "",
+                        "answer": ""
+                    },
+                    {
+                        "clue": "",
+                        "answer": ""
+                    },
+                    {
+                        "clue": "",
+                        "answer": ""
+                    },
+                    {
+                        "clue": "",
+                        "answer": ""
+                    }
+                ]
+            }
+        ]
+    });
 
     const collectData = (i,e) =>
     {
@@ -58,22 +235,25 @@ function CreateGame(props)
             else
             {
                 var index = i;
-                var key = "clue";
+                var key = "answer";
 
                 if(i > 4)
                 {
                     index = i - 5;
-                    key = "answer";
+                    key = "clue";
                 }
                 else
                 {
                     tempInputVal[5+i] = val.replace(/[aeiou]/ig,'');
+                    tempMV["clues"][index]["clue"] = tempInputVal[5+i]
                 }
 
                 tempMV["clues"][index][key] = val;
             }
+
             setMVData(tempMV);
         }
+
         tempInputVal[i] = val;
         setInputVal(tempInputVal);
     }
@@ -113,31 +293,31 @@ function CreateGame(props)
         // Connection Rows
         if(page < 6)
         {
-            tempGameData.connections.push(data);
+            tempGameData.connections[page] = data;
             setGameData(tempGameData);
             setData(newData);
         }
         else if(page < 12)
         {
-            tempGameData.sequences.push(data);
+            tempGameData.sequences[page] = data;
             setGameData(tempGameData);
             setData(newData);
         }
         else if(page < 16)
         {
-            tempGameData.wall.wall1.push(data);
+            tempGameData.wall.wall1[page] = data;
             setGameData(tempGameData);
             setData(newData);
         }
         else if(page < 20)
         {
-            tempGameData.wall.wall2.push(data);
+            tempGameData.wall.wall2[page] = data;
             setGameData(tempGameData);
             setData(newData);
         }
         else if(page < 24)
         {
-            tempGameData.missingVowels.push(mvData);
+            tempGameData.missingVowels[page] = data;
             setGameData(tempGameData);
             setMVData(newMVData);
             if(page === 23)
@@ -151,6 +331,72 @@ function CreateGame(props)
         }
         setInputVal(newInputVal);
         setPage(page + 1);
+    }
+
+    const back = () =>
+    {
+        var new_page = page - 1;
+        if(page === 0)
+        {
+            return;
+        }
+
+        var newInputVal = []
+        if(new_page < 6)
+        {
+            for(var i = 0; i < 4; i++)
+            {
+                newInputVal.push(gameData.connections[new_page].clues[i]);
+            }
+            newInputVal.push(gameData.connections[new_page].answer);
+            setData({answer: gameData.connections[new_page].answer, clues: gameData.connections[new_page].clues});
+        }
+        else if(new_page < 12)
+        {
+            for(i = 0; i < 4; i++)
+            {
+                newInputVal.push(gameData.sequences[new_page].clues[i]);
+            }
+            newInputVal.push(gameData.sequences[new_page].answer);
+            setData({answer: gameData.sequences[new_page].answer, clues: gameData.sequences[new_page].clues});
+        }
+        else if(new_page < 16)
+        {
+            for(i = 0; i < 4; i++)
+            {
+                newInputVal.push(gameData.wall.wall1[new_page].clues[i]);
+            }
+            newInputVal.push(gameData.wall.wall1[new_page].answer);
+            setData({answer: gameData.wall.wall1[new_page].answer, clues: gameData.wall.wall1[new_page].clues});
+        }
+        else if(new_page < 20)
+        {
+            for(i = 0; i < 4; i++)
+            {
+                newInputVal.push(gameData.wall.wall2[new_page].clues[i]);
+            }
+            newInputVal.push(gameData.wall.wall2[new_page].answer);
+            setData({answer: gameData.wall.wall2[new_page].answer, clues: gameData.wall.wall2[new_page].clues});
+        }
+        else if(new_page < 24)
+        {
+            for(i = 0; i < 4; i++)
+            {
+                newInputVal.push(gameData.missingVowels[new_page].clues[i]["clues"]["clue"]);
+            }
+            newInputVal.push(gameData.missingVowels[new_page].clues[i]["category"]);
+            for(i = 0; i < 4; i++)
+            {
+                newInputVal.push(gameData.missingVowels[new_page].clues[i]["clues"]["answer"]);
+            }
+            setMVData({category: gameData.missingVowels[new_page].category, clues: gameData.missingVowels[new_page].clues});
+        }
+        else
+        {
+            return;
+        }
+        setInputVal(newInputVal);
+        setPage(page - 1);
     }
 
     const downloadFile = async () => {
@@ -213,6 +459,14 @@ function CreateGame(props)
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-40 px-2 rounded m-4"
                     onClick={submit}>
                         Submit
+                    </button>
+                    : ""
+                }
+                {
+                    page > 0 ?
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-40 px-2 rounded m-4"
+                    onClick={back}>
+                        Back
                     </button>
                     : ""
                 }

@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from "react";
 import MissingVowelCategory from './MissingVowelCategory';
 import Answer from './Answer';
 import ButtonCorrect from "./ButtonCorrect";
+import ButtonBuzzer from "./ButtonBuzzer";
 import {SessionContext} from '../context/SessionContext.js';
 import { firebase } from "./firebaseConfig";
 import RoundState from './hooks/RoundState'
@@ -22,7 +23,9 @@ function MissingVowels(props)
         categoryIndex: 0,
         displayClue: true,
         teamOnePoints: 0,
-        teamTwoPoints: 0
+        teamTwoPoints: 0,
+        buzzed: 0,
+        buzzed_team: -1
         },'missingVowels']);
 
 
@@ -45,21 +48,43 @@ function MissingVowels(props)
         setTimeout(() => {setRoundState({...roundState, clueIndex:0})}, 1000);
     }, [roundState.categoryIndex]);
 
-    const correct = (teamOneCorrect) =>
+    const buzzer = () =>
     {
-        //First display the right answer
-        setRoundState({...roundState, displayClue:false});
+        // Set the buzzer to the team that buzzed in
+        setRoundState({...roundState, buzzed: 1, buzzed_team: props.team});
+    }
+
+    const correct = (correct) =>
+    {
         
         var temp = {...roundState};
-        temp.displayClue = true;
-        if(teamOneCorrect)
+        if(!correct)
         {
-            temp.teamOnePoints =  roundState.teamOnePoints + 1;
+            // If the first team got it wrong, switch teams to allow for steal
+            if(roundState.buzzed === 1)
+            {
+                setRoundState({...roundState, buzzed: 2, buzzed_team: (roundState.buzzed_team === 0) ? 1 : 0});
+                return;
+            }
         }
         else
         {
-            temp.teamTwoPoints = roundState.teamTwoPoints + 1;
+            if(roundState.buzzed_team === 0)
+            {
+                temp.teamOnePoints =  roundState.teamOnePoints + 1;
+            }
+            else
+            {
+                temp.teamTwoPoints = roundState.teamTwoPoints + 1;
+            }
         }
+
+        //Display the right answer
+        setRoundState({...roundState, displayClue:false});
+        
+        temp.displayClue = true;
+        temp.buzzed = 0;
+        temp.buzzed_team = -1;
 
         if(roundState.categoryIndex < 3)
         {
@@ -92,23 +117,18 @@ function MissingVowels(props)
         }
     }
 
-    /*const handleClick = (wasCorrect) =>
-    {
-        if(index < 3)
-        {
-            setIndex(index+1);
-        }
-        else
-        {
-            setIndex(-1);
-            props.onClick();
-        }
-    }*/
-
     const renderView = (admin) =>
     {
         return (
-            <div className="grid grid-rows-3 justify-items-center items-center py-14 lg:py-40 lg:gap-y-6">
+            <div className="grid grid-rows-4 justify-items-center items-center py-14 lg:py-40 lg:gap-y-6">
+                <div className="w-auto col-span-4" hidden={roundState.buzzed === 0}>
+                    {
+                        roundState.buzzed_team === 0 ? "Team One " : "Team Two "
+                    }
+                    {
+                        roundState.buzzed === 1 ? "buzzed in!" : "can steal!"
+                    }
+                </div>
                 <div className="w-auto col-span-4">
                     <MissingVowelCategory>{roundState.categoryIndex < 4 ? props.data[roundState.categoryIndex]["category"]: ""}</MissingVowelCategory>
                 </div>
@@ -120,12 +140,14 @@ function MissingVowels(props)
                     admin ? 
                         <div className="row-start-4 col-span-4 justify-items-center px-4 lg:px-20">
                             <div className="grid grid-cols-2 gap-x-24">
-                            <ButtonCorrect clickBlock={() => {if(roundState.displayClue){correct(true)}}} type="correct"> Team 1 </ButtonCorrect>
-                            <ButtonCorrect clickBlock={() => {if(roundState.displayClue){correct(false)}}} type="incorrect"> Team 2 </ButtonCorrect>
+                            <ButtonCorrect clickBlock={() => {if(roundState.displayClue && roundState.buzzed){correct(true)}}} hidden={roundState.buzzed === 0} type="correct"> Correct </ButtonCorrect>
+                            <ButtonCorrect clickBlock={() => {if(roundState.displayClue && roundState.buzzed){correct(false)}}} hidden={roundState.buzzed === 0} type="incorrect"> Incorrect </ButtonCorrect>
                             </div>
                         </div>
                         :
-                        <div></div>
+                        <div className="row-start-4 col-span-4 justify-items-center px-4 lg:px-20">
+                            <ButtonBuzzer clickBlock={() => {if(roundState.displayClue && !roundState.buzzed){buzzer()}}} hidden={roundState.buzzed > 0}>Buzzer</ButtonBuzzer>
+                        </div>
                 }
             </div>
         );
