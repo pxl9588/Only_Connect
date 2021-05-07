@@ -117,23 +117,23 @@ function CreateGame(props)
         },
         "missingVowels": [
             {
-                "category": "Sports Equipment",
+                "category": "",
                 "clues": [
                     {
-                        "clue": "Bsbll Bt",
-                        "answer": "Baseball Bat"
+                        "clue": "",
+                        "answer": ""
                     },
                     {
-                        "clue": "Rgby Bll",
-                        "answer": "Rugby Ball"
+                        "clue": "",
+                        "answer": ""
                     },
                     {
-                        "clue": "Tnns Rckt",
-                        "answer": "Tennis Racket"
+                        "clue": "",
+                        "answer": ""
                     },
                     {
-                        "clue": "Sccr Shn Grds",
-                        "answer": "Soccer Shin Guards"
+                        "clue": "",
+                        "answer": ""
                     }
                 ]
             },
@@ -266,6 +266,7 @@ function CreateGame(props)
                 {i < 4 ? "Clue #"+(i+1) : page >= 20 ? "Category" : "Answer"}
                 <input
                 type="text"
+                id={i < 4 ? `input-${i}` : "answer"}
                 key={i}
                 value={inputVal[i]}
                 onInput={collectData.bind(this, i)}
@@ -274,6 +275,7 @@ function CreateGame(props)
                 {
                     (page >= 20 && i !== 4) ? <input
                     type="text"
+                    id={`input-${5+i}`}
                     key={5+i}
                     value={inputVal[5+i]}
                     onInput={collectData.bind(this, 5+i)}
@@ -299,25 +301,25 @@ function CreateGame(props)
         }
         else if(page < 12)
         {
-            tempGameData.sequences[page] = data;
+            tempGameData.sequences[page-6] = data;
             setGameData(tempGameData);
             setData(newData);
         }
         else if(page < 16)
         {
-            tempGameData.wall.wall1[page] = data;
+            tempGameData.wall.wall1[page-12] = data;
             setGameData(tempGameData);
             setData(newData);
         }
         else if(page < 20)
         {
-            tempGameData.wall.wall2[page] = data;
+            tempGameData.wall.wall2[page-16] = data;
             setGameData(tempGameData);
             setData(newData);
         }
         else if(page < 24)
         {
-            tempGameData.missingVowels[page] = data;
+            tempGameData.missingVowels[page-20] = mvData;
             setGameData(tempGameData);
             setMVData(newMVData);
             if(page === 23)
@@ -456,7 +458,7 @@ function CreateGame(props)
                 }
                 {
                     page < 24 ?
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-40 px-2 rounded m-4"
+                    <button id="create-game-submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 w-40 px-2 rounded m-4"
                     onClick={submit}>
                         Submit
                     </button>

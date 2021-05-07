@@ -1,0 +1,183 @@
+/// <reference types="cypress" />
+
+context('Actions', () => {
+    beforeEach(() => {
+      cy.visit('http://localhost:3000/')
+    })
+  
+    // https://on.cypress.io/interacting-with-elements
+  
+    it('.click() Create Game', () => {
+        cy.get('#create-game').click()
+        
+        cy.get('#input-0').type('Michael Jordan')
+        cy.get('#input-1').type('Magic Johnson')
+        cy.get('#input-2').type('Derek Fisher')
+        cy.get('#input-3').type('Scottie Pippen')
+        cy.get('#answer').type('NBA PLayers with 5+ Championships')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Dash')
+        cy.get('#input-1').type('Good American')
+        cy.get('#input-2').type('POOSH')
+        cy.get('#input-3').type('SKIMS')
+        cy.get('#answer').type('Kardashian Brands')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Eva, Can I Stab Bats In A Cave')
+		cy.get('#input-1').type('Dammit, I\'m Mad')
+		cy.get('#input-2').type('Do Geese See God')
+		cy.get('#input-3').type('Racecar')
+        cy.get('#answer').type('Palindromes')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Mag')
+		cy.get('#input-1').type('Hip')
+		cy.get('#input-2').type('Yup')
+		cy.get('#input-3').type('Pot')
+		cy.get('#answer').type('___pie')
+		cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Apples')
+		cy.get('#input-1').type('Dates')
+		cy.get('#input-2').type('Pomergranate')
+		cy.get('#input-3').type('Challah')
+		cy.get('#answer').type('Rosh Hashanah Foods')
+		cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Wombat')
+		cy.get('#input-1').type('Opossum')
+		cy.get('#input-2').type('Koala')
+		cy.get('#input-3').type('Kangaroo')
+		cy.get('#answer').type('Marsupials')
+		cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Blue')
+		cy.get('#input-1').type('North')
+		cy.get('#input-2').type('Luna')
+		cy.get('#input-3').type('X AE A-Xii')
+		cy.get('#answer').type('Celebrity Babies')
+		cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Baby')
+		cy.get('#input-1').type('Mommy')
+		cy.get('#input-2').type('Daddy')
+		cy.get('#input-3').type('Grandma')
+		cy.get('#answer').type('Baby Shark')
+		cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Rachel')
+		cy.get('#input-1').type('Becca')
+		cy.get('#input-2').type('Hannah')
+		cy.get('#input-3').type('Clare')
+		cy.get('#answer').type('Bachelorettes')
+		cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('M = 1')
+		cy.get('#input-1').type('V = 2')
+		cy.get('#input-2').type('E = 3')
+		cy.get('#input-3').type('M = 4')
+		cy.get('#answer').type('Planets')
+		cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Zach')
+		cy.get('#input-1').type('Alex')
+		cy.get('#input-2').type('PJ')
+		cy.get('#input-3').type('Ang')
+		cy.get('#answer').type('Birthdays')
+		cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('United States')
+        cy.get('#input-1').type('China') 
+        cy.get('#input-2').type('Canada')
+        cy.get('#input-3').type('Russia')
+        cy.get('#answer').type('Size of Countries')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Fiji')
+        cy.get('#input-1').type('San Pellegrino')
+        cy.get('#input-2').type('Champagne')
+        cy.get('#input-3').type('Mocha')
+        cy.get('#answer').type('Drinks named after places')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('T')
+        cy.get('#input-1').type('Cube')
+        cy.get('#input-2').type('Vanilla')
+        cy.get('#input-3').type('Prince')
+        cy.get('#answer').type('Ice People')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Hazelnut')
+        cy.get('#input-1').type('Coconut')
+        cy.get('#input-2').type('Butter Pecan')
+        cy.get('#input-3').type('Caramel')
+        cy.get('#answer').type('Dunkin Donuts')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Papuea New Guinea')
+        cy.get('#input-1').type('Guam')
+        cy.get('#input-2').type('Australia')
+        cy.get('#input-3').type('Cook Islands')
+        cy.get('#answer').type('Oceania')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Eagles')
+        cy.get('#input-1').type('Beatles')
+        cy.get('#input-2').type('Monkees')
+        cy.get('#input-3').type('Gorillaz')
+        cy.get('#answer').type('Bands')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Pelicans')
+        cy.get('#input-1').type('Seahawks')
+        cy.get('#input-2').type('Falcons')
+        cy.get('#input-3').type('Cardinals')
+        cy.get('#answer').type('Bird Sport Teams')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Sapphire')
+        cy.get('#input-1').type('Ruby')
+        cy.get('#input-2').type('Emerald')
+        cy.get('#input-3').type('Amethyst')
+        cy.get('#answer').type('Birth Stones')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Crystal')
+        cy.get('#input-1').type('Gold')
+        cy.get('#input-2').type('Silver')
+        cy.get('#input-3').type('Diamond')
+        cy.get('#answer').type('Pokemon Games')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Folding Laundry')
+        cy.get('#input-1').type('Washing the Dishes')
+        cy.get('#input-2').type('Hanging stuff in the closet')
+        cy.get('#input-3').type('Wiping the windows')
+        cy.get('#answer').type('Chores')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Calvin Klein')
+        cy.get('#input-1').type('Kenneth Cole')
+        cy.get('#input-2').type('Zara')
+        cy.get('#input-3').type('Under Armour')
+        cy.get('#answer').type('Clothing Brands')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Moscow Mule')
+        cy.get('#input-1').type('Ameretto Sour')
+        cy.get('#input-2').type('Black Russian')
+        cy.get('#input-3').type('Bloody Mary')
+        cy.get('#answer').type('Mixed Drinks')
+        cy.get('#create-game-submit').click()
+
+        cy.get('#input-0').type('Jerusalem')
+        cy.get('#input-1').type('Haifa')
+        cy.get('#input-2').type('Tel Aviv')
+        cy.get('#input-3').type('Rash Nalzan')
+        cy.get('#answer').type('Israeli Cities')
+        cy.get('#create-game-submit').click()
+    })
+
+  });
+  
