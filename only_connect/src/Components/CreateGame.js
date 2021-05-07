@@ -211,7 +211,7 @@ function CreateGame(props)
         if(page < 20)
         {
             // This records the answer
-            if(i === 4)
+            if(i ===4)
             {
                 setData({...data, answer: val})
             }   
